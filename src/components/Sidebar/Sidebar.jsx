@@ -84,7 +84,7 @@ const Sidebar = () => {
       </aside>
 
       {/* <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setIsMobileOpen(false)} /> */}
-      <div className="mr-4 h-screen w-[2px] bg-borderPrimary opacity-30" />
+      <div className="h-screen w-[2px] bg-borderPrimary opacity-30" />
     </div>
   );
 };
@@ -95,7 +95,7 @@ const BrandTop = ({ isExpanded }) => {
       <Link to="/">
         <div className="flex items-center gap-2">
           <img src={Logo} alt="Logo" />
-          {isExpanded && <h1 className="text-xl font-medium">StudioSync</h1>}
+          {isExpanded && <h1 className="text-xl font-medium">MasterNinja</h1>}
         </div>
       </Link>
     </div>

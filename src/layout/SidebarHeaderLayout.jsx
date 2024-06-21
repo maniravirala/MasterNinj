@@ -13,7 +13,7 @@ const SidebarHeaderLayout = ({ children }) => {
         <div className="block sm:hidden">
           <Header />
         </div>
-        <main className="flex-1 px-5 sm:p-0">{children}</main>
+        <main className="flex-1 px-5">{children}</main>
         <Footer />
       </div>
     </div>

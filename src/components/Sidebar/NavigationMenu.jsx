@@ -26,30 +26,10 @@ const navLinks = [
   { name: "Resume", icon: <Notepad size={24} />, path: "/resume-builder" },
   { name: "Projects", icon: <Category2 size={24} />, path: "/projects" },
   { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
-  {
-    name: "Calculator",
-    icon: <Calculator size={24} />,
-    path: "/grade-calculator",
-  },
+  { name: "Calculator", icon: <Calculator size={24} />, path: "/grade-calculator" },
   { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
   { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
-  {
-    name: "Notifications",
-    icon: <Notification size={24} />,
-    path: "/notifications",
-  },
-  {
-    name: "Calculator",
-    icon: <Calculator size={24} />,
-    path: "/grade-calculator",
-  },
-  { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
-  { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
-  {
-    name: "Notifications",
-    icon: <Notification size={24} />,
-    path: "/notifications",
-  },
+  { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
   {
     name: "Settings",
     icon: <Setting size={24} />,
@@ -76,7 +56,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
       <ScrollShadow hideScrollBar size={80}>
         <div className="flex flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden">
           {navLinks.map((link, index) =>
-              link.children ? (
+            link.children ? (
               <div key={link.name}>
                 <button
                   className={`flex w-full items-center gap-4 rounded-lg border-0 p-2 focus:outline-none ${activeLink === link.path ? "bg-bgActive" : "hover:bg-bgHover"}`}
@@ -110,7 +90,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                   </div>
                 )}
               </div>
-              ) : (
+            ) : (
               <motion.div
                 initial={{ x: -120 }}
                 animate={{ x: 0 }}
@@ -127,7 +107,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                   {isExpanded && <span>{link.name}</span>}
                 </Link>
               </motion.div>
-              ),
+            ),
           )
           }
         </div>

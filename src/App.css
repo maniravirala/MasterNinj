@@ -46,6 +46,10 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .light .lineBG {
   background-image: linear-gradient(
       90deg,

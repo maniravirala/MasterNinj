@@ -46,7 +46,7 @@ const Header = () => {
               animate={{ left: 0 }}
               exit={{ left: '-100%' }}
               transition={{ duration: 0.4, type: 'tween' }}
-              className="absolute w-full h-full px-5 bg-white dark:bg-gray-800 z-10"
+              className="absolute w-full h-full px-5 bg-white dark:bg-gray-800 z-20"
               style={{ top: size.height }}
             >
               <NavigationMenu isExpanded={isMobileMenuOpen} />

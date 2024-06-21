@@ -5,29 +5,18 @@ import Dashboard from "./pages/Dashboard";
 import AttendanceCalculator from "./pages/AttendanceCalculator";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import GradeCalculator from "./pages/GradeCalculator";
-import StudyResources from "./pages/StudyResources";
+import StudyResources from "./pages/Library/StudyResources";
 import Auth from "./pages/Auth/Auth";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 const App = () => {
   const sideBarLayoutLinks = [
     { name: "Dashboard", to: "/", component: Dashboard },
-    {
-      name: "Attendance Calculator",
-      to: "/attendance-calculator",
-      component: AttendanceCalculator,
-    },
+    { name: "Attendance Calculator", to: "/attendance-calculator", component: AttendanceCalculator },
     { name: "Resume Builder", to: "/resume-builder", component: ResumeBuilder },
-    {
-      name: "Grade Calculator",
-      to: "/grade-calculator",
-      component: GradeCalculator,
-    },
-    {
-      name: "Study Resources",
-      to: "/study-resources",
-      component: StudyResources,
-    },
+    { name: "Grade Calculator", to: "/grade-calculator", component: GradeCalculator },
+    { name: "Study Resources", to: "/study-resources", component: StudyResources },
+
   ];
 
   const withoutSidebarLayoutLinks = [
