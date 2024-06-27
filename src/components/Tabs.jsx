@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
-import { useLocalStorage } from "../hooks"
 
-const Tabs = ({ tabs, variant = 'underline', type = 'full' }) => {
-    const [selectedTab, setSelectedTab] = useLocalStorage('selectedTab', tabs[0].name);
+const Tabs = ({ tabs, variant = 'underline', type = 'full', selectedTab, setSelectedTab }) => {
+    // tabs: ['all', 'documents', 'ebook', 'note', 'video', 'slide']
+    // variant: 'underline' | 'pills'
+    // type: 'full' | 'center' | 'left' | 'right'
+
     const tabsRef = useRef([]);
 
     useEffect(() => {
@@ -18,16 +20,19 @@ const Tabs = ({ tabs, variant = 'underline', type = 'full' }) => {
         }
     }, [selectedTab]);
 
-    const renderContent = () => {
-        const TabComponent = tabs.find(tab => tab.name === selectedTab).component;
-        return <TabComponent />;
-    };
-
     variant = !variant ? 'underline' : variant;
     type = !type ? 'full' : type;
 
+    if (!tabs || tabs.length === 0) {
+        return (
+            <div className="text-center">
+                <p className="text-lg">No tabs found.</p>
+            </div>
+        );
+    }
+
     return (
-        <div className="">
+        <div className="p-2">
             <div className={`flex
                 ${type === 'full' && 'justify-center'}
                 ${type === 'center' && 'justify-center'}
@@ -41,26 +46,26 @@ const Tabs = ({ tabs, variant = 'underline', type = 'full' }) => {
                         ${variant === 'pills' ? 'bg-bgSecondary rounded-lg' : ''}`}>
                         {tabs.map((tab, index) => (
                             <motion.button
-                                key={tab.name}
+                                key={tab}
                                 ref={(el) => tabsRef.current[index] = el}
-                                data-tab={tab.name}
-                                onClick={() => setSelectedTab(tab.name)}
-                                className={`relative flex-1 whitespace-nowrap pb-3 px-1 font-medium text-sm ${selectedTab === tab.name
+                                data-tab={tab}
+                                onClick={() => setSelectedTab(tab)}
+                                className={`relative flex-1 whitespace-nowrap pb-3 px-1 font-medium text-sm ${selectedTab === tab
                                     ? "text-brand-700"
                                     : "text-gray-500 hover:text-gray-700"
                                     }
                                 ${variant === 'pills' ? 'py-3' : 'py-2'}
                                 `}
                             >
-                                <span className="relative z-10 py-2 px-4">{tab.name}</span>
-                                {selectedTab === tab.name && variant === 'underline' && (
+                                <span className="relative z-10 py-2 px-4 capitalize">{tab}</span>
+                                {selectedTab === tab && variant === 'underline' && (
                                     <motion.div
                                         className="absolute bottom-0 left-0 right-0 h-1 bg-brand-600 rounded-t-lg mx-4"
                                         layoutId="underline"
                                         transition={{ duration: 0.4, type: "spring", stiffness: 500, damping: 30 }}
                                     />
                                 )}
-                                {selectedTab === tab.name && variant === 'pills' && (
+                                {selectedTab === tab && variant === 'pills' && (
                                     <motion.div
                                         className="absolute top-1 bottom-1 right-1 left-1 bg-gray-300 dark:bg-gray-400 rounded-lg"
                                         layoutId="underline"
@@ -72,7 +77,6 @@ const Tabs = ({ tabs, variant = 'underline', type = 'full' }) => {
                     </nav>
                 </div>
             </div>
-            <div className="mt-6">{renderContent()}</div>
         </div >
     );
 }
