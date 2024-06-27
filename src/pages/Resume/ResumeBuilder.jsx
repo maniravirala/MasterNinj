@@ -3,58 +3,38 @@ import { useEffect, useRef, useState } from "react";
 import InputForm from "./InputForm";
 import ResumePreview from "./ResumePreview";
 import { ArrowDown2 } from "iconsax-react";
+import { useLocalStorage } from "../../hooks";
 
 const ResumeBuilder = () => {
-  const formData = {
-    'personal-info': {
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
+
+  const [activeTabResume, setActiveTab] = useLocalStorage('activeTabResume', 'personal-info');
+
+  const tabsData = [
+    {
+      key: 'personal-info',
+      name: 'Personal Info',
     },
-    education: [
-      {
-        degree: '',
-        institute: '',
-        startYear: '',
-        endYear: '',
-      },
-    ],
-    experience: [
-      {
-        title: '',
-        company: '',
-        startYear: '',
-        endYear: '',
-      },
-    ],
-    skills: [
-      {
-        skill: '',
-        level: '',
-      },
-    ],
-    projects: [
-      {
-        title: '',
-        description: '',
-      },
-    ],
-    certifications: [
-      {
-        name: '',
-        issuer: '',
-        date: '',
-      },
-    ],
-  };
-
-  const [activeTab, setActiveTab] = useState('personal-info');
-
-  const tabsData = Object.keys(formData).map((key) => ({
-    key,
-    name: key.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
-  }));
+    {
+      key: 'education',
+      name: 'Education',
+    },
+    {
+      key: 'experience',
+      name: 'Experience',
+    },
+    {
+      key: 'skills',
+      name: 'Skills',
+    },
+    {
+      key: 'projects',
+      name: 'Projects',
+    },
+    {
+      key: 'certifications',
+      name: 'Certifications',
+    },
+  ];
 
   const data = [
     [
@@ -81,6 +61,107 @@ const ResumeBuilder = () => {
     ]
   ];
 
+  const formData = {
+    'personal-info': [
+      [{
+        label: 'Name',
+        type: 'name'
+      },
+      {
+        label: 'Email',
+        type: 'email'
+      },
+      {
+        label: 'Phone',
+        type: 'phone'
+      },
+      {
+        label: 'Address',
+        type: 'address'
+      },
+      {
+        label: 'Objective',
+        type: 'textarea'
+      }
+      ]
+    ],
+    'education': [
+      [{
+        label: 'Institution',
+        type: 'text'
+      },
+      {
+        label: 'Degree',
+        type: 'text'
+      },
+      {
+        label: 'Start Date',
+        type: 'date'
+      },
+      {
+        label: 'End Date',
+        type: 'date'
+      },
+      {
+        label: 'Description',
+        type: 'textarea'
+      }
+      ]
+    ],
+    'experience': [
+      [{
+        label: 'Company',
+        type: 'text'
+      },
+      {
+        label: 'Position',
+        type: 'text'
+      },
+      {
+        label: 'Start Date',
+        type: 'date'
+      },
+      {
+        label: 'End Date',
+        type: 'date'
+      },
+      {
+        label: 'Description',
+        type: 'textarea'
+      }]
+    ],
+    'skills': [
+      {
+        label: 'Skill',
+        type: 'text'
+      }
+    ],
+    'projects': [
+      {
+        label: 'Project',
+        type: 'text'
+      },
+      {
+        label: 'Description',
+        type: 'textarea'
+      }
+    ],
+    'certifications': [
+      {
+        label: 'Certification',
+        type: 'text'
+      },
+      {
+        label: 'Institution',
+        type: 'text'
+      },
+      {
+        label: 'Date',
+        type: 'date'
+      }
+    ]
+  }
+
   const options = {
     add: true,
     remove: true,
@@ -92,18 +173,18 @@ const ResumeBuilder = () => {
       <h1 className="text-3xl font-semibold mb-6">Resume Builder</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <div className="p-2">
-          <Dropdown tabsData={tabsData} activeTab={activeTab} setActiveTab={setActiveTab} />
-          <InputForm data={data} options={options} />
+          <Dropdown tabsData={tabsData} activeTabResume={activeTabResume} setActiveTab={setActiveTab} />
+          <InputForm data={formData[activeTabResume]} options={options} activeTabResume={activeTabResume} />
         </div>
         <div className="md:col-span-2 p-2">
-          <ResumePreview data={formData} />
+          <ResumePreview />
         </div>
       </div>
     </div>
   );
 };
 
-const Dropdown = ({ tabsData, activeTab, setActiveTab }) => {
+const Dropdown = ({ tabsData, activeTabResume, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -131,7 +212,7 @@ const Dropdown = ({ tabsData, activeTab, setActiveTab }) => {
         className="bg-bgSecondary text-textPrimary px-4 py-2 rounded-lg flex items-center justify-between w-full "
         onClick={() => setIsOpen(!isOpen)}
       >
-        {tabsData.find(tab => tab.key === activeTab).name}
+        {tabsData.find(tab => tab.key === activeTabResume).name}
         <ArrowDown2 className={`ml-2 h-5 w-5 transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
       </button>
 
@@ -140,7 +221,7 @@ const Dropdown = ({ tabsData, activeTab, setActiveTab }) => {
           {tabsData.map((tab) => (
             <button
               key={tab.key}
-              className={`block box-border flex-1 text-left px-4 py-2 rounded-lg mx-2 hover:bg-bgHover ${activeTab === tab.key ? 'bg-bgActive' : ''}`}
+              className={`block box-border flex-1 text-left px-4 py-2 rounded-lg mx-2 hover:bg-bgHover ${activeTabResume === tab.key ? 'bg-bgActive' : ''}`}
               onClick={() => handleTabChange(tab.key)}
             >
               {tab.name}
