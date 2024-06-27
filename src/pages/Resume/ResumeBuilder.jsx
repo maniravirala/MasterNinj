@@ -36,50 +36,30 @@ const ResumeBuilder = () => {
     },
   ];
 
-  const data = [
-    [
-      {
-        label: 'Name',
-        type: 'name',
-      },
-      {
-        label: 'Email',
-        type: 'email',
-      },
-      {
-        label: 'Phone',
-        type: 'phone',
-      },
-      {
-        label: 'Address',
-        type: 'address',
-      },
-      {
-        label: 'Objective',
-        type: 'textarea',
-      }
-    ]
-  ];
-
   const formData = {
     'personal-info': [
       [{
         label: 'Name',
-        type: 'name'
+        type: 'name',
+        key: 'name',
       },
       {
+        key: 'email',
         label: 'Email',
         type: 'email'
       },
       {
+        key: 'phone',
         label: 'Phone',
         type: 'phone'
       },
       {
+        key: 'address',
         label: 'Address',
         type: 'address'
       },
       {
+        key: 'objective',
         label: 'Objective',
         type: 'textarea'
       }
@@ -87,22 +67,27 @@ const ResumeBuilder = () => {
     ],
     'education': [
       [{
+        key: 'institution',
         label: 'Institution',
         type: 'text'
       },
       {
+        key: 'degree',
         label: 'Degree',
         type: 'text'
       },
       {
+        key: 'education-start-date',
         label: 'Start Date',
         type: 'date'
       },
       {
+        key: 'education-end-date',
         label: 'End Date',
         type: 'date'
       },
       {
+        key: 'education-description',
         label: 'Description',
         type: 'textarea'
       }
@@ -110,62 +95,89 @@ const ResumeBuilder = () => {
     ],
     'experience': [
       [{
+        key: 'company',
         label: 'Company',
         type: 'text'
       },
       {
+        key: 'company-position',
         label: 'Position',
         type: 'text'
       },
       {
+        key: 'company-start-date',
         label: 'Start Date',
         type: 'date'
       },
       {
+        key: 'company-end-date',
         label: 'End Date',
         type: 'date'
       },
       {
+        key: 'company-description',
         label: 'Description',
         type: 'textarea'
       }]
     ],
     'skills': [
-      {
+      [{
+        key: 'skill',
         label: 'Skill',
         type: 'text'
-      }
+      }]
     ],
     'projects': [
-      {
+      [{
+        key: 'project',
         label: 'Project',
         type: 'text'
       },
       {
+        key: 'project-description',
         label: 'Description',
         type: 'textarea'
-      }
+      }]
     ],
     'certifications': [
-      {
+      [{
+        key: 'certification',
         label: 'Certification',
         type: 'text'
       },
       {
+        key: 'certification-institution',
         label: 'Institution',
         type: 'text'
       },
       {
+        key: 'certification-date',
         label: 'Date',
         type: 'date'
       }
+      ]
     ]
   }
 
-  const options = {
+  const optionsTrue = {
     add: true,
     remove: true,
     reset: true,
+  };
+
+  const optionsFalse = {
+    add: false,
+    remove: false,
+    reset: true,
+  };
+
+  const addRemoveOptions = {
+    'personal-info': optionsFalse,
+    'education': optionsTrue,
+    'experience': optionsTrue,
+    'skills': optionsTrue,
+    'projects': optionsTrue,
+    'certifications': optionsTrue,
   };
 
   return (
@@ -174,7 +186,7 @@ const ResumeBuilder = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <div className="p-2">
           <Dropdown tabsData={tabsData} activeTabResume={activeTabResume} setActiveTab={setActiveTab} />
-          <InputForm data={formData[activeTabResume]} options={options} activeTabResume={activeTabResume} />
+          <InputForm data={formData[activeTabResume]} options={addRemoveOptions[activeTabResume]} activeTabResume={activeTabResume} />
         </div>
         <div className="md:col-span-2 p-2">
           <ResumePreview />

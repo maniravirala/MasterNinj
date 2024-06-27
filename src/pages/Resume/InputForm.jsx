@@ -1,13 +1,17 @@
 /* eslint-disable react/prop-types */
-import { useLocalStorage } from '../../hooks';
+import { useEffect, useState } from 'react';
 
 const InputForm = ({ data, options, activeTabResume }) => {
-  const [formData, setFormData] = useLocalStorage(activeTabResume, data);
+  const [formData, setFormData] = useState(data);
 
-  console.log('Data:', data);
+  useEffect(() => {
+    setFormData(data);
+  }
+    , [data]);
+
 
   const handleAdd = () => {
-    const newSet = data[0].map(field => ({ 
+    const newSet = data[0].map(field => ({
       ...field,
       key: field.label.toLowerCase().replace(' ', '-') + '-' + Math.random().toString(36).substring(7),
     }));
@@ -25,23 +29,10 @@ const InputForm = ({ data, options, activeTabResume }) => {
 
   const handleChange = (e, setIndex, fieldIndex) => {
     const { value } = e.target;
-    const updatedFormData = formData.map((fields, index) => {
-      if (index === setIndex) {
-        return fields.map((field, i) => {
-          if (i === fieldIndex) {
-            return {
-              ...field,
-              value,
-            };
-          }
-          return field;
-        });
-      }
-      return fields;
-    });
-    setFormData(updatedFormData);
-    console.log('updatedFormData:', updatedFormData);
-  }
+    const newFormData = [...formData];
+    newFormData[setIndex][fieldIndex].value = value;
+    setFormData(newFormData);
+  };
 
   return (
     <div>
@@ -49,9 +40,12 @@ const InputForm = ({ data, options, activeTabResume }) => {
         <div key={setIndex} className="mb-4 border p-4 rounded">
           {fields.map((field, index) => (
             <div key={index} className="mb-4">
-              <label className="block text-gray-700">{field.label}</label>
+              <label
+                htmlFor={field.key}
+                className="block text-gray-700">{field.label}</label>
               {field.type === 'textarea' ? (
                 <textarea
+                  id={field.key}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                   rows="3"
                   onChange={(e) => handleChange(e, setIndex, index)}
@@ -59,6 +53,7 @@ const InputForm = ({ data, options, activeTabResume }) => {
               ) : (
                 <input
                   type={field.type}
+                  id={field.key}
                   className="mt-1 block w-full bg-gray-300 p-2 rounded-md border-gray-300 shadow-sm"
                   onChange={(e) => handleChange(e, setIndex, index)}
                 />
