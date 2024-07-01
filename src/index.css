@@ -1,5 +1,9 @@
+@import url("https://use.typekit.net/umf5tls.css");
+
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: poppins, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

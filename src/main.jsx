@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -7,12 +6,16 @@ import "./tailwind.css";
 import { NextUIProvider } from "@nextui-org/react";
 import { DarkModeProvider } from "./contexts/DarkModeContext";
 import { StudyResourcesProvider } from "./contexts/StudyResourceContext.jsx";
+import { ResumeProvider } from "./contexts/ResumeContext.jsx";
+import { TemplateOrderProvider } from "./contexts/TemplateOrderContext.jsx";
 import { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <NextUIProvider>
       <DarkModeProvider>
+      <ResumeProvider>
+      <TemplateOrderProvider>
         <StudyResourcesProvider>
           <App />
           <Toaster
@@ -23,7 +26,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             }}
           />
         </StudyResourcesProvider>
+      </TemplateOrderProvider>
+      </ResumeProvider>
       </DarkModeProvider>
     </NextUIProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 );
