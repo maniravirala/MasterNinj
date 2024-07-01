@@ -31,7 +31,7 @@ const SortableItem = ({ id, value }) => {
   );
 };
 
-const SortableList = ({ items, setItems }) => {
+const SortableList = ({ templateItems, setTemplateItems, onSortTemplateItems }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -39,16 +39,25 @@ const SortableList = ({ items, setItems }) => {
     })
   );
 
+  // const handleDragEnd = (event) => {
+  //   const { active, over } = event;
+  //   if (active.id !== over.id) {
+  //     console.log(active.id, over.id);
+  //     setTemplateItems((items) => {
+  //       const oldIndex = items.findIndex((item) => item.id === active.id);
+  //       const newIndex = items.findIndex((item) => item.id === over.id);
+  //       return arrayMove(items, oldIndex, newIndex);
+  //     });
+  //   }
+  // };
+
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      onSortTemplateItems(active.id, over.id);
     }
-  };
+  }
 
   return (
     <DndContext
@@ -56,9 +65,9 @@ const SortableList = ({ items, setItems }) => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
+      <SortableContext items={templateItems} strategy={verticalListSortingStrategy}>
         <div>
-          {items.map((item) => (
+          {templateItems.map((item) => (
             <SortableItem key={item.id} id={item.id} value={item.component} />
           ))}
         </div>

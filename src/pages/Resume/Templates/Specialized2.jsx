@@ -235,7 +235,7 @@ const Specialized1 = () => {
       )}
     </div>
   );
-  
+
   const Skills = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.technicalSkills.length > 0 && (
@@ -292,18 +292,7 @@ const Specialized1 = () => {
       )}
     </div>
   );
-
-  const initialItems = [
-    { id: "1", component: <Education /> },
-    { id: "2", component: <Projects /> },
-    { id: "3", component: <Internships /> },
-    { id: "4", component: <SummerTraining /> },
-    { id: "5", component: <Achievements /> },
-    { id: "6", component: <Certifications /> },
-    { id: "7", component: <Skills /> },
-  ];
-
-  const [items, setItems] = useState(initialItems);
+  
   const [formData, setFormData] = useState(resumePreviewData);
   const { templateOrder, updateTemplateOrder } = useTemplateOrder();
 
@@ -322,15 +311,25 @@ const Specialized1 = () => {
     Certifications: <Certifications />,
   };
 
-  const templateItems =
-    templateOrder.template2.map((item) => ({
-      id: item.id.toString(),
-      component: ComponentMappings[item.component],
-      // key: item.component,
-    })
-    );
+  const templateItems = templateOrder.template2.map((item) => ({
+    id: item.id.toString(),
+    component: ComponentMappings[item.component],
+    key: item.component,
+  }))
 
-  console.log(templateItems);
+  const onSortTemplateItems = ({ oldIndex, newIndex }) => {
+    const newTemplateItems = [...templateItems];
+    const [removed] = newTemplateItems.splice(oldIndex - 1, 1);
+    newTemplateItems.splice(newIndex - 1, 0, removed);
+    updateTemplateOrder({
+      template2: newTemplateItems.map((item, index) => ({
+        id: index + 1,
+        component: item.key,
+      })),
+    });
+
+    document.body.style.cursor = "auto";
+  };
 
 
 
@@ -369,7 +368,7 @@ const Specialized1 = () => {
         </div>
 
         <div className='select-none'>
-          <SortableList items={templateItems} updateTemplateOrder={updateTemplateOrder} />
+          <SortableList templateItems={templateItems} onSortTemplateItems={(oldIndex, newIndex) => onSortTemplateItems({ oldIndex, newIndex })} />
         </div>
       </div >
     </div >
