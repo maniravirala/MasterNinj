@@ -3,44 +3,14 @@ import { BiLogoGithub, BiLogoGmail, BiLogoLinkedinSquare, BiSolidPhone } from 'r
 import { useResume } from '../../../contexts/ResumeContext';
 import { useTemplateOrder } from '../../../contexts/TemplateOrderContext';
 import SortableList from './Sortable/SortableList';
-import { useEffect, useState } from 'react';
 
 const Specialized1 = () => {
 
   const { resumePreviewData, resumeData, getFontSizeClass, getLineHeightClass, getPageMarginClass, getHeadingFontSizeClass, getTitleCaseClass } = useResume();
 
-  const transformResumeData = (data) => {
-    const transformSection = (section) => {
-      return section.map((item) => {
-        return item.reduce((acc, curr) => {
-          const keysList = curr.key.split("-");
-          const keysListLength = keysList.length;
-          acc[keysList[keysListLength - 2]] = curr.value;
-          return acc;
-        }, {});
-      });
-    };
-
-    const transformedData = {
-      personalInfo: data.personalInfo[0].reduce((acc, curr) => {
-        acc[curr.key] = curr.value;
-        return acc;
-      }, {}),
-      profilePic: data.profilePic,
-      technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
-      certifications: transformSection(data.certifications),
-      extraCurricularActivities: transformSection(data.extraCurricularActivities),
-      internships: transformSection(data.internships),
-      summerTraining: transformSection(data.summerTraining),
-      projects: transformSection(data.projects),
-      achievements: transformSection(data.achievements),
-      education: transformSection(data.education),
-      visibility: data.visibility,
-      settings: data.settings
-    };
-
-    return transformedData;
-  };
+  
+  const formData = resumePreviewData;
+  const { templateOrder, updateTemplateOrder } = useTemplateOrder();
 
   const SummerTraining = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
@@ -244,7 +214,12 @@ const Specialized1 = () => {
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           <div className={`flex flex-wrap gap-2`}>
             {formData.technicalSkills.map((skill, index) => (
-              <span key={index} className={`bg-gray-200 px-2 py-1 rounded-md ${getFontSizeClass()}`}>{skill.skill}</span>
+              <div key={index} className={`bg-gray-200 px-2 py-1 rounded-md`}>
+                <span>{skill.domain}</span>
+                <span className="font-semibold">:</span>
+                <span>{skill.skill}</span>
+              </div>
+
             ))}
           </div>
         </div>
@@ -292,13 +267,6 @@ const Specialized1 = () => {
       )}
     </div>
   );
-  
-  const [formData, setFormData] = useState(resumePreviewData);
-  const { templateOrder, updateTemplateOrder } = useTemplateOrder();
-
-  useEffect(() => {
-    setFormData(transformResumeData(resumeData));
-  }, [resumeData])
 
 
   const ComponentMappings = {
@@ -356,12 +324,12 @@ const Specialized1 = () => {
 
             <p className={`${getFontSizeClass()} flex items-center gap-1`}>
               {formData.personalInfo.linkedin && <span className="font-medium -mt-[4px] "><BiLogoLinkedinSquare className={`${getFontSizeClass()}`} /></span>}
-              <a href={formData.personalInfo.linkedin} target="_blank" rel="noreferrer">{formData.personalInfo.linkedin}</a>
+              <a href={'https://'+formData.personalInfo.linkedin} target="_blank" rel="noreferrer">{formData.personalInfo.linkedin}</a>
             </p>
 
             <p className={`${getFontSizeClass()} flex items-center gap-1`}>
               {formData.personalInfo.github && <span className="font-medium -mt-[4px] "><BiLogoGithub className={`${getFontSizeClass()}`} /></span>}
-              <a href={formData.personalInfo.github} target="_blank" rel="noreferrer">{formData.personalInfo.github}</a>
+              <a href={'https://'+formData.personalInfo.github} target="_blank" rel="noreferrer">{formData.personalInfo.github}</a>
             </p>
 
           </div>

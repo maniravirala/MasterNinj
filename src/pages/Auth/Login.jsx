@@ -43,7 +43,6 @@ const Login = () => {
           onChange={handleChange}
           name="email"
         />
-
         <Input
           type="password"
           labelPlaceholder="Password"

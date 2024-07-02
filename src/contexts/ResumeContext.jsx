@@ -69,7 +69,8 @@ export const ResumeProvider = ({ children }) => {
         return acc;
       }, {}),
       profilePic: data.profilePic,
-      technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
+      // technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
+      technicalSkills: transformSection(data.technicalSkills),
       certifications: transformSection(data.certifications),
       extraCurricularActivities: transformSection(data.extraCurricularActivities),
       internships: transformSection(data.internships),
@@ -89,6 +90,7 @@ export const ResumeProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('resumeData', JSON.stringify(resumeData));
     setResumePreviewData(transformResumeData(resumeData));
+    console.log(transformResumeData(resumeData));
   }, [resumeData]);
 
   const handleChange = (e, section, index, itemIndex) => {

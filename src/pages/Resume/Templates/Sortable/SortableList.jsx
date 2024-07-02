@@ -10,7 +10,6 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  arrayMove,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -31,7 +30,7 @@ const SortableItem = ({ id, value }) => {
   );
 };
 
-const SortableList = ({ templateItems, setTemplateItems, onSortTemplateItems }) => {
+const SortableList = ({ templateItems, onSortTemplateItems }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
