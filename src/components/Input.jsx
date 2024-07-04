@@ -65,8 +65,8 @@ const Input = ({
         </label>
       )}
       <div
-        className={`flex items-center rounded-lg px-3 py-2 ${border ? `border ${borderColorClass}` : ""
-          } ${shadow ? "shadow-md" : ""} ${color} ${stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
+        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${border ? `border ${borderColorClass}` : ""
+          } ${color} ${stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
           } h-10 flex-1 ${className}`}
       >
         {iconBefore && <div className="mr-2">{iconBefore}</div>}

@@ -1,9 +1,12 @@
+/* eslint-disable react/prop-types */
+import { useDocumentTitle } from '@custom-react-hooks/all';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Footer from "../components/Footer";
-import PropTypes from "prop-types";
 
-const SidebarHeaderLayout = ({ children }) => {
+const SidebarHeaderLayout = ({ children, ...props }) => {
+  const title = props.title || "Master Ninja";
+  useDocumentTitle(title);
   return (
     <div className="flex h-screen w-screen">
       <div className="hidden sm:block">
@@ -14,14 +17,10 @@ const SidebarHeaderLayout = ({ children }) => {
           <Header />
         </div>
         <main className="flex-1 px-5">{children}</main>
-        <Footer />
+        {props.footer && <Footer />}
       </div>
     </div>
   );
-};
-
-SidebarHeaderLayout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default SidebarHeaderLayout;

@@ -14,15 +14,7 @@ export const ResumeProvider = ({ children }) => {
     return savedFormData
       ? JSON.parse(savedFormData)
       : {
-        personalInfo: [
-          [{ label: "Name", type: "text", key: "name", value: "" },
-          { label: "Email", type: "email", key: "email", value: "" },
-          { label: "Phone", type: "tel", key: "phone", value: "" },
-          { label: "Address", type: "address", key: "address", value: "" },
-          { label: "Github", type: "text", key: "github", value: "" },
-          { label: "LinkedIn", type: "text", key: "linkedin", value: "" },
-          { label: "Position", type: "text", key: "position", value: "" },]
-        ],
+        personalInfo: [],
         profilePic: "",
         technicalSkills: [],
         certifications: [],
@@ -64,10 +56,11 @@ export const ResumeProvider = ({ children }) => {
     };
 
     const transformedData = {
-      personalInfo: data.personalInfo[0].reduce((acc, curr) => {
-        acc[curr.key] = curr.value;
-        return acc;
-      }, {}),
+      // personalInfo: data.personalInfo[0].reduce((acc, curr) => {
+      //   acc[curr.key] = curr.value;
+      //   return acc;
+      // }, {}),
+      personalInfo: transformSection(data.personalInfo),
       profilePic: data.profilePic,
       // technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
       technicalSkills: transformSection(data.technicalSkills),
@@ -90,7 +83,6 @@ export const ResumeProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('resumeData', JSON.stringify(resumeData));
     setResumePreviewData(transformResumeData(resumeData));
-    console.log(transformResumeData(resumeData));
   }, [resumeData]);
 
   const handleChange = (e, section, index, itemIndex) => {

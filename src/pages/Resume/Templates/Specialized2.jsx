@@ -8,7 +8,7 @@ const Specialized1 = () => {
 
   const { resumePreviewData, resumeData, getFontSizeClass, getLineHeightClass, getPageMarginClass, getHeadingFontSizeClass, getTitleCaseClass } = useResume();
 
-  
+
   const formData = resumePreviewData;
   const { templateOrder, updateTemplateOrder } = useTemplateOrder();
 
@@ -308,35 +308,39 @@ const Specialized1 = () => {
       <div className={`flex flex-col h-full ${getPageMarginClass()}`}>
 
         {/* Personal Details */}
-        <div className={`flex flex-col items-center  ${getLineHeightClass()}`}>
-          <h1 className={`text-3xl font-bold uppercase`}>{formData.personalInfo.name}</h1>
-          <p className={`font-medium ${getFontSizeClass()}`}>{formData.personalInfo.address}</p>
-          <div className="flex gap-x-2 gap-y-1 flex-row flex-wrap justify-center">
-            <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-              {formData.personalInfo.phone && <span className="font-medium -mt-[4px]"><BiSolidPhone className={`${getFontSizeClass()}`} /></span>}
-              <a href={`tel:${formData.personalInfo.phone}`}>{formData.personalInfo.phone}</a>
-            </p>
-            <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-              {formData.personalInfo.email && <span className="font-medium -mt-[4px] "><BiLogoGmail className={`${getFontSizeClass()}`} /></span>}
-              {/* whennnnn i click on this it needs to open the mail */}
-              <a href={`mailto:${formData.personalInfo.email}`}>{formData.personalInfo.email}</a>
-            </p>
+        {formData.personalInfo.map((personalInfo, index) => (
+          <div key={index} className={`flex flex-col items-center ${getLineHeightClass()}`}>
+            <h1 className={`text-3xl font-bold uppercase`}>{personalInfo.name}</h1>
+            <p className={`font-medium ${getFontSizeClass()}`}>{personalInfo.address}</p>
+            <div className="flex gap-x-2 gap-y-1 flex-row flex-wrap justify-center">
+              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
+                {personalInfo.phone && <span className="font-medium -mt-[4px]"><BiSolidPhone className={`${getFontSizeClass()}`} /></span>}
+                <a href={`tel:${personalInfo.phone}`}>{personalInfo.phone}</a>
+              </p>
+              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
+                {personalInfo.email && <span className="font-medium -mt-[4px] "><BiLogoGmail className={`${getFontSizeClass()}`} /></span>}
+                {/* whennnnn i click on this it needs to open the mail */}
+                <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
+              </p>
 
-            <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-              {formData.personalInfo.linkedin && <span className="font-medium -mt-[4px] "><BiLogoLinkedinSquare className={`${getFontSizeClass()}`} /></span>}
-              <a href={'https://'+formData.personalInfo.linkedin} target="_blank" rel="noreferrer">{formData.personalInfo.linkedin}</a>
-            </p>
+              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
+                {personalInfo.linkedin && <span className="font-medium -mt-[4px] "><BiLogoLinkedinSquare className={`${getFontSizeClass()}`} /></span>}
+                <a href={'https://' + personalInfo.linkedin} target="_blank" rel="noreferrer">{personalInfo.linkedin}</a>
+              </p>
 
-            <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-              {formData.personalInfo.github && <span className="font-medium -mt-[4px] "><BiLogoGithub className={`${getFontSizeClass()}`} /></span>}
-              <a href={'https://'+formData.personalInfo.github} target="_blank" rel="noreferrer">{formData.personalInfo.github}</a>
-            </p>
+              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
+                {personalInfo.github && <span className="font-medium -mt-[4px] "><BiLogoGithub className={`${getFontSizeClass()}`} /></span>}
+                <a href={'https://' + personalInfo.github} target="_blank" rel="noreferrer">{personalInfo.github}</a>
+              </p>
 
+            </div>
           </div>
-        </div>
+        ))}
 
-        <div className='select-none'>
-          <SortableList templateItems={templateItems} onSortTemplateItems={(oldIndex, newIndex) => onSortTemplateItems({ oldIndex, newIndex })} />
+        <div className='select-none cursor-default'>
+          {templateItems.length > 0 && (
+            <SortableList templateItems={templateItems} onSortTemplateItems={(oldIndex, newIndex) => onSortTemplateItems({ oldIndex, newIndex })} />
+          )}
         </div>
       </div >
     </div >

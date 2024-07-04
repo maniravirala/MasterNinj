@@ -41,7 +41,6 @@ const SortableList = ({ templateItems, onSortTemplateItems }) => {
   // const handleDragEnd = (event) => {
   //   const { active, over } = event;
   //   if (active.id !== over.id) {
-  //     console.log(active.id, over.id);
   //     setTemplateItems((items) => {
   //       const oldIndex = items.findIndex((item) => item.id === active.id);
   //       const newIndex = items.findIndex((item) => item.id === over.id);

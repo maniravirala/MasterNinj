@@ -8,16 +8,18 @@ import GradeCalculator from "./pages/GradeCalculator";
 import StudyResources from "./pages/Library/StudyResources";
 import Auth from "./pages/Auth/Auth";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import Test from "./pages/Test/Test";
 
 const App = () => {
   const sideBarLayoutLinks = [
-    { name: "Dashboard", to: "/", component: Dashboard },
-    { name: "Attendance Calculator", to: "/attendance-calculator", component: AttendanceCalculator },
-    { name: "Resume Builder", to: "/resume-builder", component: ResumeBuilder },
-    { name: "Grade Calculator", to: "/grade-calculator", component: GradeCalculator },
+    { name: "Dashboard", to: "/", component: Dashboard, props: { title: "Dashboard", footer: true } },
+    { name: "Attendance Calculator", to: "/attendance-calculator", component: AttendanceCalculator, props: { title: "Attendance Calculator" } },
+    { name: "Resume Builder", to: "/resume-builder", component: ResumeBuilder, props: { title: "Resume Builder"} },
+    { name: "Grade Calculator", to: "/grade-calculator", component: GradeCalculator, props: { title: "Grade Calculator" } },
     // { name: "Study Resources", to: "/study-resources", component: StudyResources },
-    { name: 'Study Resources', to: '/study-resources', redirectTo: '/study-resources/all' },
-    { name: 'Resources', to: '/study-resources/:resourceId', component: StudyResources }
+    { name: 'Study Resources', to: '/study-resources', redirectTo: '/study-resources/all', props: { title: 'Study Resources' } },
+    { name: 'Resources', to: '/study-resources/:resourceId', component: StudyResources, props: { title: 'Study Resources' } },
+    { name: 'Test', to: '/test', component: Test, props: { title: 'Test' } },
   ];
 
   const withoutSidebarLayoutLinks = [
@@ -42,7 +44,7 @@ const App = () => {
                 key={link.name}
                 path={link.to}
                 element={
-                  <SidebarHeaderLayout>
+                  <SidebarHeaderLayout {...link.props}>
                     <link.component />
                   </SidebarHeaderLayout>
                 }
