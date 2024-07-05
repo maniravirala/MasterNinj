@@ -55,7 +55,12 @@ const Input = ({
   const passwordStrength =
     progress && type === "password" ? calculatePasswordStrength(value) : 0;
 
-  const uniqueId = id !== "" ? id : name !== "" ? name + Math.random().toString(36).substring(7) : Math.random().toString(36).substring(7);
+  const uniqueId =
+    id !== ""
+      ? id
+      : name !== ""
+        ? name + Math.random().toString(36).substring(7)
+        : Math.random().toString(36).substring(7);
 
   return (
     <div className={`relative flex w-full flex-col`}>
@@ -65,36 +70,47 @@ const Input = ({
         </label>
       )}
       <div
-        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${border ? `border ${borderColorClass}` : ""
-          } ${color} ${stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
-          } h-10 flex-1 ${className}`}
+        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${
+          border ? `border ${borderColorClass}` : ""
+        } ${color} ${
+          stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
+        } h-10 flex-1 ${className}`}
       >
-        {iconBefore && <div className="mr-2">{iconBefore}</div>}
-
+        {iconBefore && (
+          <div
+            className={`mr-2 ${isFocused ? "text-brand-800" : "text-gray-400 dark:text-gray-500"}`}
+          >
+            {iconBefore}
+          </div>
+        )}
         <AnimatePresence>
-          {type === 'link' && (isFocused || value) && (
-            value ? (
-              <div className="text-gray-500 select-none mr-1">
-                <span>https://</span> <span className="h-full w-2 bg-blue-400" />
+          {type === "link" &&
+            (isFocused || value) &&
+            (value ? (
+              <div className="mr-1 select-none text-gray-500">
+                <span>https://</span>{" "}
+                <span className="h-full w-2 bg-blue-400" />
               </div>
             ) : (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="text-sm text-gray-500 select-none mr-2">
-                <span>https://</span> <span className="h-full w-2 bg-blue-400" />
+                className="mr-2 select-none text-sm text-gray-500"
+              >
+                <span>https://</span>{" "}
+                <span className="h-full w-2 bg-blue-400" />
               </motion.div>
-            )
-          )}
+            ))}
         </AnimatePresence>
 
         <div className="relative w-full">
           {labelPlaceholder && (
             <label
-              className={`absolute left-0 transform transition-all duration-200 ${isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
-                } pointer-events-none text-gray-500`}
+              className={`absolute left-0 transform transition-all duration-200 ${
+                isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
+              } pointer-events-none text-gray-500`}
               htmlFor={uniqueId}
             >
               {labelPlaceholder}

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext } from "react";
 
 const ResumeContext = createContext();
 
@@ -10,37 +10,37 @@ export const useResume = () => {
 
 export const ResumeProvider = ({ children }) => {
   const [resumeData, setResumeData] = useState(() => {
-    const savedFormData = localStorage.getItem('resumeData');
+    const savedFormData = localStorage.getItem("resumeData");
     return savedFormData
       ? JSON.parse(savedFormData)
       : {
-        personalInfo: [],
-        profilePic: "",
-        technicalSkills: [],
-        certifications: [],
-        extraCurricularActivities: [],
-        internships: [],
-        summerTraining: [],
-        projects: [],
-        achievements: [],
-        education: [],
-        visibility: {
-          certifications: true,
-          extraCurricularActivities: true,
-          internships: true,
-          summerTraining: true,
-          projects: true,
-          achievements: true,
-        },
-        settings: {
-          fontSize: "12",
-          fontFamily: "Poppins",
-          titleCase: "Uppercase",
-          pageMargins: "24",
-          lineHeight: "8",
-          paper: "A4",
-        },
-      };
+          personalInfo: [],
+          profilePic: "",
+          technicalSkills: [],
+          certifications: [],
+          extraCurricularActivities: [],
+          internships: [],
+          summerTraining: [],
+          projects: [],
+          achievements: [],
+          education: [],
+          visibility: {
+            certifications: true,
+            extraCurricularActivities: true,
+            internships: true,
+            summerTraining: true,
+            projects: true,
+            achievements: true,
+          },
+          settings: {
+            fontSize: "12",
+            fontFamily: "Poppins",
+            titleCase: "Uppercase",
+            pageMargins: "24",
+            lineHeight: "8",
+            paper: "A4",
+          },
+        };
   });
 
   const transformResumeData = (data) => {
@@ -65,23 +65,27 @@ export const ResumeProvider = ({ children }) => {
       // technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
       technicalSkills: transformSection(data.technicalSkills),
       certifications: transformSection(data.certifications),
-      extraCurricularActivities: transformSection(data.extraCurricularActivities),
+      extraCurricularActivities: transformSection(
+        data.extraCurricularActivities,
+      ),
       internships: transformSection(data.internships),
       summerTraining: transformSection(data.summerTraining),
       projects: transformSection(data.projects),
       achievements: transformSection(data.achievements),
       education: transformSection(data.education),
       visibility: data.visibility,
-      settings: data.settings
+      settings: data.settings,
     };
 
     return transformedData;
   };
 
-  const [resumePreviewData, setResumePreviewData] = useState(transformResumeData(resumeData));
+  const [resumePreviewData, setResumePreviewData] = useState(
+    transformResumeData(resumeData),
+  );
 
   useEffect(() => {
-    localStorage.setItem('resumeData', JSON.stringify(resumeData));
+    localStorage.setItem("resumeData", JSON.stringify(resumeData));
     setResumePreviewData(transformResumeData(resumeData));
   }, [resumeData]);
 
@@ -156,50 +160,50 @@ export const ResumeProvider = ({ children }) => {
   };
 
   const getFontSizeClass = () => {
-    if (resumeData.settings.fontSize <= 12) return 'text-xs';
-    else if (resumeData.settings.fontSize <= 14) return 'text-sm';
-    else if (resumeData.settings.fontSize <= 16) return 'text-base';
-    else if (resumeData.settings.fontSize <= 18) return 'text-lg';
-    else if (resumeData.settings.fontSize <= 20) return 'text-xl';
-    else return 'text-xs';
+    if (resumeData.settings.fontSize <= 12) return "text-xs";
+    else if (resumeData.settings.fontSize <= 14) return "text-sm";
+    else if (resumeData.settings.fontSize <= 16) return "text-base";
+    else if (resumeData.settings.fontSize <= 18) return "text-lg";
+    else if (resumeData.settings.fontSize <= 20) return "text-xl";
+    else return "text-xs";
   };
 
   const getHeadingFontSizeClass = () => {
-    if (resumeData.settings.fontSize <= 12) return 'text-sm';
-    else if (resumeData.settings.fontSize <= 14) return 'text-base';
-    else if (resumeData.settings.fontSize <= 16) return 'text-lg';
-    else if (resumeData.settings.fontSize <= 18) return 'text-xl';
-    else if (resumeData.settings.fontSize <= 20) return 'text-2xl';
-    else return 'text-sm';
-  }
+    if (resumeData.settings.fontSize <= 12) return "text-sm";
+    else if (resumeData.settings.fontSize <= 14) return "text-base";
+    else if (resumeData.settings.fontSize <= 16) return "text-lg";
+    else if (resumeData.settings.fontSize <= 18) return "text-xl";
+    else if (resumeData.settings.fontSize <= 20) return "text-2xl";
+    else return "text-sm";
+  };
 
   const getLineHeightClass = () => {
-    if (resumeData.settings.lineHeight === 0) return 'gap-0';
-    else if (resumeData.settings.lineHeight <= 2) return 'gap-0.5';
-    else if (resumeData.settings.lineHeight <= 4) return 'gap-1';
-    else if (resumeData.settings.lineHeight <= 6) return 'gap-1.5';
-    else if (resumeData.settings.lineHeight <= 8) return 'gap-2';
-    else if (resumeData.settings.lineHeight <= 10) return 'gap-2.5';
-    else if (resumeData.settings.lineHeight <= 12) return 'gap-3';
-    else if (resumeData.settings.lineHeight <= 14) return 'gap-3.5';
-    else if (resumeData.settings.lineHeight <= 16) return 'gap-4';
-    else if (resumeData.settings.lineHeight <= 18) return 'gap-[1.125rem]';
-    else if (resumeData.settings.lineHeight <= 20) return 'gap-5';
-    else return 'gap-2';
-  }
+    if (resumeData.settings.lineHeight === 0) return "gap-0";
+    else if (resumeData.settings.lineHeight <= 2) return "gap-0.5";
+    else if (resumeData.settings.lineHeight <= 4) return "gap-1";
+    else if (resumeData.settings.lineHeight <= 6) return "gap-1.5";
+    else if (resumeData.settings.lineHeight <= 8) return "gap-2";
+    else if (resumeData.settings.lineHeight <= 10) return "gap-2.5";
+    else if (resumeData.settings.lineHeight <= 12) return "gap-3";
+    else if (resumeData.settings.lineHeight <= 14) return "gap-3.5";
+    else if (resumeData.settings.lineHeight <= 16) return "gap-4";
+    else if (resumeData.settings.lineHeight <= 18) return "gap-[1.125rem]";
+    else if (resumeData.settings.lineHeight <= 20) return "gap-5";
+    else return "gap-2";
+  };
 
   const getPageMarginClass = () => {
-    if (resumeData.settings.pageMargins <= 12) return 'p-3';
-    else if (resumeData.settings.pageMargins <= 14) return 'p-3.5';
-    else if (resumeData.settings.pageMargins <= 16) return 'p-4';
-    else if (resumeData.settings.pageMargins <= 20) return 'p-5';
-    else if (resumeData.settings.pageMargins <= 24) return 'p-6';
-    else if (resumeData.settings.pageMargins <= 28) return 'p-7';
-    else if (resumeData.settings.pageMargins <= 32) return 'p-8';
-    else if (resumeData.settings.pageMargins <= 36) return 'p-9';
-    else if (resumeData.settings.pageMargins <= 40) return 'p-10';
-    else return 'p-6';
-  }
+    if (resumeData.settings.pageMargins <= 12) return "p-3";
+    else if (resumeData.settings.pageMargins <= 14) return "p-3.5";
+    else if (resumeData.settings.pageMargins <= 16) return "p-4";
+    else if (resumeData.settings.pageMargins <= 20) return "p-5";
+    else if (resumeData.settings.pageMargins <= 24) return "p-6";
+    else if (resumeData.settings.pageMargins <= 28) return "p-7";
+    else if (resumeData.settings.pageMargins <= 32) return "p-8";
+    else if (resumeData.settings.pageMargins <= 36) return "p-9";
+    else if (resumeData.settings.pageMargins <= 40) return "p-10";
+    else return "p-6";
+  };
 
   const getFontFamilyClass = () => {
     switch (resumeData.settings.fontFamily) {
@@ -244,30 +248,30 @@ export const ResumeProvider = ({ children }) => {
     }
   };
 
-
   return (
-    <ResumeContext.Provider value={{
-      resumeData,
-      resumePreviewData,
-      handleChange,
-      handleAdd,
-      handleRemove,
-      handleReset,
-      handleProfilePic,
-      handleVisibility,
-      handleSettings,
-      getFontSizeClass,
-      getHeadingFontSizeClass,
-      getLineHeightClass,
-      getPageMarginClass,
-      getFontFamilyClass,
-      getTitleCaseClass,
-      getPaperClass,
-    }}>
+    <ResumeContext.Provider
+      value={{
+        resumeData,
+        resumePreviewData,
+        handleChange,
+        handleAdd,
+        handleRemove,
+        handleReset,
+        handleProfilePic,
+        handleVisibility,
+        handleSettings,
+        getFontSizeClass,
+        getHeadingFontSizeClass,
+        getLineHeightClass,
+        getPageMarginClass,
+        getFontFamilyClass,
+        getTitleCaseClass,
+        getPaperClass,
+      }}
+    >
       {children}
     </ResumeContext.Provider>
   );
-
 };
 
 export default ResumeContext;

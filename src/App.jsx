@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import SidebarHeaderLayout from "./layout/SidebarHeaderLayout";
 import Dashboard from "./pages/Dashboard";
@@ -12,20 +17,54 @@ import Test from "./pages/Test/Test";
 
 const App = () => {
   const sideBarLayoutLinks = [
-    { name: "Dashboard", to: "/", component: Dashboard, props: { title: "Dashboard", footer: true } },
-    { name: "Attendance Calculator", to: "/attendance-calculator", component: AttendanceCalculator, props: { title: "Attendance Calculator" } },
-    { name: "Resume Builder", to: "/resume-builder", component: ResumeBuilder, props: { title: "Resume Builder"} },
-    { name: "Grade Calculator", to: "/grade-calculator", component: GradeCalculator, props: { title: "Grade Calculator" } },
+    {
+      name: "Dashboard",
+      to: "/",
+      component: Dashboard,
+      props: { title: "Dashboard", footer: true },
+    },
+    {
+      name: "Attendance Calculator",
+      to: "/attendance-calculator",
+      component: AttendanceCalculator,
+      props: { title: "Attendance Calculator" },
+    },
+    {
+      name: "Resume Builder",
+      to: "/resume-builder",
+      component: ResumeBuilder,
+      props: { title: "Resume Builder" },
+    },
+    {
+      name: "Grade Calculator",
+      to: "/grade-calculator",
+      component: GradeCalculator,
+      props: { title: "Grade Calculator" },
+    },
     // { name: "Study Resources", to: "/study-resources", component: StudyResources },
-    { name: 'Study Resources', to: '/study-resources', redirectTo: '/study-resources/all', props: { title: 'Study Resources' } },
-    { name: 'Resources', to: '/study-resources/:resourceId', component: StudyResources, props: { title: 'Study Resources' } },
-    { name: 'Test', to: '/test', component: Test, props: { title: 'Test' } },
+    {
+      name: "Study Resources",
+      to: "/study-resources",
+      redirectTo: "/study-resources/all",
+      props: { title: "Study Resources" },
+    },
+    {
+      name: "Resources",
+      to: "/study-resources/:resourceId",
+      component: StudyResources,
+      props: { title: "Study Resources" },
+    },
+    { name: "Test", to: "/test", component: Test, props: { title: "Test" } },
   ];
 
   const withoutSidebarLayoutLinks = [
     { name: "Login", to: "/login", component: Auth },
     { name: "Register", to: "/register", component: Auth },
-    { name: "Forgot Password", to: "/forgot-password", component: ForgotPassword },
+    {
+      name: "Forgot Password",
+      to: "/forgot-password",
+      component: ForgotPassword,
+    },
   ];
 
   return (
@@ -49,11 +88,15 @@ const App = () => {
                   </SidebarHeaderLayout>
                 }
               />
-            )
+            ),
           )}
 
           {withoutSidebarLayoutLinks.map((link) => (
-            <Route key={link.name} path={link.to} element={<link.component />} />
+            <Route
+              key={link.name}
+              path={link.to}
+              element={<link.component />}
+            />
           ))}
         </Routes>
       </Router>

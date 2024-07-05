@@ -26,10 +26,18 @@ const navLinks = [
   { name: "Resume", icon: <Notepad size={24} />, path: "/resume-builder" },
   { name: "Projects", icon: <Category2 size={24} />, path: "/projects" },
   { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
-  { name: "Calculator", icon: <Calculator size={24} />, path: "/grade-calculator" },
+  {
+    name: "Calculator",
+    icon: <Calculator size={24} />,
+    path: "/grade-calculator",
+  },
   { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
   { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
-  { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
+  {
+    name: "Notifications",
+    icon: <Notification size={24} />,
+    path: "/notifications",
+  },
   {
     name: "Settings",
     icon: <Setting size={24} />,
@@ -95,7 +103,13 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                 initial={{ x: -120 }}
                 animate={{ x: 0 }}
                 exit={{ x: -120 }}
-                transition={{ duration: 0.5, type: "spring", stiffness: 120, damping: 10, delay: index * 0.1 }}
+                transition={{
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 10,
+                  delay: index * 0.1,
+                }}
                 key={link.name}
               >
                 <Link
@@ -108,8 +122,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                 </Link>
               </motion.div>
             ),
-          )
-          }
+          )}
         </div>
       </ScrollShadow>
     </div>

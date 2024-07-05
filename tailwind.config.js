@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-// const { nextui } = require("@nextui-org/react");
 import { nextui } from "@nextui-org/react";
+
 export default {
   darkMode: "class",
   content: [
@@ -93,16 +94,18 @@ export default {
       },
     },
   },
-  plugins: [nextui({
-    // themes:{
-    //   light:{
-    //     colors:{
-    //     }
-    //   },
-    //   dark:{
-    //     colors:{ 
-    //     }
-    //   }
-    // }
-  })],
+  plugins: [
+    nextui({
+      // themes:{
+      //   light:{
+      //     colors:{
+      //     }
+      //   },
+      //   dark:{
+      //     colors:{
+      //     }
+      //   }
+      // }
+    }),
+  ],
 };

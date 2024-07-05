@@ -4,7 +4,7 @@ import { useResume } from '../../../contexts/ResumeContext';
 import { useTemplateOrder } from '../../../contexts/TemplateOrderContext';
 import SortableList from './Sortable/SortableList';
 
-const Specialized1 = () => {
+const Specialized2 = () => {
 
   const { resumePreviewData, resumeData, getFontSizeClass, getLineHeightClass, getPageMarginClass, getHeadingFontSizeClass, getTitleCaseClass } = useResume();
 
@@ -15,35 +15,32 @@ const Specialized1 = () => {
   const SummerTraining = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.summerTraining.length > 0 && (
-        <div
-          className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.summerTraining ? "" : "hidden"
-            } `}
-        >
-          <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()}`}
-          >
-            Summer Training
-          </p>
+        <div className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.summerTraining ? "" : "hidden"} `}>
+          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()}`}>Summer Training</p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.summerTraining.map((training, index) => (
             <div
               key={index}
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()} `}
             >
-              <div className={`flex justify-between`}>
-                <p className={`font-semibold ${getHeadingFontSizeClass()}`}>
-                  {training.title}
-                </p>
-                <p>{training.date}</p>
-              </div>
-              <div className={``}>
-                <span>{training.organization}</span>{" "}
-                {training.location && <span>|</span>}{" "}
-                <span>{training.location}</span>
-              </div>
-              <Markdown className={`ml-4 break-normal`}>
-                {training.description}
-              </Markdown>
+              {(training.title || training.date) && (
+                <div className={`flex justify-between`}>
+                  {training.title && <p className={`font-semibold ${getHeadingFontSizeClass()}`}>{training.title}</p>}
+                  {training.date && <p>{training.date}</p>}
+                </div>
+              )}
+              {(training.organization || training.location) && (
+                <div>
+                  {training.organization && <span>{training.organization}</span>}
+                  {training.location && training.organization && <span className='mx-1'>|</span>}
+                  {training.location && <span>{training.location}</span>}
+                </div>
+              )}
+              {training.description && (
+                <Markdown className={`break-normal`}>
+                  {training.description}
+                </Markdown>
+              )}
             </div>
           ))}
         </div>
@@ -58,9 +55,7 @@ const Specialized1 = () => {
           className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.internships ? "" : "hidden"
             }`}
         >
-          <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}
-          >
+          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
             Internships
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
@@ -69,20 +64,24 @@ const Specialized1 = () => {
               key={index}
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
             >
-              <div className={`flex justify-between gap-4`}>
-                <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
-                  {internship.company}
-                </p>
-                <p className=" ">{internship.date}</p>
-              </div>
-              <div className={``}>
-                <span>{internship.position}</span>{" "}
-                {internship.location && <span>|</span>}{" "}
-                <span>{internship.location}</span>
-              </div>
-              <Markdown className={`ml-4 break-normal`}>
-                {internship.experience}
-              </Markdown>
+              {(internship.company || internship.date) && (
+                <div className={`flex justify-between gap-4`}>
+                  {internship.company && <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{internship.company}</p>}
+                  {internship.date && <p>{internship.date}</p>}
+                </div>
+              )}
+              {(internship.position || internship.location) && (
+                <div>
+                  {internship.position && <span>{internship.position}</span>}
+                  {internship.location && internship.position && <span className='mx-1'>|</span>}
+                  {internship.location && <span>{internship.location}</span>}
+                </div>
+              )}
+              {internship.description && (
+                <Markdown className={`break-normal`}>
+                  {internship.description}
+                </Markdown>
+              )}
             </div>
           ))}
         </div>
@@ -97,9 +96,7 @@ const Specialized1 = () => {
           className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.projects ? "" : "hidden"
             }`}
         >
-          <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}
-          >
+          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
             Projects
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
@@ -108,20 +105,25 @@ const Specialized1 = () => {
               key={index}
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
             >
-              <div className={`flex justify-between gap-4`}>
-                <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
-                  {project.title}
-                </p>
-                <p className=" ">{project.date}</p>
-              </div>
-              <div className={``}>
-                <span>{project.domain}</span>{" "}
-                {project.technologies && <span>|</span>}{" "}
-                <span>{project.technologies}</span>
-              </div>
-              <Markdown className={`ml-4 break-normal`}>
-                {project.description}
-              </Markdown>
+              {(project.title || project.date) && (
+                <div className={`flex justify-between gap-4`}>
+                  {project.title && <p className={` font-semibold ${getHeadingFontSizeClass()}`}> {project.title} </p>}
+                  {project.date && <p>{project.date}</p>}
+                </div>
+              )}
+              {(project.domain || project.technologies) && (
+                <div>
+                  {project.domain && <span>{project.domain}</span>}
+                  {project.technologies && project.domain && <span className='mx-1'>|</span>}
+                  {project.technologies && <span>{project.technologies}</span>}
+                </div>
+              )}
+
+              {project.description && (
+                <Markdown className={`break-normal`}>
+                  {project.description}
+                </Markdown>
+              )}
             </div>
           ))}
         </div>
@@ -136,9 +138,7 @@ const Specialized1 = () => {
           className={`mt-4 flex flex-col w-full ${getLineHeightClass()}  ${formData.visibility.achievements ? "" : "hidden"
             }`}
         >
-          <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}
-          >
+          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
             Achievements
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
@@ -148,14 +148,18 @@ const Specialized1 = () => {
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
             >
               <div className={`flex justify-between gap-4`}>
-                <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
-                  {achievement.title}
-                </p>
-                <p className=" ">{achievement.date}</p>
+                {achievement.title &&
+                  <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
+                    {achievement.title}
+                  </p>
+                }
+                {achievement.date && <p>{achievement.date}</p>}
               </div>
-              <Markdown className={`ml-4 break-normal`}>
-                {achievement.description}
-              </Markdown>
+              {achievement.description && (
+                <Markdown className={`break-normal`}>
+                  {achievement.description}
+                </Markdown>
+              )}
             </div>
           ))}
         </div>
@@ -181,24 +185,28 @@ const Specialized1 = () => {
               key={index}
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
             >
-              <div className={`flex justify-between gap-4`}>
-                <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
-                  {certification.title}
-                </p>
-                <p className=" ">{certification.date}</p>
-              </div>
-              <div className={``}>
-                <span>{certification.issuedBy}</span>{" "}
-                {certification.link && <span>|</span>}{" "}
-                {certification.link && (
-                  <a href={certification.link} target="_blank" rel="noreferrer">
-                    Certificate Link
-                  </a>
-                )}
-              </div>
-              <Markdown className={`ml-4 break-normal`}>
-                {certification.description}
-              </Markdown>
+              {(certification.title || certification.date) && (
+                <div className={`flex justify-between gap-4`}>
+                  {certification.title && <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{certification.title}</p>}
+                  {certification.date && <p>{certification.date}</p>}
+                </div>
+              )}
+              {(certification.issuedBy || certification.link) && (
+                <div>
+                  {certification.issuedBy && <span>{certification.issuedBy}</span>}
+                  {certification.link && certification.issuedBy && <span className='mx-1'>|</span>}
+                  {certification.link && (
+                    <a href={certification.link} target="_blank" rel="noreferrer">
+                      Certificate Link
+                    </a>
+                  )}
+                </div>
+              )}
+              {certification.description && (
+                <Markdown className={`ml-4 break-normal`}>
+                  {certification.description}
+                </Markdown>
+              )}
             </div>
           ))}
         </div>
@@ -214,12 +222,15 @@ const Specialized1 = () => {
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           <div className={`flex flex-wrap gap-2`}>
             {formData.technicalSkills.map((skill, index) => (
-              <div key={index} className={`bg-gray-200 px-2 py-1 rounded-md`}>
-                <span>{skill.domain}</span>
-                <span className="font-semibold">:</span>
-                <span>{skill.skill}</span>
+              <div key={index}>
+                {(skill.domain || skill.skill) && (
+                  <div className={`px-2 py-1 rounded-md`}>
+                    {skill.domain && <span className='capitalize'>{skill.domain}</span>}
+                    {skill.skill && skill.domain && <span className='mx-1'>:</span>}
+                    {skill.skill && <span>{skill.skill}</span>}
+                  </div>
+                )}
               </div>
-
             ))}
           </div>
         </div>
@@ -227,14 +238,11 @@ const Specialized1 = () => {
     </div>
   );
 
-
   const Education = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.education.length > 0 && (
         <div className={`mt-4 flex flex-col w-full ${getLineHeightClass()} `}>
-          <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}
-          >
+          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
             Education
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
@@ -243,29 +251,36 @@ const Specialized1 = () => {
               key={index}
               className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
             >
-              <div className={`flex justify-between gap-4`}>
-                <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
-                  {education.degree}
-                </p>
-                <p className=" ">{education.date}</p>
-              </div>
-              <div className={`flex justify-between gap-4`}>
-                <div>
-                  <span>{education.institute}</span>{" "}
-                  {education.location && <span>|</span>}{" "}
-                  <span>{education.location}</span>
+              {(education.degree || education.date) && (
+                <div className={`flex justify-between gap-4`}>
+                  {education.degree &&
+                    <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{education.degree}</p>
+                  }
+                  {education.date && <p>{education.date}</p>}
                 </div>
-                <div>
-                  <span>{education.scoreType}</span>{" "}
-                  {education.score && <span>|</span>}{" "}
-                  <span>{education.score}</span>
-                </div>
+              )}
+              <div className={`flex justify-between gap-4`}>
+                {(education.institute || education.location) && (
+                  <div>
+                    {education.institute && <span>{education.institute}</span>}
+                    {education.location && education.institute && <span className='mx-1'>|</span>}
+                    {education.location && <span>{education.location}</span>}
+                  </div>
+                )}
+                {(education.scoreType || education.score) && (
+                  <div>
+                    {education.scoreType && <span className='capitalize'>{education.scoreType}</span>}
+                    {education.score && education.scoreType && <span className='mx-1'>|</span>}
+                    {education.score && <span>{education.score}</span>}
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 
 
@@ -304,14 +319,14 @@ const Specialized1 = () => {
   if (!resumeData) return null;
 
   return (
-    <div id='specialized1'>
+    <div id='specialized2'>
       <div className={`flex flex-col h-full ${getPageMarginClass()}`}>
 
         {/* Personal Details */}
         {formData.personalInfo.map((personalInfo, index) => (
           <div key={index} className={`flex flex-col items-center ${getLineHeightClass()}`}>
-            <h1 className={`text-3xl font-bold uppercase`}>{personalInfo.name}</h1>
-            <p className={`font-medium ${getFontSizeClass()}`}>{personalInfo.address}</p>
+            {personalInfo.name && <h1 className={`text-3xl font-bold uppercase`}>{personalInfo.name}</h1>}
+            {personalInfo.address && <p className={`font-medium ${getFontSizeClass()}`}>{personalInfo.address}</p>}
             <div className="flex gap-x-2 gap-y-1 flex-row flex-wrap justify-center">
               <p className={`${getFontSizeClass()} flex items-center gap-1`}>
                 {personalInfo.phone && <span className="font-medium -mt-[4px]"><BiSolidPhone className={`${getFontSizeClass()}`} /></span>}
@@ -347,4 +362,4 @@ const Specialized1 = () => {
   );
 };
 
-export default Specialized1;
+export default Specialized2;

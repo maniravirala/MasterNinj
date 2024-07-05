@@ -10,15 +10,15 @@ const Header = () => {
   const [setRef, size] = useElementSize();
 
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-md">
+    <header className="bg-white shadow-md dark:bg-gray-800">
       <nav ref={setRef} className="flex items-center justify-between p-4">
-        <div className="w-full flex justify-between items-center">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                className="text-gray-900 dark:text-gray-100 focus:outline-none"
+                className="text-gray-900 focus:outline-none dark:text-gray-100"
               >
                 {isMobileMenuOpen ? (
                   <CloseCircle size="24" />
@@ -36,17 +36,17 @@ const Header = () => {
             <button className="p-2">
               <Notification size="24" />
             </button>
-            <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+            <div className="h-10 w-10 rounded-full bg-gray-300"></div>
           </div>
         </div>
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ left: '-100%' }}
+              initial={{ left: "-100%" }}
               animate={{ left: 0 }}
-              exit={{ left: '-100%' }}
-              transition={{ duration: 0.4, type: 'tween' }}
-              className="absolute w-full h-full px-5 bg-white dark:bg-gray-800 z-20"
+              exit={{ left: "-100%" }}
+              transition={{ duration: 0.4, type: "tween" }}
+              className="absolute z-20 h-full w-full bg-white px-5 dark:bg-gray-800"
               style={{ top: size.height }}
             >
               <NavigationMenu isExpanded={isMobileMenuOpen} />

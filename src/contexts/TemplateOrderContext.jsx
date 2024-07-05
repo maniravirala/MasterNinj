@@ -5,8 +5,8 @@ export const TemplateOrderContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useTemplateOrder = () => {
-    return useContext(TemplateOrderContext);
-    };
+  return useContext(TemplateOrderContext);
+};
 
 export const TemplateOrderProvider = ({ children }) => {
   const [templateOrder, setTemplateOrder] = useState(() => {
@@ -17,7 +17,7 @@ export const TemplateOrderProvider = ({ children }) => {
           template2: [
             { id: 1, component: "Internships" },
             { id: 2, component: "SummerTraining" },
-            { id: 3, component: "Projects"},
+            { id: 3, component: "Projects" },
             { id: 4, component: "Achievements" },
             { id: 5, component: "Certifications" },
             { id: 6, component: "Skills" },

@@ -16,7 +16,8 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 
 const SortableItem = ({ id, value }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -24,7 +25,13 @@ const SortableItem = ({ id, value }) => {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="sortable-item w-full">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="sortable-item w-full"
+    >
       {value}
     </div>
   );
@@ -35,7 +42,7 @@ const SortableList = ({ templateItems, onSortTemplateItems }) => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   // const handleDragEnd = (event) => {
@@ -49,13 +56,12 @@ const SortableList = ({ templateItems, onSortTemplateItems }) => {
   //   }
   // };
 
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
       onSortTemplateItems(active.id, over.id);
     }
-  }
+  };
 
   return (
     <DndContext
@@ -63,7 +69,10 @@ const SortableList = ({ templateItems, onSortTemplateItems }) => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={templateItems} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={templateItems}
+        strategy={verticalListSortingStrategy}
+      >
         <div>
           {templateItems.map((item) => (
             <SortableItem key={item.id} id={item.id} value={item.component} />

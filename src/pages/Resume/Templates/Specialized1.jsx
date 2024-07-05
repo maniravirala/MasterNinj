@@ -1,7 +1,5 @@
 const Specialized1 = () => {
-  return (
-    <div>Specialized1</div>
-  )
-}
+  return <div>Specialized1</div>;
+};
 
-export default Specialized1
+export default Specialized1;

@@ -1,9 +1,5 @@
-
-
 const Specialized3 = () => {
-  return (
-    <div>Specialized3</div>
-  )
-}
+  return <div>Specialized3</div>;
+};
 
-export default Specialized3
+export default Specialized3;
