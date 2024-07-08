@@ -7,14 +7,16 @@ import { NextUIProvider } from "@nextui-org/react";
 import { DarkModeProvider } from "./contexts/DarkModeContext";
 import { StudyResourcesProvider } from "./contexts/StudyResourceContext.jsx";
 import { ResumeProvider } from "./contexts/ResumeContext.jsx";
+import { TestProvider } from "./pages/Test/Test.context.jsx";
 import { TemplateOrderProvider } from "./contexts/TemplateOrderContext.jsx";
 import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
+  //<React.StrictMode>
   <NextUIProvider>
     <DarkModeProvider>
       <ResumeProvider>
+      <TestProvider>
         <TemplateOrderProvider>
           <StudyResourcesProvider>
             <App />
@@ -27,8 +29,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             />
           </StudyResourcesProvider>
         </TemplateOrderProvider>
+      </TestProvider>
       </ResumeProvider>
     </DarkModeProvider>
   </NextUIProvider>,
-  // </React.StrictMode>,
+  //</React.StrictMode>,
 );

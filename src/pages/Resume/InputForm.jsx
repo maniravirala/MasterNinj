@@ -5,9 +5,16 @@ import TextArea from "../../components/TextArea";
 
 const InputForm = ({ activeTabResume, options }) => {
   const { resumeData, handleRemove, handleChange, handleReset } = useResume();
-
   const currentData = resumeData[activeTabResume] || [];
 
+  const triggerRemove = (section, index) => {
+    handleRemove(section, index);
+  }
+
+  const triggerReset = (section, index) => {
+    handleReset(section, index);
+  }
+  
   return (
     <div className="h-full">
       {currentData.length === 0 ? (
@@ -62,7 +69,7 @@ const InputForm = ({ activeTabResume, options }) => {
                 {options[activeTabResume].remove && (
                   <button
                     onClick={() => {
-                      handleRemove(activeTabResume, index);
+                      triggerRemove(activeTabResume, index);
                     }}
                     className="rounded-lg border-2 border-red-400 px-4 py-1 text-red-400 hover:bg-red-100"
                   >
@@ -72,7 +79,7 @@ const InputForm = ({ activeTabResume, options }) => {
                 {options[activeTabResume].reset && (
                   <button
                     type="button"
-                    onClick={() => handleReset(activeTabResume, index)}
+                    onClick={() => triggerReset(activeTabResume, index)}
                     className="rounded-lg border-2 border-blue-400 px-4 py-1 text-blue-400 hover:bg-blue-100"
                   >
                     Reset
