@@ -2,6 +2,7 @@
 import { Dislike, Like1 } from "iconsax-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Counter from "../../components/Counter";
 
 const Card = ({ resource }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -79,14 +80,14 @@ const Card = ({ resource }) => {
           className={`flex items-center ${isLiked ? "text-green-400" : "text-gray-500 dark:text-gray-400"} transition-colors duration-200`}
         >
           <Like1 size={20} variant={isLiked ? "Bold" : "TwoTone"} />{" "}
-          <span className="ml-1 text-sm">{resource.likes}</span>
+          <span className="ml-1 text-sm"><Counter value={resource.likes}/></span>
         </button>
         <button
           onClick={handleDislike}
           className={`flex items-center ${isDisliked ? "text-red-400" : "text-gray-500 dark:text-gray-400"} transition-colors duration-200`}
         >
           <Dislike size={20} variant={isDisliked ? "Bold" : "TwoTone"} />{" "}
-          <span className="ml-1 text-sm">{resource.dislikes}</span>
+          <span className="ml-1 text-sm"><Counter value={resource.dislikes}/></span>
         </button>
       </div>
       {/* <a
