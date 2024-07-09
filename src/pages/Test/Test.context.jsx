@@ -1,5 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useHistoryState } from "@uidotdev/usehooks";
 
 const TestContext = createContext();
@@ -46,8 +45,41 @@ export const TestProvider = ({ children }) => {
 
     const { state, set, undo, canUndo } = useHistoryState(initialState())
 
+    const transformResumeData = (data) => {
+        const transformSection = (section) => {
+            return section.map((item) => {
+                return item.reduce((acc, curr) => {
+                    const keysList = curr.key.split("-");
+                    const keysListLength = keysList.length;
+                    acc[keysList[keysListLength - 2]] = curr.value;
+                    return acc;
+                }, {});
+            });
+        };
+
+        const transformedData = {
+            personalInfo: transformSection(data.personalInfo),
+            profilePic: data.profilePic,
+            technicalSkills: transformSection(data.technicalSkills),
+            certifications: transformSection(data.certifications),
+            extraCurricularActivities: transformSection(data.extraCurricularActivities),
+            internships: transformSection(data.internships),
+            summerTraining: transformSection(data.summerTraining),
+            projects: transformSection(data.projects),
+            achievements: transformSection(data.achievements),
+            education: transformSection(data.education),
+            visibility: data.visibility,
+            settings: data.settings,
+        };
+
+        return transformedData;
+    };
+
+    const [resumePreviewData, setResumePreviewData] = useState(transformResumeData(state));
+
     useEffect(() => {
         localStorage.setItem("resumeData", JSON.stringify(state));
+        setResumePreviewData(transformResumeData(state));
     }, [state, set]);
 
     const handleChange = (e, section, index, itemIndex) => {
@@ -159,6 +191,7 @@ export const TestProvider = ({ children }) => {
             state,
             undo,
             canUndo,
+            resumePreviewData,
             handleChange,
             handleAdd,
             handleRemove,

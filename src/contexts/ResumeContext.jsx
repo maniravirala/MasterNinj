@@ -1,6 +1,5 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/prop-types */
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext, useMemo } from "react";
+import { useHistoryState } from "@uidotdev/usehooks";
 
 const ResumeContext = createContext();
 
@@ -9,39 +8,42 @@ export const useResume = () => {
 };
 
 export const ResumeProvider = ({ children }) => {
-  const [resumeData, setResumeData] = useState(() => {
+  const getInitialState = () => {
     const savedFormData = localStorage.getItem("resumeData");
     return savedFormData
-      ? JSON.parse(savedFormData)
+    ? JSON.parse(savedFormData)
       : {
-          personalInfo: [],
-          profilePic: "",
-          technicalSkills: [],
-          certifications: [],
-          extraCurricularActivities: [],
-          internships: [],
-          summerTraining: [],
-          projects: [],
-          achievements: [],
-          education: [],
-          visibility: {
-            certifications: true,
-            extraCurricularActivities: true,
-            internships: true,
-            summerTraining: true,
-            projects: true,
-            achievements: true,
-          },
-          settings: {
-            fontSize: "12",
-            fontFamily: "Poppins",
-            titleCase: "Uppercase",
-            pageMargins: "24",
-            lineHeight: "8",
-            paper: "A4",
-          },
-        };
-  });
+        personalInfo: [],
+        profilePic: "",
+        technicalSkills: [],
+        certifications: [],
+        extraCurricularActivities: [],
+        internships: [],
+        summerTraining: [],
+        projects: [],
+        achievements: [],
+        education: [],
+        visibility: {
+          certifications: true,
+          extraCurricularActivities: true,
+          internships: true,
+          summerTraining: true,
+          projects: true,
+          achievements: true,
+        },
+        settings: {
+          fontSize: "12",
+          fontFamily: "Poppins",
+          titleCase: "Uppercase",
+          pageMargins: "24",
+          lineHeight: "8",
+          paper: "A4",
+        },
+      };
+  };
+
+  const initialState = useMemo(getInitialState, []);
+  const { state, set, undo, canUndo } = useHistoryState(initialState);
 
   const transformResumeData = (data) => {
     const transformSection = (section) => {
@@ -56,18 +58,11 @@ export const ResumeProvider = ({ children }) => {
     };
 
     const transformedData = {
-      // personalInfo: data.personalInfo[0].reduce((acc, curr) => {
-      //   acc[curr.key] = curr.value;
-      //   return acc;
-      // }, {}),
       personalInfo: transformSection(data.personalInfo),
       profilePic: data.profilePic,
-      // technicalSkills: data.technicalSkills.map(skill => ({ skill: skill[0].value })),
       technicalSkills: transformSection(data.technicalSkills),
       certifications: transformSection(data.certifications),
-      extraCurricularActivities: transformSection(
-        data.extraCurricularActivities,
-      ),
+      extraCurricularActivities: transformSection(data.extraCurricularActivities),
       internships: transformSection(data.internships),
       summerTraining: transformSection(data.summerTraining),
       projects: transformSection(data.projects),
@@ -80,133 +75,76 @@ export const ResumeProvider = ({ children }) => {
     return transformedData;
   };
 
-  const [resumePreviewData, setResumePreviewData] = useState(
-    transformResumeData(resumeData),
-  );
+  const [resumePreviewData, setResumePreviewData] = useState(transformResumeData(state));
 
   useEffect(() => {
-    localStorage.setItem("resumeData", JSON.stringify(resumeData));
-    setResumePreviewData(transformResumeData(resumeData));
-  }, [resumeData]);
+    localStorage.setItem("resumeData", JSON.stringify(state));
+    setResumePreviewData(transformResumeData(state));
+  }, [state, set]);
 
-  const handleChange = (e, section, index, itemIndex) => {
-    const { value } = e.target;
-    setResumeData((prevData) => {
-      const updatedData = { ...prevData };
-      if (itemIndex !== undefined) {
-        updatedData[section][index][itemIndex].value = value;
-      } else {
-        updatedData[section][index].value = value;
-      }
-      return updatedData;
-    });
+  const handleChange = (e, section, index, itemIndex) => { 
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData[section][index][itemIndex].value = e.target.value;
+    set(updatedData); 
   };
 
   const handleAdd = (section, data) => {
-    setResumeData((prevData) => {
-      const updatedData = { ...prevData };
-      updatedData[section].push(data);
-      return updatedData;
-    });
-  };
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData[section].push(data);
+    set(updatedData);
+  }
 
   const handleRemove = (section, index) => {
-    setResumeData((prevData) => {
-      const updatedData = { ...prevData };
-      updatedData[section].splice(index, 1);
-      return updatedData;
-    });
-  };
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData[section].splice(index, 1);
+    set(updatedData);
+  }
 
   const handleReset = (section, index) => {
-    setResumeData((prevData) => {
-      const updatedData = { ...prevData };
-      updatedData[section][index].forEach((item) => {
-        item.value = "";
-      });
-      return updatedData;
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData[section][index].forEach((item) => {
+      item.value = "";
     });
-  };
+    set(updatedData); 
+  }
 
   const handleProfilePic = (url) => {
-    setResumeData((prevData) => ({
-      ...prevData,
-      profilePic: url,
-    }));
-  };
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData.profilePic = url;
+    console.log(updatedData)
+    set(updatedData);
+  }
 
   const handleVisibility = (section) => {
-    setResumeData((prevData) => {
-      return {
-        ...prevData,
-        visibility: {
-          ...prevData.visibility,
-          [section]: !prevData.visibility[section],
-        },
-      };
-    });
-  };
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData.visibility[section] = !updatedData.visibility[section]
+    set(updatedData)
+  }
 
-  const handleSettings = (name, value) => {
-    setResumeData((prevData) => {
-      return {
-        ...prevData,
-        settings: {
-          ...prevData.settings,
-          [name]: value,
-        },
-      };
-    });
-  };
+  const handleSettings = (setting, value) => {
+    const updatedData = JSON.parse(JSON.stringify(state));
+    updatedData.settings[setting] = value
+    set(updatedData) 
+  }
 
   const getFontSizeClass = () => {
-    if (resumeData.settings.fontSize <= 12) return "text-xs";
-    else if (resumeData.settings.fontSize <= 14) return "text-sm";
-    else if (resumeData.settings.fontSize <= 16) return "text-base";
-    else if (resumeData.settings.fontSize <= 18) return "text-lg";
-    else if (resumeData.settings.fontSize <= 20) return "text-xl";
-    else return "text-xs";
-  };
+    return { fontSize: `${state.settings.fontSize}px`}
+  }
 
   const getHeadingFontSizeClass = () => {
-    if (resumeData.settings.fontSize <= 12) return "text-sm";
-    else if (resumeData.settings.fontSize <= 14) return "text-base";
-    else if (resumeData.settings.fontSize <= 16) return "text-lg";
-    else if (resumeData.settings.fontSize <= 18) return "text-xl";
-    else if (resumeData.settings.fontSize <= 20) return "text-2xl";
-    else return "text-sm";
-  };
+    return { fontSize: `${parseInt(state.settings.fontSize) + 4}px`}
+  }
 
   const getLineHeightClass = () => {
-    if (resumeData.settings.lineHeight === 0) return "gap-0";
-    else if (resumeData.settings.lineHeight <= 2) return "gap-0.5";
-    else if (resumeData.settings.lineHeight <= 4) return "gap-1";
-    else if (resumeData.settings.lineHeight <= 6) return "gap-1.5";
-    else if (resumeData.settings.lineHeight <= 8) return "gap-2";
-    else if (resumeData.settings.lineHeight <= 10) return "gap-2.5";
-    else if (resumeData.settings.lineHeight <= 12) return "gap-3";
-    else if (resumeData.settings.lineHeight <= 14) return "gap-3.5";
-    else if (resumeData.settings.lineHeight <= 16) return "gap-4";
-    else if (resumeData.settings.lineHeight <= 18) return "gap-[1.125rem]";
-    else if (resumeData.settings.lineHeight <= 20) return "gap-5";
-    else return "gap-2";
-  };
+    return { gap: `${state.settings.lineHeight}px`}
+  }
 
   const getPageMarginClass = () => {
-    if (resumeData.settings.pageMargins <= 12) return "p-3";
-    else if (resumeData.settings.pageMargins <= 14) return "p-3.5";
-    else if (resumeData.settings.pageMargins <= 16) return "p-4";
-    else if (resumeData.settings.pageMargins <= 20) return "p-5";
-    else if (resumeData.settings.pageMargins <= 24) return "p-6";
-    else if (resumeData.settings.pageMargins <= 28) return "p-7";
-    else if (resumeData.settings.pageMargins <= 32) return "p-8";
-    else if (resumeData.settings.pageMargins <= 36) return "p-9";
-    else if (resumeData.settings.pageMargins <= 40) return "p-10";
-    else return "p-6";
-  };
+    return { padding: `${state.settings.pageMargins}px`}
+  }
 
   const getFontFamilyClass = () => {
-    switch (resumeData.settings.fontFamily) {
+    switch (state.settings.fontFamily) {
       case "Arial":
         return "'Arial', 'sans-serif'";
       case "Courier New":
@@ -220,23 +158,14 @@ export const ResumeProvider = ({ children }) => {
       default:
         return "'Poppins', 'sans-serif'";
     }
-  };
+  }
 
   const getTitleCaseClass = () => {
-    switch (resumeData.settings.titleCase) {
-      case "Uppercase":
-        return "uppercase";
-      case "Lowercase":
-        return "lowercase";
-      case "Capitalize":
-        return "capitalize";
-      default:
-        return "uppercase";
-    }
-  };
+    return { textTransform: state.settings.titleCase.toLowerCase() }
+  }
 
-  const getPaperClass = () => {
-    switch (resumeData.settings.paper) {
+  const getPaperClass = () => {    
+    switch (state.settings.paper) {
       case "A4":
         return "w-[210mm] h-[297mm]";
       case "Letter":
@@ -249,26 +178,26 @@ export const ResumeProvider = ({ children }) => {
   };
 
   return (
-    <ResumeContext.Provider
-      value={{
-        resumeData,
-        resumePreviewData,
-        handleChange,
-        handleAdd,
-        handleRemove,
-        handleReset,
-        handleProfilePic,
-        handleVisibility,
-        handleSettings,
-        getFontSizeClass,
-        getHeadingFontSizeClass,
-        getLineHeightClass,
-        getPageMarginClass,
-        getFontFamilyClass,
-        getTitleCaseClass,
-        getPaperClass,
-      }}
-    >
+    <ResumeContext.Provider value={{
+      state,
+      undo,
+      canUndo,
+      resumePreviewData,
+      handleChange,
+      handleAdd,
+      handleRemove,
+      handleReset,
+      handleProfilePic,
+      handleVisibility,
+      handleSettings,
+      getFontSizeClass,
+      getHeadingFontSizeClass,
+      getLineHeightClass,
+      getPageMarginClass,
+      getFontFamilyClass,
+      getTitleCaseClass,
+      getPaperClass
+    }}>
       {children}
     </ResumeContext.Provider>
   );

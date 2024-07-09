@@ -5,31 +5,27 @@ import Card from "./Card";
 
 const TemplatesSelectionModal = ({
   tabsData,
-  selectedTemplate,
+  modalOpen,
+  setModalOpen,
   setSelectedTemplate,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(modalOpen==='templates');
 
   const handleOpen = () => {
     setIsOpen(true);
+    setModalOpen('templates');
   };
 
   const handleClose = () => {
     setIsOpen(false);
-  };
-
-  const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
+    setModalOpen('');
   };
 
   return (
     <>
       <Card
         isOpen={isOpen}
-        handleClose={handleClose}
-        handleBackgroundClick={handleBackgroundClick}
+        handleClose={handleClose} 
       >
         <h1 className="text-2xl font-medium">Select Template</h1>
         <div className="mt-4 flex flex-col gap-4">

@@ -1,19 +1,23 @@
-import { useEffect } from "react";
-import { useLocalStorage } from "../../hooks";
-import InputForm from "./InputForm";
-import ResumePreview from "./ResumePreview";
-import Dropdown from "./Dropdown";
-import { useResume } from "../../contexts/ResumeContext";
-import Toggle from "../../components/Toggle";
+import { useEffect, useState } from "react";
 import { AddCircle } from "iconsax-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../../hooks";
+import { useResume } from "../../contexts/ResumeContext";
+import { Specialized1, Specialized2, Specialized3 } from "./Templates";
+import InputForm from "./InputForm";
+import ResumePreview from "./ResumePreview";
+import Dropdown from "./Components/Dropdown";
+import Toggle from "../../components/Toggle";
+import TemplatesSelectionModal from "./Modals/TemplatesSelectionModal";
+import SettingsModal from "./Modals/SettingsModal";
 
 const ResumeBuilder = () => {
   const [activeTabResume, setActiveTabResume] = useLocalStorage(
     "activeTabResume",
     "personalInfo",
   );
-  const { resumeData, handleAdd, handleVisibility } = useResume();
+  const { state, handleAdd, handleVisibility } = useResume();
 
   const tabsData = [
     { key: "personalInfo", name: "Personal Info" },
@@ -345,16 +349,52 @@ const ResumeBuilder = () => {
   useEffect(() => {
     if (
       activeTabResume === "personalInfo" &&
-      resumeData[activeTabResume].length === 0
+      state[activeTabResume].length === 0
     ) {
       handleAdd(activeTabResume, transformedField);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const ResumeTemplatesData = [
+    { label: "Specialized1", component: <Specialized1 /> },
+    { label: "Specialized2", component: <Specialized2 /> },
+    { label: "Specialized3", component: <Specialized3 /> },
+  ];
+
+  const [selectedTemplate, setSelectedTemplate] = useLocalStorage(
+    "selectedTemplate",
+    "Specialized1",
+  );
+
+  const [modalOpen, setModalOpen] = useState(location.hash.substring(1) || '');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (modalOpen !== '') {
+      navigate(location.pathname+'#' + modalOpen);
+    }
+    else {
+      navigate(location.pathname);
+    }
+  }, [modalOpen, navigate]);
+
+
   return (
     <div className="container mx-auto p-4 pb-0">
-      <h1 className="mb-6 text-3xl font-semibold">Resume Builder</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-semibold">Resume Builder</h1>
+        <div className="relative flex items-center justify-center gap-4">
+          <TemplatesSelectionModal
+            tabsData={ResumeTemplatesData}
+            selectedTemplate={selectedTemplate}
+            setSelectedTemplate={setSelectedTemplate}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+          />
+          <SettingsModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        </div>
+      </div>
       <div className="mt-4 grid grid-cols-1 gap-6 sm:h-[calc(100vh-76px)] md:grid-cols-3">
         <div className="flex h-full flex-col gap-2 p-2">
           <AnimatePresence>
@@ -370,10 +410,10 @@ const ResumeBuilder = () => {
                   setActiveTabResume={setActiveTabResume}
                 />
               </motion.div>
-              {resumeData.visibility[activeTabResume] !== undefined && (
+              {state.visibility[activeTabResume] !== undefined && (
                 <Toggle
                   onChange={() => handleVisibility(activeTabResume)}
-                  checked={resumeData.visibility[activeTabResume]}
+                  checked={state.visibility[activeTabResume]}
                 />
               )}
               {options[activeTabResume].add && (
@@ -393,7 +433,7 @@ const ResumeBuilder = () => {
           </div>
         </div>
         <div className="overflow-y-auto p-2 md:col-span-2">
-          <ResumePreview />
+          <ResumePreview selectedTemplate={selectedTemplate} tabsData={ResumeTemplatesData} />
         </div>
       </div>
     </div>

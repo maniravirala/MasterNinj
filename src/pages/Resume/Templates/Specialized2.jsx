@@ -6,26 +6,34 @@ import SortableList from './Sortable/SortableList';
 
 const Specialized2 = () => {
 
-  const { resumePreviewData, resumeData, getFontSizeClass, getLineHeightClass, getPageMarginClass, getHeadingFontSizeClass, getTitleCaseClass } = useResume();
+  const { resumePreviewData, state, getFontSizeClass, getLineHeightClass, getPageMarginClass, getHeadingFontSizeClass, getTitleCaseClass } = useResume();
 
 
   const formData = resumePreviewData;
+
   const { templateOrder, updateTemplateOrder } = useTemplateOrder();
 
   const SummerTraining = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.summerTraining.length > 0 && (
-        <div className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.summerTraining ? "" : "hidden"} `}>
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()}`}>Summer Training</p>
+        <div className={`mt-4 flex flex-col w-full ${formData.visibility.summerTraining ? "" : "hidden"} `}
+          style={{ ...getLineHeightClass() }}
+        >
+          <p className={`font-bold `}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
+          >Summer Training</p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.summerTraining.map((training, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()} `}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               {(training.title || training.date) && (
                 <div className={`flex justify-between`}>
-                  {training.title && <p className={`font-semibold ${getHeadingFontSizeClass()}`}>{training.title}</p>}
+                  {training.title && <p className={`font-semibold`}
+                    style={{ ...getHeadingFontSizeClass() }}
+                  >{training.title}</p>}
                   {training.date && <p>{training.date}</p>}
                 </div>
               )}
@@ -52,21 +60,26 @@ const Specialized2 = () => {
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.internships.length > 0 && (
         <div
-          className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.internships ? "" : "hidden"
-            }`}
+          className={`mt-4 flex flex-col w-full ${formData.visibility.internships ? "" : "hidden"}`}
+          style={{ ...getLineHeightClass() }}
         >
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
+          <p className={`font-bold `}
+            style={{ ...getLineHeightClass(), ...getHeadingFontSizeClass(), ...getTitleCaseClass() }}
+          >
             Internships
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.internships.map((internship, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               {(internship.company || internship.date) && (
                 <div className={`flex justify-between gap-4`}>
-                  {internship.company && <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{internship.company}</p>}
+                  {internship.company && <p className={` font-semibold `}
+                    style={{ ...getHeadingFontSizeClass() }}
+                  >{internship.company}</p>}
                   {internship.date && <p>{internship.date}</p>}
                 </div>
               )}
@@ -93,21 +106,26 @@ const Specialized2 = () => {
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.projects.length > 0 && (
         <div
-          className={`mt-4 flex flex-col w-full ${getLineHeightClass()} ${formData.visibility.projects ? "" : "hidden"
-            }`}
+          className={`mt-4 flex flex-col w-full ${formData.visibility.projects ? "" : "hidden"}`}
+          style={{ ...getLineHeightClass() }}
         >
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
+          <p className={`font-bold`}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
+          >
             Projects
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.projects.map((project, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               {(project.title || project.date) && (
                 <div className={`flex justify-between gap-4`}>
-                  {project.title && <p className={` font-semibold ${getHeadingFontSizeClass()}`}> {project.title} </p>}
+                  {project.title && <p className={` font-semibold `}
+                    style={{ ...getHeadingFontSizeClass() }}
+                  > {project.title} </p>}
                   {project.date && <p>{project.date}</p>}
                 </div>
               )}
@@ -135,21 +153,26 @@ const Specialized2 = () => {
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.achievements.length > 0 && (
         <div
-          className={`mt-4 flex flex-col w-full ${getLineHeightClass()}  ${formData.visibility.achievements ? "" : "hidden"
-            }`}
+          className={`mt-4 flex flex-col w-full ${formData.visibility.achievements ? "" : "hidden"}`}
+          style={{ ...getLineHeightClass() }}
         >
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
+          <p className={`font-bold`}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
+          >
             Achievements
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.achievements.map((achievement, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               <div className={`flex justify-between gap-4`}>
                 {achievement.title &&
-                  <p className={` font-semibold ${getHeadingFontSizeClass()}`}>
+                  <p className={` font-semibold `}
+                    style={{ ...getHeadingFontSizeClass() }}
+                  >
                     {achievement.title}
                   </p>
                 }
@@ -171,11 +194,12 @@ const Specialized2 = () => {
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.certifications.length > 0 && (
         <div
-          className={`mt-4 flex flex-col w-full ${getLineHeightClass()}  ${formData.visibility.certifications ? "" : "hidden"
-            }`}
+          className={`mt-4 flex flex-col w-full ${formData.visibility.certifications ? "" : "hidden"}`}
+          style={{ ...getLineHeightClass() }}
         >
           <p
-            className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()} `}
+            className={`font-bold `}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
           >
             Certification
           </p>
@@ -183,11 +207,14 @@ const Specialized2 = () => {
           {formData.certifications.map((certification, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               {(certification.title || certification.date) && (
                 <div className={`flex justify-between gap-4`}>
-                  {certification.title && <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{certification.title}</p>}
+                  {certification.title && <p className={` font-semibold `}
+                    style={{ ...getHeadingFontSizeClass() }}
+                  >{certification.title}</p>}
                   {certification.date && <p>{certification.date}</p>}
                 </div>
               )}
@@ -217,8 +244,12 @@ const Specialized2 = () => {
   const Skills = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.technicalSkills.length > 0 && (
-        <div className={`mt-4 flex flex-col w-full ${getLineHeightClass()} `}>
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>Skills</p>
+        <div className={`mt-4 flex flex-col w-full`}
+          style={{ ...getLineHeightClass() }}
+        >
+          <p className={`font-bold `}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
+          >Skills</p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           <div className={`flex flex-wrap gap-2`}>
             {formData.technicalSkills.map((skill, index) => (
@@ -241,20 +272,27 @@ const Specialized2 = () => {
   const Education = () => (
     <div className="w-full m-0 p-0 flex flex-grow">
       {formData.education.length > 0 && (
-        <div className={`mt-4 flex flex-col w-full ${getLineHeightClass()} `}>
-          <p className={`font-bold ${getTitleCaseClass()} ${getHeadingFontSizeClass()} ${getLineHeightClass()}`}>
+        <div className={`mt-4 flex flex-col w-full `}
+          style={{ ...getLineHeightClass() }}
+        >
+          <p className={`font-bold`}
+            style={{ ...getTitleCaseClass(), ...getHeadingFontSizeClass(), ...getLineHeightClass() }}
+          >
             Education
           </p>
           <div className={`divider h-[1px] w-full bg-black mt-0 mb-2`} />
           {formData.education.map((education, index) => (
             <div
               key={index}
-              className={` flex flex-col ${getLineHeightClass()} ${getFontSizeClass()}`}
+              className={` flex flex-col `}
+              style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
             >
               {(education.degree || education.date) && (
                 <div className={`flex justify-between gap-4`}>
                   {education.degree &&
-                    <p className={` font-semibold ${getHeadingFontSizeClass()}`}>{education.degree}</p>
+                    <p className={` font-semibold `}
+                      style={{ ...getHeadingFontSizeClass() }}
+                    >{education.degree}</p>
                   }
                   {education.date && <p>{education.date}</p>}
                 </div>
@@ -316,35 +354,40 @@ const Specialized2 = () => {
 
 
 
-  if (!resumeData) return null;
+  if (!state) return null;
 
   return (
-    <div id='specialized2'>
-      <div className={`flex flex-col h-full ${getPageMarginClass()}`}>
+    <div id='specialized2' className='p-[20px] '>
+      <div className={`flex flex-col h-full`}
+        style={{ ...getPageMarginClass() }}
+      >
 
         {/* Personal Details */}
         {formData.personalInfo.map((personalInfo, index) => (
-          <div key={index} className={`flex flex-col items-center ${getLineHeightClass()}`}>
+          <div key={index}
+            className={`flex flex-col items-center `}
+            style={{ ...getFontSizeClass(), ...getLineHeightClass() }}
+          >
             {personalInfo.name && <h1 className={`text-3xl font-bold uppercase`}>{personalInfo.name}</h1>}
-            {personalInfo.address && <p className={`font-medium ${getFontSizeClass()}`}>{personalInfo.address}</p>}
+            {personalInfo.address && <p className={`font-medium `}>{personalInfo.address}</p>}
             <div className="flex gap-x-2 gap-y-1 flex-row flex-wrap justify-center">
-              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-                {personalInfo.phone && <span className="font-medium -mt-[4px]"><BiSolidPhone className={`${getFontSizeClass()}`} /></span>}
+              <p className={`flex items-center gap-1`}>
+                {personalInfo.phone && <span className="font-medium -mt-[4px]"><BiSolidPhone /></span>}
                 <a href={`tel:${personalInfo.phone}`}>{personalInfo.phone}</a>
               </p>
-              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-                {personalInfo.email && <span className="font-medium -mt-[4px] "><BiLogoGmail className={`${getFontSizeClass()}`} /></span>}
+              <p className={` flex items-center gap-1`}>
+                {personalInfo.email && <span className="font-medium -mt-[4px] "><BiLogoGmail /></span>}
                 {/* whennnnn i click on this it needs to open the mail */}
                 <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
               </p>
 
-              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-                {personalInfo.linkedin && <span className="font-medium -mt-[4px] "><BiLogoLinkedinSquare className={`${getFontSizeClass()}`} /></span>}
+              <p className={` flex items-center gap-1`}>
+                {personalInfo.linkedin && <span className="font-medium -mt-[4px] "><BiLogoLinkedinSquare /></span>}
                 <a href={'https://' + personalInfo.linkedin} target="_blank" rel="noreferrer">{personalInfo.linkedin}</a>
               </p>
 
-              <p className={`${getFontSizeClass()} flex items-center gap-1`}>
-                {personalInfo.github && <span className="font-medium -mt-[4px] "><BiLogoGithub className={`${getFontSizeClass()}`} /></span>}
+              <p className={` flex items-center gap-1`}>
+                {personalInfo.github && <span className="font-medium -mt-[4px] "><BiLogoGithub /></span>}
                 <a href={'https://' + personalInfo.github} target="_blank" rel="noreferrer">{personalInfo.github}</a>
               </p>
 

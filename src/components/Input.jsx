@@ -65,7 +65,7 @@ const Input = ({
   return (
     <div className={`relative flex w-full flex-col`}>
       {label && (
-        <label className="mb-1 ml-3 text-sm text-gray-600" htmlFor={uniqueId}>
+        <label className="select-none mb-1 ml-3 text-sm text-gray-600" htmlFor={uniqueId}>
           {label}
         </label>
       )}
@@ -108,7 +108,7 @@ const Input = ({
         <div className="relative w-full">
           {labelPlaceholder && (
             <label
-              className={`absolute left-0 transform transition-all duration-200 ${
+              className={`absolute left-0 select-none transform transition-all duration-200 ${
                 isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
               } pointer-events-none text-gray-500`}
               htmlFor={uniqueId}
