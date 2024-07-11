@@ -8,23 +8,21 @@ import Register from "./Register";
 const Auth = () => {
   const location = useLocation();
   const path = location.pathname;
-  const [isLogin, setIsLogin] = useState(
-    path == '/login' ? true : false
-  )
+  const [isLogin, setIsLogin] = useState(path == "/login" ? true : false);
 
   useEffect(() => {
-    setIsLogin(path == '/login' ? true : false)
-  }, [path, isLogin])
+    setIsLogin(path == "/login" ? true : false);
+  }, [path, isLogin]);
 
   return (
-    <div className="bg-bgPrimary w-screen h-screen">
+    <div className="h-screen w-screen bg-bgPrimary">
       {/* Biggest Screen */}
-      <div className="md:flex hidden w-full overflow-hidden relative h-full">
+      <div className="relative hidden h-full w-full overflow-hidden md:flex">
         <motion.div
-          initial={{ x: isLogin ? '-100%' : '-100%' }}
-          animate={{ x: isLogin ? '-100%' : '0%' }}
-          transition={{ duration: 1 }}
-          className="w-1/2 flex justify-center items-center"
+          initial={{ x: isLogin ? "-100%" : "-100%" }}
+          animate={{ x: isLogin ? "-100%" : "0%" }}
+          transition={{ duration: 1, type: "spring", stiffness: 90 }}
+          className="flex w-1/2 items-center justify-center"
         >
           <div className="absolute inset-0 z-[1]">
             <LineBG />
@@ -32,46 +30,49 @@ const Auth = () => {
           <Register />
         </motion.div>
         <motion.div
-          initial={{ x: isLogin ? '100%' : '0%' }}
-          animate={{ x: isLogin ? '0%' : '100%' }}
-          transition={{ duration: 1 }}
-          className="w-1/2 h-full absolute z-10"
+          initial={{ x: isLogin ? "100%" : "0%" }}
+          animate={{ x: isLogin ? "0%" : "100%" }}
+          transition={{ duration: 1, type: "spring", stiffness: 90 }}
+          className="absolute z-10 h-full w-1/2"
         >
-          <img src={bgLoginRegister} alt="bgLoginRegister" className="w-full h-full object-cover" />
+          <img
+            src={bgLoginRegister}
+            alt="bgLoginRegister"
+            className="h-full w-full object-cover"
+          />
         </motion.div>
 
         <motion.div
-          initial={{ x: isLogin ? '100%' : '100%' }}
-          animate={{ x: isLogin ? '0%' : '100%' }}
-          transition={{ duration: 1 }}
-          className="w-1/2 flex justify-center items-center"
+          initial={{ x: isLogin ? "100%" : "100%" }}
+          animate={{ x: isLogin ? "0%" : "100%" }}
+          transition={{ duration: 1, type: "spring", stiffness: 90 }}
+          className="flex w-1/2 items-center justify-center"
         >
           <div className="absolute inset-0 z-[1]">
             <LineBG />
           </div>
           <Login />
         </motion.div>
-
       </div>
 
       {/* Smallest Screen */}
-      <div className="md:hidden flex w-full h-full relative overflow-hidden">
+      <div className="relative flex h-full w-full overflow-hidden md:hidden">
         <div className="absolute inset-0 z-[1]">
           <LineBG />
         </div>
         <motion.div
-          initial={{ x: isLogin ? '-100%' : '-100%' }}
-          animate={{ x: isLogin ? '-100%' : '0%' }}
-          transition={{ duration: 1 }}
-          className="w-full h-full flex justify-center items-center absolute z-10 "
+          initial={{ x: isLogin ? "-100%" : "-100%" }}
+          animate={{ x: isLogin ? "-100%" : "0%" }}
+          transition={{ duration: 1, type: "spring", stiffness: 90 }}
+          className="absolute z-10 flex h-full w-full items-center justify-center"
         >
-
           <Register />
-        </motion.div><motion.div
-          initial={{ x: isLogin ? '100%' : '100%' }}
-          animate={{ x: isLogin ? '0%' : '100%' }}
-          transition={{ duration: 1 }}
-          className="w-full h-full flex justify-center items-center absolute z-10 "
+        </motion.div>
+        <motion.div
+          initial={{ x: isLogin ? "100%" : "100%" }}
+          animate={{ x: isLogin ? "0%" : "100%" }}
+          transition={{ duration: 1, type: "spring", stiffness: 90 }}
+          className="absolute z-10 flex h-full w-full items-center justify-center"
         >
           <Login />
         </motion.div>

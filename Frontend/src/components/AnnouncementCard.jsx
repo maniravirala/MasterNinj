@@ -8,9 +8,9 @@ const AnnouncementCard = ({ title, children }) => {
   if (!isVisible) return null;
 
   return (
-    <div className="p-3 rounded-lg bg-bgSecondary">
+    <div className="rounded-lg bg-bgSecondary p-3">
       <div className="flex flex-col gap-1">
-        <div className="flex flex-row-reverse justify-between items-center text-textPrimary">
+        <div className="flex flex-row-reverse items-center justify-between text-textPrimary">
           <button
             className="text-sm text-textTertiary"
             onClick={() => setIsVisible(false)}
@@ -18,7 +18,7 @@ const AnnouncementCard = ({ title, children }) => {
             <CloseCircle size={20} />
           </button>
           {title && (
-            <h1 className="text-base font-semibold truncate">{title}</h1>
+            <h1 className="truncate text-base font-semibold">{title}</h1>
           )}
         </div>
 
@@ -26,7 +26,7 @@ const AnnouncementCard = ({ title, children }) => {
       </div>
     </div>
   );
-}
+};
 
 AnnouncementCard.propTypes = {
   title: proptypes.string,

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Eye, EyeSlash } from "iconsax-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const stateClasses = {
   info: "bg-blue-100 text-blue-700",
@@ -22,6 +23,7 @@ const calculatePasswordStrength = (password) => {
 
 const Input = ({
   type = "text",
+  id = "",
   name = "",
   placeholder = "",
   placeholderClassName = "",
@@ -53,22 +55,62 @@ const Input = ({
   const passwordStrength =
     progress && type === "password" ? calculatePasswordStrength(value) : 0;
 
-  const uniqueId = name + Math.random().toString(36).substring(7);
+  const uniqueId =
+    id !== ""
+      ? id
+      : name !== ""
+        ? name + Math.random().toString(36).substring(7)
+        : Math.random().toString(36).substring(7);
 
   return (
-    <div className={`relative flex flex-col w-full`}>
-      {label && <label className="mb-1 ml-3 text-sm text-gray-600" htmlFor={uniqueId}>{label}</label>}
+    <div className={`relative flex w-full flex-col`}>
+      {label && (
+        <label className="select-none mb-1 ml-3 text-sm text-gray-600" htmlFor={uniqueId}>
+          {label}
+        </label>
+      )}
       <div
-        className={`flex items-center px-3 py-2 rounded-lg ${border ? `border ${borderColorClass}` : ""
-          } ${shadow ? "shadow-md" : ""} ${color} ${stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
-          } h-10 flex-1 ${className}`}
+        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${
+          border ? `border ${borderColorClass}` : ""
+        } ${color} ${
+          stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
+        } h-10 flex-1 ${className}`}
       >
-        {iconBefore && <div className="mr-2">{iconBefore}</div>}
+        {iconBefore && (
+          <div
+            className={`mr-2 ${isFocused ? "text-brand-800" : "text-gray-400 dark:text-gray-500"}`}
+          >
+            {iconBefore}
+          </div>
+        )}
+        <AnimatePresence>
+          {type === "link" &&
+            (isFocused || value) &&
+            (value ? (
+              <div className="mr-1 select-none text-gray-500">
+                <span>https://</span>{" "}
+                <span className="h-full w-2 bg-blue-400" />
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                className="mr-2 select-none text-sm text-gray-500"
+              >
+                <span>https://</span>{" "}
+                <span className="h-full w-2 bg-blue-400" />
+              </motion.div>
+            ))}
+        </AnimatePresence>
+
         <div className="relative w-full">
           {labelPlaceholder && (
             <label
-              className={`absolute transform left-0 transition-all duration-200 ${isFocused || value ? "text-xs -top-6 " : "text-base top-0"
-                } text-gray-500 pointer-events-none`}
+              className={`absolute left-0 select-none transform transition-all duration-200 ${
+                isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
+              } pointer-events-none text-gray-500`}
               htmlFor={uniqueId}
             >
               {labelPlaceholder}
@@ -84,7 +126,7 @@ const Input = ({
             onChange={onChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            className={`w-full bg-transparent focus:outline-none select-none ${placeholderClassName}`}
+            className={`w-full select-none bg-transparent focus:outline-none ${placeholderClassName}`}
             {...props}
           />
         </div>
@@ -100,12 +142,12 @@ const Input = ({
         )}
         {loading && (
           <div className="ml-2">
-            <div className="border-gray-300 h-6 w-6 animate-spin rounded-full border-3 border-t-blue-600" />
+            <div className="h-6 w-6 animate-spin rounded-full border-3 border-gray-300 border-t-blue-600" />
           </div>
         )}
       </div>
       {progress && type === "password" && value.length > 0 && (
-        <div className="w-full h-1 mt-1 bg-red-300 rounded-full overflow-hidden">
+        <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-red-300">
           <div
             className="h-full bg-success-300"
             style={{ width: `${passwordStrength}%` }}
@@ -120,6 +162,7 @@ const Input = ({
 Input.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string,
   placeholder: PropTypes.string,
   placeholderClassName: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

@@ -6,7 +6,7 @@ const Divider = ({ vertical }) => {
     return <div className="h-full w-0.5 bg-borderPrimary" />;
   }
 
-  return <div className="w-full h-0.5 bg-borderPrimary" />;
+  return <div className="h-0.5 w-full bg-borderPrimary" />;
 };
 
 Divider.propTypes = {

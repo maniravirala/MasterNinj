@@ -1,20 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import {
-  ArrowRight2,
-  ArrowLeft2,
-  Menu,
-  Notepad,
-  Messages3,
-  Calendar,
-  Setting,
-  Notification,
-  SearchNormal1,
-  Profile2User,
-  Bill,
-  ProfileCircle,
-  TicketStar,
-} from "iconsax-react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight2, ArrowLeft2, SearchNormal1 } from "iconsax-react";
 import { Logo } from "../../assets";
 import Divider from "../Divider";
 import User from "./User";
@@ -24,64 +11,23 @@ import AnnouncementCard from "../AnnouncementCard";
 import NavigationMenu from "./NavigationMenu";
 
 const Sidebar = () => {
-  const location = useLocation();
-  const [activeLink, setActiveLink] = useState(location.pathname);
   const [search, setSearch] = useState("");
   const [isExpanded, setIsExpanded] = useLocalStorage("isExpanded", true);
 
-  useEffect(() => {
-    setActiveLink(location.pathname);
-  }, [location]);
-
-  const navLinks = [
-    { name: "Dashboard", icon: <Menu size={24} />, path: "/dashboard" },
-    { name: "Tracks", icon: <Notepad size={24} />, path: "/tracks" },
-    { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
-    { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
-    {
-      name: "Settings",
-      icon: <Setting size={24} />,
-      path: "/settings",
-      children: [
-        { name: "Profile", path: "/profile", icon: <Profile2User size={24} /> },
-        { name: "Account", path: "/account", icon: <ProfileCircle size={24} /> },
-        { name: "Billing", path: "/billing", icon: <Bill size={24} /> },
-      ],
-    },
-    { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
-    { name: "Test", icon: <TicketStar size={24} />, path: "/test" },
-  ];
-
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen">
       <aside
-        className={`h-screen bg-bgPrimary relative  ${isExpanded ? "w-64 p-4" : "w-16 p-3"
-          } transition-all`}
+        className={`relative h-screen bg-bgPrimary ${isExpanded ? "w-64 p-4" : "w-16 p-3"} transition-all`}
         aria-label="Sidebar"
       >
         {/* Absolute Expand Collapse */}
-        <div className="absolute top-[50%] -right-1 z-10 cursor-pointer">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="focus:outline-none"
-            aria-label={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
-          >
-            {isExpanded ? <ArrowLeft2 size={24} /> : <ArrowRight2 size={24} />}
-          </button>
+        <div className="hidden sm:block">
+          <ExpandMenu isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         </div>
 
-        <nav className="h-full flex flex-col gap-4">
+        <nav className="flex h-full flex-col gap-4">
           {/* Logo Top */}
-          <div className="flex justify-between items-center gap-2">
-            <Link to="/">
-              <div className="flex items-center gap-2">
-                <img src={Logo} alt="Logo" />
-                {isExpanded && (
-                  <h1 className="text-xl font-medium">StudioSync</h1>
-                )}
-              </div>
-            </Link>
-          </div>
+          <BrandTop isExpanded={isExpanded} />
 
           {/* Search */}
           <div className="">
@@ -94,7 +40,7 @@ const Sidebar = () => {
               />
             ) : (
               <div
-                className="flex items-center p-2 rounded-lg bg-bgSecondary cursor-pointer"
+                className="flex cursor-pointer items-center rounded-lg bg-bgSecondary p-2"
                 onClick={() => setIsExpanded(!isExpanded)}
                 aria-label="Expand to search"
               >
@@ -104,15 +50,19 @@ const Sidebar = () => {
           </div>
 
           {/*  Middle */}
-          <NavigationMenu navLinks={navLinks} activeLink={activeLink} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+          <NavigationMenu
+            isExpanded={isExpanded}
+            setIsExpanded={setIsExpanded}
+          />
 
           {/* Bottom */}
-          <div className="flex flex-col gap-4 mt-auto">
+          <div className="mt-auto flex flex-col gap-4">
             {/* Announcements */}
             {isExpanded && (
               <AnnouncementCard title="New Update Available">
                 <p className="text-sm">
-                  A new update is available. Please update your app to the latest version.
+                  A new update is available. Please update your app to the
+                  latest version.
                 </p>
               </AnnouncementCard>
             )}
@@ -132,7 +82,38 @@ const Sidebar = () => {
           </div>
         </nav>
       </aside>
-      <div className="h-screen w-[2px] mr-4 bg-borderPrimary opacity-30"></div>
+
+      {/* <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setIsMobileOpen(false)} /> */}
+      <div className="h-screen w-[2px] bg-borderPrimary opacity-30" />
+    </div>
+  );
+};
+
+const BrandTop = ({ isExpanded }) => {
+  return (
+    <div className="relative flex items-center justify-between gap-2">
+      <Link to="/">
+        <div className="flex items-center gap-2">
+          <img src={Logo} alt="Logo" />
+          {isExpanded && <h1 className="text-xl font-medium">MasterNinja</h1>}
+        </div>
+      </Link>
+    </div>
+  );
+};
+
+const ExpandMenu = ({ isExpanded, setIsExpanded }) => {
+  return (
+    <div className="absolute -right-1 top-[50%] z-10 translate-y-[-50%] cursor-pointer">
+      <button
+        onClick={() => {
+          setIsExpanded(!isExpanded);
+        }}
+        className="focus:outline-none"
+        aria-label={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
+      >
+        {isExpanded ? <ArrowLeft2 size={24} /> : <ArrowRight2 size={24} />}
+      </button>
     </div>
   );
 };

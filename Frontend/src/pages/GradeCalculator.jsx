@@ -1,9 +1,5 @@
-
-
 const GradeCalculator = () => {
-  return (
-    <div>GradeCalculator</div>
-  )
-}
+  return <div>GradeCalculator</div>;
+};
 
-export default GradeCalculator
+export default GradeCalculator;

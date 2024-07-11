@@ -1,7 +1,5 @@
 const AttendanceCalculator = () => {
-  return (
-    <div>AttendanceCalculator</div>
-  )
-}
+  return <div>AttendanceCalculator</div>;
+};
 
-export default AttendanceCalculator
+export default AttendanceCalculator;
