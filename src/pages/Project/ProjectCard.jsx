@@ -1,58 +1,62 @@
-import { Link } from "react-router-dom";
-import { Star } from "iconsax-react";
+import { ArrowDown, Star } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import Counter from "../../components/Counter";
+import Image from "../../components/Image";
 
 const ProjectCard = ({ project }) => {
-  const [isRated, setIsRated] = useState(false);
+  const navigate = useNavigate();
 
-  const handleRate = () => {
-    setIsRated(!isRated);
-  }
+  const handleNavigate = () => {
+    navigate(`/projects/${project.id}`);
+  };
+
+  const techStack = project.techStack || [];
 
   return (
-    <div className="shadow-xl m-2 flex w-full max-w-[300px] gap-2 rounded-lg bg-white p-2 transition-shadow duration-300 ease-in-out hover:shadow-xl dark:bg-bgSecondary">
-      <div className="flex flex-col gap-2 w-3/5">
-        <h2 className="truncate px-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
-          {project.title}
-        </h2>
-        <div className="flex items-center justify-between px-2">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            {/* {formatDate(resource.time)} */}
-            25th July 2021
-          </p>
-          <span className="text-sm capitalize text-gray-500 dark:text-gray-400">
-            {project.category}
-          </span>
+    <motion.div
+      className='flex flex-col sm:flex-row items-center w-full gap-3 p-3 rounded-xl sm:bg-transparent border border-borderPrimary shadow-sm sm:hover:shadow-md transition-shadow'>
+      
+      {project.thumbnailUrl && (
+        <motion.div
+          whileHover={{ scale: 1.05, rotate: 1 }}
+          transition={{ type: 'spring', stiffness: 200 }}
+          className="flex-shrink-0 w-full sm:w-24 h-24 rounded-lg overflow-hidden cursor-pointer" 
+          onClick={handleNavigate}>
+          <Image src={project.thumbnailUrl} alt={project.title} className="w-full h-full object-cover" />
+        </motion.div>
+      )}
+
+      <div className="flex-grow flex flex-col gap-2 justify-evenly w-full">
+        <div className="flex gap-2 items-center justify-between">
+          <span className="text-lg font-semibold truncate hover:text-brand-700 cursor-pointer" onClick={handleNavigate}>{project.title}</span>
+          <div className="flex gap-2 items-center">
+            <span className="text-sm hidden sm:block">{project.author}</span>
+          </div>
         </div>
-        <div className="mb-3 flex items-center gap-4 px-2">
-          <button
-            onClick={handleRate}
-            className={`flex items-center ${isRated ? "text-green-400" : "text-gray-500 dark:text-gray-400"} transition-colors duration-200`}
-          >
-            <Star size={20} variant={isRated ? "Bold" : "TwoTone"} />{" "}
-            <span className="ml-1 text-sm"><Counter value={Number(project.rating)} /></span>
-          </button>
+        <div className="overflow-hidden">
+          <p className="text-sm line-clamp-2">{project.description}</p>
+        </div>
+        <div className="text-sm flex flex-wrap items-center gap-4">
+          <div className="flex items-center">
+            <Star size={20} variant={'TwoTone'} className="mb-1 text-yellow-500" />
+            <span className="ml-1">{project.rating}</span>
+          </div>
+          <div className="flex items-center">
+            <ArrowDown size={20} className="mb-1 text-blue-500" />
+            <span className="ml-1">{project.downloadCount}</span>
+          </div>
+          <span className="capitalize truncate w-fit max-w-[30ch]">{project.category}</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            {techStack.slice(0, 3).map((tech, index) => (
+              <span key={index} className="px-1.5 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md text-xs">{tech}</span>
+            ))}
+            {techStack.length > 3 && (
+              <span className="px-1.5 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md text-xs">+{techStack.length - 3} more</span>
+            )}
+          </div>
         </div>
       </div>
-      <div className="relative cursor-pointer w-2/5" >
-        <Link to={`/projects/${project.id}`}>
-          <img
-            src={project.thumbnailUrl || "https://via.placeholder.com/150"}
-            alt={project.title}
-            className="h-48 w-full rounded-md object-cover"
-          />
-          <motion.div
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.2, type: "tween" }}
-            className="absolute inset-0 flex items-center justify-center rounded-md bg-black bg-opacity-30 opacity-0 dark:bg-opacity-50"
-          >
-            <span className="text-sm text-white">Click to view</span>
-          </motion.div>
-        </Link>
-      </div>
-    </div>
+    </motion.div>
   );
 };
 
