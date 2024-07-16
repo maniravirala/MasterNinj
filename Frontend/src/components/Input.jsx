@@ -4,10 +4,27 @@ import { Eye, EyeSlash } from "iconsax-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const stateClasses = {
-  info: "bg-blue-100 text-blue-700",
-  error: "bg-red-100 text-red-700",
-  warning: "bg-yellow-100 text-yellow-700",
-  success: "bg-green-100 text-green-700",
+  info: "ring-1 ring-blue-500 text-blue-500 focus-within:ring-blue-600",
+  error: "ring-1 ring-red-500 text-red-500 focus-within:ring-red-600",
+  warning: "ring-1 ring-yellow-500 text-yellow-500 focus-within:ring-yellow-600 ",
+  success: "ring-1 ring-green-500 text-green-500 focus-within:ring-green-600",
+  default: "ring-1 ring-borderPrimary text-textSecondary focus-within:ring-brand-500",
+};
+
+const textStateClasses = {
+  info: "text-blue-500",
+  error: "text-red-500",
+  warning: "text-yellow-500",
+  success: "text-green-500",
+  default: "text-textSecondary",
+};
+
+const textFocusStateClasses = {
+  info: "text-blue-600",
+  error: "text-red-600",
+  warning: "text-yellow-600",
+  success: "text-green-600",
+  default: "text-brand-600",
 };
 
 // Function to calculate password strength
@@ -46,7 +63,9 @@ const Input = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const stateClass = stateClasses[state] || state;
+  const stateClass = stateClasses[state] || stateClasses['default'];
+  const textStateClass = textStateClasses[state] || textStateClasses['default'];
+  const textFocusStateClass = textFocusStateClasses[state] || textFocusStateClasses['default'];
   const borderColorClass = className.includes("border-")
     ? ""
     : "border-borderPrimary";
@@ -70,15 +89,12 @@ const Input = ({
         </label>
       )}
       <div
-        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${
-          border ? `border ${borderColorClass}` : ""
-        } ${color} ${
-          stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
-        } h-10 flex-1 ${className}`}
+        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${border ? `border ${borderColorClass}` : ""
+          } ${color} ${stateClass} ${className} h-10 flex-1 transition-all duration-200 focus-within:ring-2 `}
       >
         {iconBefore && (
           <div
-            className={`mr-2 ${isFocused ? "text-brand-800" : "text-gray-400 dark:text-gray-500"}`}
+            className={`mr-2 ${isFocused ? textFocusStateClass : textStateClass}`}
           >
             {iconBefore}
           </div>
@@ -108,15 +124,27 @@ const Input = ({
         <div className="relative w-full">
           {labelPlaceholder && (
             <label
-              className={`absolute left-0 select-none transform transition-all duration-200 ${
-                isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
-              } pointer-events-none text-gray-500`}
+              className={`absolute left-0 select-none transform transition-all duration-200 ${isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
+                } pointer-events-none text-gray-500`}
               htmlFor={uniqueId}
             >
               {labelPlaceholder}
             </label>
           )}
           <input
+            type={visiblePassword ? (showPassword ? "text" : "password") : type}
+            id={uniqueId}
+            name={name}
+            // placeholder={isFocused || value ? placeholder : ""}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className={`w-full select-none bg-transparent focus:outline-none ${placeholderClassName}`}
+            {...props}
+          />
+          <LocalInput
             type={visiblePassword ? (showPassword ? "text" : "password") : type}
             id={uniqueId}
             name={name}
@@ -154,7 +182,7 @@ const Input = ({
           ></div>
         </div>
       )}
-      {message && <div className="mt-1 text-sm text-gray-600">{message}</div>}
+      {message && <div className={`mt-1 text-xs ${textStateClass}`}>{message}</div>}
     </div>
   );
 };
@@ -183,3 +211,9 @@ Input.propTypes = {
 };
 
 export default Input;
+
+const LocalInput = ({ ...props }) => {
+  return (
+    <input {...props} />
+  )
+}

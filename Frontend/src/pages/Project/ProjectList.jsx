@@ -4,6 +4,7 @@ import ProjectCard from './ProjectCard';
 import { useThrottle } from "@custom-react-hooks/all";
 import { ArrowRotateRight, SearchNormal1 } from 'iconsax-react';
 import Dropdown from '../../components/Dropdown';
+import Input from '../../components/Input';
 import UploadProjectModal from './UploadProjectModal ';
 
 const projectData = [
@@ -210,16 +211,14 @@ const ProjectList = () => {
         <div className="p-4">
             <h1 className="text-3xl font-semibold">Projects</h1>
             <div className="search-bar my-4 flex items-center justify-center gap-x-2">
-                <input
-                    type="text"
+                <Input
+                    type='password'
                     placeholder="Search projects..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-l-lg bg-bgSecondary p-2 pl-4 pr-1 outline-none focus:outline-none sm:w-4/5"
+                    iconBefore={<SearchNormal1 />}
+                    state='success'
                 />
-                <div className="-ml-2 cursor-pointer rounded-r-lg bg-bgSecondary p-2">
-                    <SearchNormal1 className="text-gray-500 dark:text-gray-400" />
-                </div>
             </div>
             <div className="filter-bar my-4 flex md:flex-row flex-wrap items-center justify-center gap-4">
                 <Dropdown tabsData={ratingOptions} activeTabResume={ratingFilter} setActiveTabResume={setRatingFilter} />
