@@ -2,6 +2,9 @@ import { ArrowDown, Star } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Image from "../../components/Image";
+// import { Popover } from "@headlessui/react";
+import Popover from "../../components/Popover";
+
 
 const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
@@ -13,43 +16,64 @@ const ProjectCard = ({ project }) => {
   const techStack = project.techStack || [];
 
   return (
-    <motion.div 
-    className='flex items-center w-full gap-4 p-4 rounded-xl sm:bg-transparent border border-borderPrimary '>
+    <motion.div
+      className='flex flex-col sm:flex-row items-center w-full gap-3 p-3 rounded-xl sm:bg-transparent border border-borderPrimary shadow-sm sm:hover:shadow-md transition-shadow'>
+      
       {project.thumbnailUrl && (
         <motion.div
-          whileHover={{ scale: 1.05, rotate: 2 }}
+          whileHover={{ scale: 1.05, rotate: 1 }}
           transition={{ type: 'spring', stiffness: 200 }}
-          className="sm:block hidden flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden cursor-pointer" onClick={handleNavigate}>
-          <Image src={project.thumbnailUrl} alt={project.title} className={`w-full h-full object-cover`} />
+          className="flex-shrink-0 w-full sm:w-24 h-24 rounded-lg overflow-hidden cursor-pointer" 
+          onClick={handleNavigate}>
+          <Image src={project.thumbnailUrl} alt={project.title} className="w-full h-full object-cover" />
         </motion.div>
       )}
 
-      <div className="flex-grow flex flex-col gap-2 justify-evenly">
-        <div className="flex gap-2 items-center">
+      <div className="flex-grow flex flex-col gap-2 justify-evenly w-full">
+        <div className="flex gap-2 items-center justify-between">
           <span className="text-lg font-semibold truncate hover:text-brand-700 cursor-pointer" onClick={handleNavigate}>{project.title}</span>
-          <span className="sm:block hidden h-[1px] w-3 bg-black mb-1"></span>
-          <span className="sm:block hidden text-sm">{project.author}</span>
+          <div className="flex gap-2 items-center">
+            <span className="text-sm hidden sm:block">{project.author}</span>
+          </div>
         </div>
-        <div className="overflow-hidden line-clamp-2">
-          <p className="text-sm ">{project.description}</p>
+        <div className="overflow-hidden">
+          <p className="text-sm line-clamp-2 text-textSecondary">{project.description}</p>
         </div>
-        <div className="text-sm items-center gap-4 flex">
-          <div className={`flex items-center justify-center transition-colors duration-200`}>
-            <Star size={20} variant={'TwoTone'} className="mb-1" />
+        <div className="text-sm flex flex-wrap items-center gap-4">
+          <div className="flex items-center">
+            <Star size={20} variant={'TwoTone'} className="mb-1 text-yellow-500" />
             <span className="ml-1">{project.rating}</span>
           </div>
-          <div className="flex items-center justify-center transition-colors duration-200">
-            <ArrowDown size={20} variant={'TwoTone'} className="mb-1" />
+          <div className="flex items-center">
+            <ArrowDown size={20} className="mb-1 text-blue-500" />
             <span className="ml-1">{project.downloadCount}</span>
           </div>
-          <span className="capitalize truncate">{project.category}</span>
-          <div className="items-center gap-2 sm:flex hidden ">
+          <span className="capitalize truncate w-fit max-w-[30ch]">{project.category}</span>
+          <div className="flex items-center gap-2 flex-wrap">
             {techStack.slice(0, 3).map((tech, index) => (
-              <span key={index} className="px-1.5 py-1 bg-bgActive text-textSecondary rounded-md text-xs">{tech}</span>
+              <span key={index} className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">{tech}</span>
             ))}
             {techStack.length > 3 && (
-              <span className="px-1.5 py-1 bg-bgActive text-textSecondary rounded-md text-xs">+{techStack.length - 3} more</span>
+              <span className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">+{techStack.length - 3} more</span>
             )}
+            <Popover>
+        <div className="p-2">Popover Content on Top</div>
+      </Popover>
+
+            {/* {techStack.length > 3 && (
+             <Popover className="relative">
+                 <Popover.Button className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">
+                   +{techStack.length - 3} more
+                 </Popover.Button>
+                 <Popover.Panel className="absolute z-10 bg-white shadow-md rounded-lg p-2 w-40">
+                   {techStack.slice(3).map((tech, index) => (
+                     <span key={index} className="block px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs mb-1">
+                       {tech}
+                     </span>
+                   ))}
+                 </Popover.Panel>
+              </Popover>
+             )} */}
           </div>
         </div>
       </div>

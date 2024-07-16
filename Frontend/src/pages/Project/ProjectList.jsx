@@ -2,7 +2,9 @@ import { useState, useEffect, useId } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from './ProjectCard';
 import { useThrottle } from "@custom-react-hooks/all";
-import { SearchNormal1 } from 'iconsax-react';
+import { ArrowRotateRight, SearchNormal1 } from 'iconsax-react';
+import Dropdown from '../../components/Dropdown';
+import UploadProjectModal from './UploadProjectModal ';
 
 const projectData = [
     {
@@ -11,11 +13,12 @@ const projectData = [
         description: 'A full-featured e-commerce website with user authentication, product listings, shopping cart, and payment gateway integration. Built using React, Node.js, and MongoDB.A full-featured e-commerce website with user authentication, product listings, shopping cart, and payment gateway integration. Built using React, Node.js, and MongoDB.A full-featured e-commerce website with user authentication, product listings, shopping cart, and payment gateway integration. Built using React, Node.js, and MongoDB.',
         category: 'Web Development',
         downloadLink: '/downloads/ecommerce-website.zip',
-        rating: 4.5,
-        downloadCount: 100,
+        rating: 2.5,
+        downloadCount: 23,
         thumbnailUrl: 'https://picsum.photos/200/300?random=1',
         author: 'John Doe',
-        techStack: ['React', 'Node.js', 'MongoDB', 'Firebase', 'Stripe', 'Tailwind CSS']
+        techStack: ['React', 'Node.js', 'MongoDB', 'Firebase', 'Stripe', 'Tailwind CSS'],
+        free: true,
     },
     {
         id: 2,
@@ -27,7 +30,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=2',
         author: 'Jane Doe',
-        techStack: ['Python', 'Pandas', 'Scikit-learn']
+        techStack: ['Python', 'Pandas', 'Scikit-learn'],
+        free: false,
     },
     {
         id: 3,
@@ -39,7 +43,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=3',
         author: 'Mary Smith',
-        techStack: ['Python', 'NLP']
+        techStack: ['Python', 'NLP'],
+        free: true,
     },
     {
         id: 4,
@@ -51,7 +56,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=4',
         author: 'John Smith',
-        techStack: ['React', 'Node.js', 'Socket.io', 'Firebase', 'Tailwind CSS']
+        techStack: ['React', 'Node.js', 'Socket.io', 'Firebase', 'Tailwind CSS'],
+        free: false,
     },
     {
         id: 5,
@@ -63,19 +69,21 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=5',
         author: 'Robert Johnson',
-        techStack: ['Python', 'Pandas', 'Matplotlib', 'Seaborn']
+        techStack: ['Python', 'Pandas', 'Matplotlib', 'Seaborn'],
+        free: true,
     },
     {
         id: 6,
         title: 'Image Classification with CNN',
         description: 'A machine learning project that uses Convolutional Neural Networks (CNN) for image classification tasks. Implemented using Python, TensorFlow, and Keras.',
-        category: 'Machine Learning',
+        category: 'Machine Learning Machine Learning Machine Learning',
         downloadLink: '/downloads/image-classification-cnn.zip',
         rating: 4.9,
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=6',
         author: 'Alice Williams',
-        techStack: ['Python', 'TensorFlow', 'Keras', 'CNN', 'OpenCV', 'Matplotlib']
+        techStack: ['Python', 'TensorFlow', 'Keras', 'CNN', 'OpenCV', 'Matplotlib'],
+        free: false,
     },
     {
         id: 7,
@@ -87,7 +95,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=7',
         author: 'Alice Williams',
-        techStack: ['React', 'Node.js', 'MongoDB', 'Firebase', 'Tailwind CSS', 'Framer Motion']
+        techStack: ['React', 'Node.js', 'MongoDB', 'Firebase', 'Tailwind CSS', 'Framer Motion'],
+        free: true,
     },
     {
         id: 8,
@@ -99,7 +108,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=8',
         author: 'Alice Williams',
-        techStack: ['Python', 'Pandas', 'Scikit-learn', 'Statsmodels', 'Time Series Analysis']
+        techStack: ['Python', 'Pandas', 'Scikit-learn', 'Statsmodels', 'Time Series Analysis'],
+        free: false,
     },
     {
         id: 9,
@@ -111,7 +121,8 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=9',
         author: 'Alice Williams',
-        techStack: ['Python', 'Pandas', 'Scikit-learn', 'Collaborative Filtering', 'Content-Based Filtering']
+        techStack: ['Python', 'Pandas', 'Scikit-learn', 'Collaborative Filtering', 'Content-Based Filtering'],
+        free: true,
     },
     {
         id: 10,
@@ -123,40 +134,81 @@ const projectData = [
         downloadCount: 100,
         thumbnailUrl: 'https://picsum.photos/200/300?random=10',
         author: 'Alice Williams',
-        techStack: ['React', 'Tailwind CSS', 'Framer Motion', 'Iconsax', 'Firebase', 'Netlify', 'Vercel']
+        techStack: ['React', 'Tailwind CSS', 'Framer Motion', 'Iconsax', 'Firebase', 'Netlify', 'Vercel'],
+        free: false,
     }
 ];
 
 const ProjectList = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+    const [freeFilter, setFreeFilter] = useState("");
+    const [ratingFilter, setRatingFilter] = useState("");
+    const [downloadFilter, setDownloadFilter] = useState("");
+    const [categoryFilter, setCategoryFilter] = useState("");
+    const [techStackFilter, setTechStackFilter] = useState("");
+    const [showUploadModal, setShowUploadModal] = useState(false);
     const throttledSearchTerm = useThrottle(searchTerm, 1000);
-    const uniqueId = useId();
 
     useEffect(() => {
         setFilteredData(projectData);
     }, []);
 
+
+    const freeOptions = [
+        { key: '', name: 'All' },
+        { key: 'free', name: 'Free' },
+        { key: 'premium', name: 'Premium' }
+    ];
+
+    const ratingOptions = [
+        { key: '', name: 'All Ratings' },
+        { key: '4.5', name: '4.5 and above' },
+        { key: '4', name: '4 and above' },
+        { key: '3.5', name: '3.5 and above' }
+    ];
+
+    const downloadOptions = [
+        { key: '', name: 'All Downloads' },
+        { key: '50', name: '50 and above' },
+        { key: '100', name: '100 and above' }
+    ];
+
+    const categoryOptions = [
+        { key: '', name: 'All Categories' },
+        { key: 'Web Development', name: 'Web Development' },
+        { key: 'Data Science', name: 'Data Science' },
+        { key: 'Machine Learning', name: 'Machine Learning' }
+    ];
+
+
     const filteredProjects = filteredData.filter(project => {
         const searchTermToUse = throttledSearchTerm || '';
         const searchParts = searchTermToUse.toLowerCase().split(' ').filter(part => part);
-        return searchParts.every(part => project.title.toLowerCase().includes(part));
+        // return searchParts.every(part => project.title.toLowerCase().includes(part));
+        const matchesSearch = searchParts.every(part => project.title.toLowerCase().includes(part));
+        const matchesFree = freeFilter ? (freeFilter === 'free' ? project.free : !project.free) : true;
+        const matchesRating = ratingFilter ? project.rating >= parseFloat(ratingFilter) : true;
+        const matchesDownloadCount = downloadFilter ? project.downloadCount >= parseInt(downloadFilter) : true;
+        const matchesCategory = categoryFilter ? project.category.toLowerCase().includes(categoryFilter.toLowerCase()) : true;
+        const matchesTechStack = techStackFilter ? project.techStack.map(stack => stack.toLowerCase()).includes(techStackFilter.toLowerCase()) : true;
+
+        return matchesSearch && matchesFree && matchesRating && matchesDownloadCount && matchesCategory && matchesTechStack;
     });
 
-    const bestProject = filteredData.reduce((best, project) => {
-        return (project.rating > best.rating) ? project : best;
-    }, filteredData[0] || {});
+    const handleFilterReset = () => {
+        setFreeFilter("");
+        setRatingFilter("");
+        setDownloadFilter("");
+        setCategoryFilter("");
+        setTechStackFilter("");
+    };
+
+    const uniqueId = useId() + filteredProjects.length || 'empty';
 
     return (
         <div className="p-4">
             <h1 className="text-3xl font-semibold">Projects</h1>
-            
-            {bestProject && (
-                <div className="mb-4 p-4 rounded-2xl bg-green-300">
-                    <h2 className="text-2xl font-bold">Best Project</h2>
-                    <ProjectCard project={bestProject} />
-                </div>
-            )}
             <div className="search-bar my-4 flex items-center justify-center gap-x-2">
                 <input
                     type="text"
@@ -169,14 +221,23 @@ const ProjectList = () => {
                     <SearchNormal1 className="text-gray-500 dark:text-gray-400" />
                 </div>
             </div>
+            <div className="filter-bar my-4 flex md:flex-row flex-wrap items-center justify-center gap-4">
+                <Dropdown tabsData={ratingOptions} activeTabResume={ratingFilter} setActiveTabResume={setRatingFilter} />
+                <Dropdown tabsData={downloadOptions} activeTabResume={downloadFilter} setActiveTabResume={setDownloadFilter} />
+                <Dropdown tabsData={categoryOptions} activeTabResume={categoryFilter} setActiveTabResume={setCategoryFilter} />
+                <Dropdown tabsData={freeOptions} activeTabResume={freeFilter} setActiveTabResume={setFreeFilter} />
+
+                <button onClick={handleFilterReset} className="p-2 rounded-lg bg-bgSecondary text-tPrimary">
+                    <ArrowRotateRight className="text-gray-500 dark:text-gray-400" />
+                </button>
+                <button onClick={() => setShowUploadModal(true)} className="btn-primary">Upload Project</button>
+            </div>
             {filteredProjects.length === 0 && <p>No projects found</p>}
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> */}
-            {/* <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"> */}
             <div className="flex flex-col w-full sm:px-4 gap-4">
                 {filteredProjects.map((project, index) => (
                     <motion.div
-                        key={`${project.id}-${uniqueId}-${throttledSearchTerm || 'empty'}`}
-                        id={`${project.id}-${uniqueId}-${throttledSearchTerm || 'empty'}`}
+                        key={`${project.id}-${uniqueId}`}
+                        id={`${project.id}-${uniqueId}`}
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -186,6 +247,7 @@ const ProjectList = () => {
                     </motion.div>
                 ))}
             </div>
+            <UploadProjectModal onClose={() => setShowUploadModal(false)} isOpen={showUploadModal} />
         </div>
     );
 };

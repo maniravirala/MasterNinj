@@ -7,7 +7,7 @@ import { useResume } from "../../contexts/ResumeContext";
 import { Specialized1, Specialized2, Specialized3 } from "./Templates";
 import InputForm from "./InputForm";
 import ResumePreview from "./ResumePreview";
-import Dropdown from "./Components/Dropdown";
+import Dropdown from "../../components/Dropdown";
 import Toggle from "../../components/Toggle";
 import TemplatesSelectionModal from "./Modals/TemplatesSelectionModal";
 import SettingsModal from "./Modals/SettingsModal";

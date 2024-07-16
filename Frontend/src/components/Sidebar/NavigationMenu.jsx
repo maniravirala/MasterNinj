@@ -18,7 +18,6 @@ import {
   Task,
   TicketStar,
 } from "iconsax-react";
-import { motion } from "framer-motion";
 
 const navLinks = [
   { name: "Dashboard", icon: <Menu size={24} />, path: "/" },
@@ -26,26 +25,15 @@ const navLinks = [
   { name: "Resume", icon: <Notepad size={24} />, path: "/resume-builder" },
   { name: "Projects", icon: <Category2 size={24} />, path: "/projects" },
   { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
-  {
-    name: "Calculator",
-    icon: <Calculator size={24} />,
-    path: "/grade-calculator",
-  },
+  { name: "Calculator", icon: <Calculator size={24} />, path: "/grade-calculator" },
   { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
   { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
+  { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
   {
-    name: "Notifications",
-    icon: <Notification size={24} />,
-    path: "/notifications",
-  },
-  {
-    name: "Settings",
-    icon: <Setting size={24} />,
-    path: "/settings",
-    children: [
+    name: "Settings", icon: <Setting size={24} />, path: "/settings", children: [
       { name: "Profile", path: "/profile", icon: <Profile2User size={24} /> },
       { name: "Account", path: "/account", icon: <ProfileCircle size={24} /> },
-    ],
+    ]
   },
   { name: "Test", icon: <TicketStar size={24} />, path: "/test" },
 ];
@@ -56,14 +44,14 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
   const [isOpened, setIsOpened] = useState("");
 
   useEffect(() => {
-    setActiveLink(location.pathname);
+    setActiveLink('/' + location.pathname.split("/")[1]);
   }, [location]);
 
   return (
     <div className="flex flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden">
       <ScrollShadow hideScrollBar size={80}>
         <div className="flex flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden">
-          {navLinks.map((link, index) =>
+          {navLinks.map((link) =>
             link.children ? (
               <div key={link.name}>
                 <button
@@ -99,19 +87,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                 )}
               </div>
             ) : (
-              <motion.div
-                initial={{ x: -120 }}
-                animate={{ x: 0 }}
-                exit={{ x: -120 }}
-                transition={{
-                  duration: 0.5,
-                  type: "spring",
-                  stiffness: 120,
-                  damping: 10,
-                  delay: index * 0.1,
-                }}
-                key={link.name}
-              >
+              <div key={link.name}>
                 <Link
                   to={link.path}
                   key={link.name}
@@ -120,7 +96,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                   {link.icon}
                   {isExpanded && <span>{link.name}</span>}
                 </Link>
-              </motion.div>
+              </div>
             ),
           )}
         </div>

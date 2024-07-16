@@ -21,12 +21,13 @@ const TextArea = ({
   state,
   className = "",
 }) => {
-  const uniqueId =
-    id !== ""
-      ? id
-      : name !== ""
-        ? name + Math.random().toString(36).substring(7)
-        : Math.random().toString(36).substring(7);
+  const uniqueId = id 
+  ? id 
+  : name 
+    ? name + Math.random().toString(36).substring(7) 
+    : Math.random().toString(36).substring(7);
+
+
 
   const [isFocused, setIsFocused] = useState(false);
   const stateClass = stateClasses[state] || state;
@@ -36,6 +37,7 @@ const TextArea = ({
 
   useEffect(() => {
     const textarea = document.getElementById(uniqueId);
+    if (!textarea) return;
     textarea.style.height = "inherit";
     textarea.style.height = `${textarea.scrollHeight}px`;
     textarea.scrollTop = textarea.scrollHeight;
@@ -72,9 +74,10 @@ const TextArea = ({
             </label>
           )}
           <textarea
-            id={id}
+            id={uniqueId}
             value={value}
             onChange={onChange}
+            name={name}
             className="max-h-40 w-full select-none resize-none scroll-smooth bg-transparent focus:outline-none"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
