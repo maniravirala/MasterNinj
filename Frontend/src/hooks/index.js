@@ -4,3 +4,4 @@ export { useSessionStorage } from "./useStorage";
 export { default as useCookie } from "./useCookie";
 export { default as useCopyToClipboard } from "./useCopyToClipboard";
 export { default as useFetch } from "./useFetch";
+export { default as useHover } from "./useHover";

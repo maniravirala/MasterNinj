@@ -1,67 +1,58 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Popover = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [position, setPosition] = useState('bottom');
-    const popoverRef = useRef(null);
-    const triggerRef = useRef(null);
 
-    const togglePopover = () => {
+    const handleToggle = () => {
+        if (children.length !== 2) {
+            console.error("Popover component must have exactly 2 children.");
+            return;
+        }
         setIsOpen(!isOpen);
-    };
-
-    const calculatePosition = () => {
-        if (popoverRef.current && triggerRef.current) {
-            const popoverHeight = popoverRef.current.clientHeight;
-            const triggerRect = triggerRef.current.getBoundingClientRect();
-            const spaceAbove = triggerRect.top;
-            const spaceBelow = window.innerHeight - triggerRect.bottom;
-            
-            console.log('spaceAbove', spaceAbove);
-
-            if (spaceBelow >= popoverHeight + 10) {
-                setPosition('bottom');
-            } else if (spaceAbove >= popoverHeight + 10) {
-                setPosition('top');
-            } else {
-                setPosition('bottom');
-            }
-        }
-    };
-
-    useEffect(() => {
-        if (isOpen) {
-            calculatePosition();
-            // Add event listener to recalculate position on scroll or resize
-            window.addEventListener('scroll', calculatePosition);
-            window.addEventListener('resize', calculatePosition);
-
-            // Cleanup event listeners on popover close
-            return () => {
-                window.removeEventListener('scroll', calculatePosition);
-                window.removeEventListener('resize', calculatePosition);
-            };
-        }
-    }, [isOpen]);
+    }
 
     return (
-        <div className="relative inline-block" ref={triggerRef}>
-            <button
-                onClick={togglePopover}
-                className="bg-blue-500 text-white px-4 py-2 rounded shadow"
+        <div className="relative">
+            <div
+                onClick={handleToggle}
+                onMouseEnter={handleToggle}
+                onMouseLeave={handleToggle}
             >
-                Open Popover
-            </button>
-            {isOpen && (
-                <div
-                    ref={popoverRef}
-                    className={`absolute ${position === 'top' ? 'bottom-full' : 'top-full'} right-0 bg-white shadow-lg rounded p-2`}
-                >
-                    {children}
-                </div>
-            )}
+                {children[0]}
+            </div>
+            <AnimatePresence>
+                {isOpen &&
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 10 }}
+                        exit={{ opacity: 0, y: 30 }}
+                        transition={{ duration: 0.2 }}
+                        onMouseEnter={handleToggle}
+                        onMouseLeave={handleToggle}
+                    >
+                        {children[1]}
+                    </motion.div>
+                }
+            </AnimatePresence>
         </div>
     );
-};
+}
 
-export default Popover;
+const PopoverButton = ({ children, className }) => {
+    return (
+        <button className={`${className}`}>
+            {children}
+        </button>
+    );
+}
+
+const PopoverPanel = ({ children, className }) => {
+    return (
+        <div className={`${className} absolute z-50 bg-bgPrimary border border-borderPrimary shadow-md rounded-lg p-2`}>
+            {children}
+        </div>
+    );
+}
+
+export { Popover, PopoverButton, PopoverPanel };
