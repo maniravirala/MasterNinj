@@ -47,7 +47,7 @@ const Dropdown = ({ tabsData, activeTabResume, setActiveTabResume}) => {
             <motion.button
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.2, delay: index * 0.1 }}
+              transition={{ duration: 0.1, delay: index * 0.05 }}
               key={tab.key}
               className={`mx-2 truncate flex-1 rounded-lg px-4 py-2 text-left hover:bg-bgHover ${activeTabResume === tab.key ? "bg-bgActive" : ""}`}
               onClick={() => handleChangeTab(tab.key)}

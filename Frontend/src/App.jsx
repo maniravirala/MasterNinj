@@ -9,7 +9,8 @@ import SidebarHeaderLayout from "./layout/SidebarHeaderLayout";
 import Dashboard from "./pages/Dashboard";
 import AttendanceCalculator from "./pages/AttendanceCalculator";
 import ResumeBuilder from "./pages/Resume/ResumeBuilder";
-import GradeCalculator from "./pages/GradeCalculator";
+import Calculator from "./pages/Calculator/Calculator";
+import CalculatorDetail from "./pages/Calculator/CalculatorDetail";
 import StudyResources from "./pages/Library/StudyResources";
 import Auth from "./pages/Auth/Auth";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
@@ -24,8 +25,8 @@ const App = () => {
     { name: "Resume Builder", to: "/resume-builder", component: ResumeBuilder, props: { title: "Resume Builder" } },
     { name: "Project List", to: "/projects", component: ProjectList, props: { title: "Project Details" } },
     { name: "Project Details", to: "/projects/:id", component: ProjectDetails, props: { title: "Project Details" } },
-
-    { name: "Grade Calculator", to: "/grade-calculator", component: GradeCalculator, props: { title: "Grade Calculator" } },
+    { name: "Calculator", to: "/calculators", component: Calculator, props: { title: "Calculators" } },
+    { name: "Calculators", to: "/calculators/:calculatorId", component: CalculatorDetail, props: { title: "Calculators" } },
     // { name: "Study Resources", to: "/study-resources", component: StudyResources },
     { name: "Study Resources", to: "/study-resources", redirectTo: "/study-resources/all", props: { title: "Study Resources" } },
     { name: "Resources", to: "/study-resources/:resourceId", component: StudyResources, props: { title: "Study Resources" } },

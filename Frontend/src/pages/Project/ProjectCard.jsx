@@ -19,8 +19,6 @@ const ProjectCard = ({ project }) => {
 
       {project.thumbnailUrl && (
         <motion.div
-          whileHover={{ scale: 1.05, rotate: 1 }}
-          transition={{ type: 'spring', stiffness: 200 }}
           className="flex-shrink-0 w-full sm:w-24 h-24 rounded-lg overflow-hidden cursor-pointer"
           onClick={handleNavigate}>
           <Image src={project.thumbnailUrl} alt={project.title} className="w-full h-full object-cover" />
@@ -77,3 +75,4 @@ const ProjectCard = ({ project }) => {
 };
 
 export default ProjectCard;
+

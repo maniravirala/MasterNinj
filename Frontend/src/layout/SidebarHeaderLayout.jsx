@@ -16,7 +16,7 @@ const SidebarHeaderLayout = ({ children, ...props }) => {
         <div className="block sm:hidden">
           <Header />
         </div>
-        <main className="flex-1 px-5">{children}</main>
+        <main className="flex-1 px-5 pt-5">{children}</main>
         {props.footer && <Footer />}
       </div>
     </div>

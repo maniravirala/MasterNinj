@@ -3,8 +3,9 @@ import { Dislike, Like1 } from "iconsax-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Counter from "../../components/Counter";
+import Image from "../../components/Image";
 
-const Card = ({ resource }) => {
+const ResourceCard = ({ resource }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
 
@@ -44,16 +45,11 @@ const Card = ({ resource }) => {
   };
 
   return (
-    <div className="shadow-xl\\ m-2 flex w-full max-w-[300px] flex-col gap-2 rounded-lg bg-white p-2 transition-shadow duration-300 ease-in-out hover:shadow-xl dark:bg-bgSecondary">
-      <div
-        className="relative cursor-pointer"
+    <div className="shadow-xl m-2 flex w-full max-w-[300px] flex-col gap-2 rounded-lg bg-white p-2 transition-shadow duration-300 ease-in-out hover:shadow-xl dark:bg-bgSecondary">
+      <div className="relative cursor-pointer h-48 w-full rounded-md"
         onClick={() => window.open(resource.url, "_blank")}
       >
-        <img
-          src={resource.thumbnailUrl || "https://via.placeholder.com/150"}
-          alt={resource.title}
-          className="h-48 w-full rounded-md object-cover"
-        />
+      <Image src={resource.thumbnailUrl || "https://via.placeholder.com/150"} alt={resource.title} className="h-48 w-full rounded-md object-cover" />
         <motion.div
           whileHover={{ opacity: 1 }}
           transition={{ duration: 0.2, type: "tween" }}
@@ -80,14 +76,14 @@ const Card = ({ resource }) => {
           className={`flex items-center ${isLiked ? "text-green-400" : "text-gray-500 dark:text-gray-400"} transition-colors duration-200`}
         >
           <Like1 size={20} variant={isLiked ? "Bold" : "TwoTone"} />{" "}
-          <span className="ml-1 text-sm"><Counter value={resource.likes}/></span>
+          <span className="ml-1 text-sm"><Counter value={resource.likes} /></span>
         </button>
         <button
           onClick={handleDislike}
           className={`flex items-center ${isDisliked ? "text-red-400" : "text-gray-500 dark:text-gray-400"} transition-colors duration-200`}
         >
           <Dislike size={20} variant={isDisliked ? "Bold" : "TwoTone"} />{" "}
-          <span className="ml-1 text-sm"><Counter value={resource.dislikes}/></span>
+          <span className="ml-1 text-sm"><Counter value={resource.dislikes} /></span>
         </button>
       </div>
       {/* <a
@@ -102,4 +98,4 @@ const Card = ({ resource }) => {
   );
 };
 
-export default Card;
+export default ResourceCard;

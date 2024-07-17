@@ -49,7 +49,7 @@ const PopoverButton = ({ children, className }) => {
 
 const PopoverPanel = ({ children, className }) => {
     return (
-        <div className={`${className} absolute z-50 bg-bgPrimary border border-borderPrimary shadow-md rounded-lg p-2`}>
+        <div className={`${className} absolute z-[100] bg-bgPrimary border border-borderPrimary shadow-md rounded-lg p-2`}>
             {children}
         </div>
     );

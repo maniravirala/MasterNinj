@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 const sampleData = [
   {
+    id: 1,
     title: "Introduction to React",
     type: "video",
     url: "https://www.youtube.com/watch?v=0MlT74DrG2U",
@@ -16,6 +17,7 @@ const sampleData = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuJEtMjTZY727HRUHi76Du6M7vuPI5eYq9CQ&s", // Sample image URL
   },
   {
+    id: 2,
     title: "React Fundamentals",
     type: "video",
     url: "https://www.youtube.com/watch?v=Ke90Tje7VS0",
@@ -25,96 +27,73 @@ const sampleData = [
     pages: 0,
   },
   {
-    title: "React Hooks",
+    id: 3,
+    title: "Computer Science Basics",
     type: "document",
-    url: "https://reactjs.org/docs/hooks-intro.html",
-    time: 1682371200000, // Equivalent to '2023-04-25'
+    url: "https://www.example.com/document.pdf",
+    time: 1681920000000, // Equivalent to '2023-04-15'
     likes: 150,
-    dislikes: 8,
+    dislikes: 20,
     pages: 50,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=1',
   },
   {
-    title: "React Context",
-    type: "slide",
-    url: "https://www.slideshare.net/rajaraodv/reactive-2018",
-    time: 1685577600000, // Equivalent to '2023-06-01'
-    likes: 180,
-    dislikes: 6,
-    pages: 30,
-  },
-  {
-    title: "React Hooks",
+    id: 4,
+    title: "Data Structures and Algorithms",
     type: "document",
-    url: "https://reactjs.org/docs/hooks-intro.html",
-    time: 1682371200000, // Equivalent to '2023-04-25'
-    likes: 150,
-    dislikes: 8,
-    pages: 50,
+    url: "https://www.example.com/document.pdf",
+    time: 1679241600000, // Equivalent to '2023-03-10'
+    likes: 100,
+    dislikes: 15,
+    pages: 100,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=2',
   },
   {
-    title: "React Context",
-    type: "slide",
-    url: "https://www.slideshare.net/rajaraodv/reactive-2018",
-    time: 1685577600000, // Equivalent to '2023-06-01'
-    likes: 180,
-    dislikes: 6,
-    pages: 30,
+    id: 5,
+    title: "React Native Tutorial",
+    type: "video",
+    url: "https://www.youtube.com/watch?v=0MlT74DrG2U",
+    time: 1676563200000, // Equivalent to '2023-02-03'
+    likes: 250,
+    dislikes: 30,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=3',
   },
   {
-    title: "React Hooks",
+    id: 6,
+    title: "Java Programming",
     type: "document",
-    url: "https://reactjs.org/docs/hooks-intro.html",
-    time: 1682371200000, // Equivalent to '2023-04-25'
-    likes: 150,
-    dislikes: 8,
-    pages: 50,
+    url: "https://www.example.com/document.pdf",
+    time: 1673884800000, // Equivalent to '2023-01-01'
+    likes: 300,
+    dislikes: 25,
+    pages: 150,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=4',
   },
   {
-    title: "React Context",
-    type: "slide",
-    url: "https://www.slideshare.net/rajaraodv/reactive-2018",
-    time: 1685577600000, // Equivalent to '2023-06-01'
-    likes: 180,
-    dislikes: 6,
-    pages: 30,
-  },
-  {
-    title: "React Hooks",
+    id: 7,
+    title: "Python Programming",
     type: "document",
-    url: "https://reactjs.org/docs/hooks-intro.html",
-    time: 1682371200000, // Equivalent to '2023-04-25'
-    likes: 150,
-    dislikes: 8,
-    pages: 50,
+    url: "https://www.example.com/document.pdf",
+    time: 1671206400000, // Equivalent to '2022-12-01'
+    likes: 350,
+    dislikes: 35,
+    pages: 200,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=5',
   },
   {
-    title: "React Context",
-    type: "slide",
-    url: "https://www.slideshare.net/rajaraodv/reactive-2018",
-    time: 1685577600000, // Equivalent to '2023-06-01'
-    likes: 180,
-    dislikes: 6,
-    pages: 30,
-  },
-  {
-    title: "React Hooks",
+    id: 8,
+    title: "JavaScript Fundamentals",
     type: "document",
-    url: "https://reactjs.org/docs/hooks-intro.html",
-    time: 1682371200000, // Equivalent to '2023-04-25'
-    likes: 150,
-    dislikes: 8,
-    pages: 50,
-  },
-  {
-    title: "React Context",
-    type: "slide",
-    url: "https://www.slideshare.net/rajaraodv/reactive-2018",
-    time: 1685577600000, // Equivalent to '2023-06-01'
-    likes: 180,
-    dislikes: 6,
-    pages: 30,
-  },
+    url: "https://www.example.com/document.pdf",
+    time: 1668528000000, // Equivalent to '2022-11-01'
+    likes: 400,
+    dislikes: 40,
+    pages: 250,
+    thumbnailUrl: 'https://picsum.photos/200/300?random=6',
+  }
 ];
+  
+    
 
 const StudyResources = () => {
   const { resourceId } = useParams();

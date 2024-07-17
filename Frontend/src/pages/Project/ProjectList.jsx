@@ -6,6 +6,7 @@ import { ArrowRotateRight, SearchNormal1 } from 'iconsax-react';
 import Dropdown from '../../components/Dropdown';
 import Input from '../../components/Input';
 import UploadProjectModal from './UploadProjectModal ';
+import SkeletonCard from './SkeletonCard';
 
 const projectData = [
     {
@@ -143,16 +144,23 @@ const projectData = [
 const ProjectList = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const [freeFilter, setFreeFilter] = useState("");
     const [ratingFilter, setRatingFilter] = useState("");
     const [downloadFilter, setDownloadFilter] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("");
+
     const [techStackFilter, setTechStackFilter] = useState("");
     const [showUploadModal, setShowUploadModal] = useState(false);
     const throttledSearchTerm = useThrottle(searchTerm, 1000);
 
     useEffect(() => {
-        setFilteredData(projectData);
+        setLoading(true);
+        setTimeout(() => {
+            setFilteredData(projectData);
+            setLoading(false);
+        }, 1000);
     }, []);
 
 
@@ -208,16 +216,15 @@ const ProjectList = () => {
     const uniqueId = useId() + filteredProjects.length || 'empty';
 
     return (
-        <div className="p-4">
+        <div className="">
             <h1 className="text-3xl font-semibold">Projects</h1>
             <div className="search-bar my-4 flex items-center justify-center gap-x-2">
                 <Input
-                    type='password'
+                    type='search'
                     placeholder="Search projects..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     iconBefore={<SearchNormal1 />}
-                    state='success'
                 />
             </div>
             <div className="filter-bar my-4 flex md:flex-row flex-wrap items-center justify-center gap-4">
@@ -231,8 +238,27 @@ const ProjectList = () => {
                 </button>
                 <button onClick={() => setShowUploadModal(true)} className="btn-primary">Upload Project</button>
             </div>
-            {filteredProjects.length === 0 && <p>No projects found</p>}
+
             <div className="flex flex-col w-full sm:px-4 gap-4">
+                {loading ? Array.from({ length: 4 }).map((_, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                        <SkeletonCard />
+                    </motion.div>
+                )) : ((
+                    filteredProjects.length === 0 && (
+                        throttledSearchTerm ? (
+                            <p className="text-gray-500">No projects found for "{throttledSearchTerm}"</p>
+                        ) : (
+                            <p className="text-gray-500">No projects found</p>
+                        )
+                    )
+                ))}
+
                 {filteredProjects.map((project, index) => (
                     <motion.div
                         key={`${project.id}-${uniqueId}`}
@@ -252,3 +278,4 @@ const ProjectList = () => {
 };
 
 export default ProjectList;
+
