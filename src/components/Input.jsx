@@ -4,10 +4,27 @@ import { Eye, EyeSlash } from "iconsax-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const stateClasses = {
-  info: "bg-blue-100 text-blue-700",
-  error: "bg-red-100 text-red-700",
-  warning: "bg-yellow-100 text-yellow-700",
-  success: "bg-green-100 text-green-700",
+  info: "ring-1 ring-blue-500 text-blue-500 focus-within:ring-blue-600",
+  error: "ring-1 ring-red-500 text-red-500 focus-within:ring-red-600",
+  warning: "ring-1 ring-yellow-500 text-yellow-500 focus-within:ring-yellow-600 ",
+  success: "ring-1 ring-green-500 text-green-500 focus-within:ring-green-600",
+  default: "ring-1 ring-borderPrimary text-textSecondary focus-within:ring-brand-500",
+};
+
+const textStateClasses = {
+  info: "text-blue-500",
+  error: "text-red-500",
+  warning: "text-yellow-500",
+  success: "text-green-500",
+  default: "text-textSecondary",
+};
+
+const textFocusStateClasses = {
+  info: "text-blue-600",
+  error: "text-red-600",
+  warning: "text-yellow-600",
+  success: "text-green-600",
+  default: "text-brand-600",
 };
 
 // Function to calculate password strength
@@ -46,7 +63,9 @@ const Input = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const stateClass = stateClasses[state] || state;
+  const stateClass = stateClasses[state] || stateClasses['default'];
+  const textStateClass = textStateClasses[state] || textStateClasses['default'];
+  const textFocusStateClass = textFocusStateClasses[state] || textFocusStateClasses['default'];
   const borderColorClass = className.includes("border-")
     ? ""
     : "border-borderPrimary";
@@ -62,61 +81,141 @@ const Input = ({
         ? name + Math.random().toString(36).substring(7)
         : Math.random().toString(36).substring(7);
 
-  return (
-    <div className={`relative flex w-full flex-col`}>
-      {label && (
+
+  const Label = () => {
+    return (
+      label && (
         <label className="select-none mb-1 ml-3 text-sm text-gray-600" htmlFor={uniqueId}>
           {label}
         </label>
-      )}
-      <div
-        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${
-          border ? `border ${borderColorClass}` : ""
-        } ${color} ${
-          stateClass ? stateClass : "bg-bgSecondary text-textSecondary"
-        } h-10 flex-1 ${className}`}
-      >
-        {iconBefore && (
-          <div
-            className={`mr-2 ${isFocused ? "text-brand-800" : "text-gray-400 dark:text-gray-500"}`}
-          >
-            {iconBefore}
-          </div>
-        )}
-        <AnimatePresence>
-          {type === "link" &&
-            (isFocused || value) &&
-            (value ? (
-              <div className="mr-1 select-none text-gray-500">
-                <span>https://</span>{" "}
-                <span className="h-full w-2 bg-blue-400" />
-              </div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="mr-2 select-none text-sm text-gray-500"
-              >
-                <span>https://</span>{" "}
-                <span className="h-full w-2 bg-blue-400" />
-              </motion.div>
-            ))}
-        </AnimatePresence>
+      )
+    )
+  }
 
-        <div className="relative w-full">
-          {labelPlaceholder && (
-            <label
-              className={`absolute left-0 select-none transform transition-all duration-200 ${
-                isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
-              } pointer-events-none text-gray-500`}
-              htmlFor={uniqueId}
+  const IconBefore = () => {
+    return (
+      iconBefore && (
+        <div
+          className={`mr-2 ${isFocused ? textFocusStateClass : textStateClass}`}
+        >
+          {iconBefore}
+        </div>
+      )
+    )
+  }
+
+  const LinkPlaceholder = () => {
+    return (
+      type === "link" && (
+        <div className="mr-2 select-none text-sm text-gray-500">
+          <span>https://</span>{" "}
+          <span className="h-full w-2 bg-blue-400" />
+        </div>
+      )
+    )
+  }
+
+  const LinkAnimation = () => {
+    return (
+      <AnimatePresence>
+        {type === "link" &&
+          (isFocused || value) &&
+          (value ? (
+            <LinkPlaceholder />
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.3, type: "tween" }}
             >
-              {labelPlaceholder}
-            </label>
-          )}
-          <input
+              <LinkPlaceholder />
+            </motion.div>
+          ))}
+      </AnimatePresence>
+    )
+  }
+
+  const LabelPlaceholder = () => {
+    return (
+      labelPlaceholder && (
+        <label
+          className={`absolute left-0 select-none transform transition-all duration-200 ${isFocused || value ? "-top-[26px] text-xs" : "top-0 text-base"
+            } pointer-events-none text-gray-500`}
+          htmlFor={uniqueId}
+        >
+          {labelPlaceholder}
+        </label>
+      )
+    )
+  }
+
+  const IconAfter = () => {
+    return (
+      iconAfter && (
+        <div className="ml-2">{iconAfter}</div>
+      )
+    )
+  }
+
+  const VisiblePassword = () => {
+    return (
+      visiblePassword && type === "password" && (
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="ml-2"
+        >
+          {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+        </button>
+      )
+    )
+  }
+
+  const Loading = () => {
+    return (
+      loading && (
+        <div className="ml-2">
+          <div className="h-6 w-6 animate-spin rounded-full border-3 border-gray-300 border-t-blue-600" />
+        </div>
+      )
+    )
+  }
+
+  const PasswordStrength = () => {
+    return (
+      progress && type === "password" && value.length > 0 && (
+        <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-red-300">
+          <div
+            className="h-full bg-success-300"
+            style={{ width: `${passwordStrength}%` }}
+          ></div>
+        </div>
+      )
+    )
+  }
+
+  const Message = () => {
+    return (
+      message && (
+        <div className={`mt-1 text-xs ${textStateClass}`}>{message}</div>
+      )
+    )
+  }
+
+
+  return (
+    <div className={`relative flex w-full flex-col`}>
+      <Label />
+      <div
+        className={`flex items-center rounded-lg px-3 py-2 ${shadow ? shadow : "shadow-sm"} ${border ? `border ${borderColorClass}` : ""
+          } ${color} ${stateClass} ${className} h-10 flex-1 transition-all duration-200 focus-within:ring-2 `}
+      >
+        <IconBefore />
+        <LinkAnimation />
+        <div className="relative w-full">
+          <LabelPlaceholder />
+          <LocalInput
             type={visiblePassword ? (showPassword ? "text" : "password") : type}
             id={uniqueId}
             name={name}
@@ -130,31 +229,12 @@ const Input = ({
             {...props}
           />
         </div>
-        {iconAfter && <div className="ml-2">{iconAfter}</div>}
-        {visiblePassword && type === "password" && (
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="ml-2"
-          >
-            {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
-          </button>
-        )}
-        {loading && (
-          <div className="ml-2">
-            <div className="h-6 w-6 animate-spin rounded-full border-3 border-gray-300 border-t-blue-600" />
-          </div>
-        )}
+        <IconAfter />
+        <VisiblePassword />
+        <Loading />
       </div>
-      {progress && type === "password" && value.length > 0 && (
-        <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-red-300">
-          <div
-            className="h-full bg-success-300"
-            style={{ width: `${passwordStrength}%` }}
-          ></div>
-        </div>
-      )}
-      {message && <div className="mt-1 text-sm text-gray-600">{message}</div>}
+      <PasswordStrength />
+      <Message />
     </div>
   );
 };
@@ -183,3 +263,9 @@ Input.propTypes = {
 };
 
 export default Input;
+
+const LocalInput = ({ ...props }) => {
+  return (
+    <input {...props} />
+  )
+}

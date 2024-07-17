@@ -7,7 +7,7 @@ import { useResume } from "../../contexts/ResumeContext";
 import { Specialized1, Specialized2, Specialized3 } from "./Templates";
 import InputForm from "./InputForm";
 import ResumePreview from "./ResumePreview";
-import Dropdown from "./Components/Dropdown";
+import Dropdown from "../../components/Dropdown";
 import Toggle from "../../components/Toggle";
 import TemplatesSelectionModal from "./Modals/TemplatesSelectionModal";
 import SettingsModal from "./Modals/SettingsModal";
@@ -381,7 +381,7 @@ const ResumeBuilder = () => {
 
 
   return (
-    <div className="container mx-auto p-4 pb-0">
+    <div className="py pb-0">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Resume Builder</h1>
         <div className="relative flex items-center justify-center gap-4">

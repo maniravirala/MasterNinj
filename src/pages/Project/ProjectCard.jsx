@@ -2,6 +2,7 @@ import { ArrowDown, Star } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Image from "../../components/Image";
+import { Popover, PopoverButton, PopoverPanel } from "../../components/Popover";
 
 const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
@@ -15,12 +16,10 @@ const ProjectCard = ({ project }) => {
   return (
     <motion.div
       className='flex flex-col sm:flex-row items-center w-full gap-3 p-3 rounded-xl sm:bg-transparent border border-borderPrimary shadow-sm sm:hover:shadow-md transition-shadow'>
-      
+
       {project.thumbnailUrl && (
         <motion.div
-          whileHover={{ scale: 1.05, rotate: 1 }}
-          transition={{ type: 'spring', stiffness: 200 }}
-          className="flex-shrink-0 w-full sm:w-24 h-24 rounded-lg overflow-hidden cursor-pointer" 
+          className="flex-shrink-0 w-full sm:w-24 h-24 rounded-lg overflow-hidden cursor-pointer"
           onClick={handleNavigate}>
           <Image src={project.thumbnailUrl} alt={project.title} className="w-full h-full object-cover" />
         </motion.div>
@@ -34,7 +33,7 @@ const ProjectCard = ({ project }) => {
           </div>
         </div>
         <div className="overflow-hidden">
-          <p className="text-sm line-clamp-2">{project.description}</p>
+          <p className="text-sm line-clamp-2 text-textSecondary">{project.description}</p>
         </div>
         <div className="text-sm flex flex-wrap items-center gap-4">
           <div className="flex items-center">
@@ -48,10 +47,25 @@ const ProjectCard = ({ project }) => {
           <span className="capitalize truncate w-fit max-w-[30ch]">{project.category}</span>
           <div className="flex items-center gap-2 flex-wrap">
             {techStack.slice(0, 3).map((tech, index) => (
-              <span key={index} className="px-1.5 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md text-xs">{tech}</span>
+              <span key={index} className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">{tech}</span>
             ))}
             {techStack.length > 3 && (
-              <span className="px-1.5 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md text-xs">+{techStack.length - 3} more</span>
+              <span className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">+{techStack.length - 3} more</span>
+            )}
+
+            {techStack.length > 3 && (
+              <Popover className="relative">
+                <PopoverButton className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">
+                  +{techStack.length - 3} more
+                </PopoverButton>
+                <PopoverPanel className="flex gap-1 flex-wrap whitespace-nowrap max-w-52">
+                  {techStack.slice(3).map((tech, index) => (
+                    <span key={index} className=" px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">
+                      {tech}
+                    </span>
+                  ))}
+                </PopoverPanel>
+              </Popover>
             )}
           </div>
         </div>
@@ -61,3 +75,4 @@ const ProjectCard = ({ project }) => {
 };
 
 export default ProjectCard;
+
