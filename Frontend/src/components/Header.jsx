@@ -4,6 +4,7 @@ import { HambergerMenu, CloseCircle, Notification } from "iconsax-react";
 import { useElementSize } from "@custom-react-hooks/all";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "../assets";
+import User from './Sidebar/User';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,7 +37,9 @@ const Header = () => {
             <button className="p-2">
               <Notification size="24" />
             </button>
-            <div className="h-10 w-10 rounded-full bg-gray-300"></div>
+            <div className="h-10 w-10 rounded-full bg-gray-300">
+              <User avatar />
+            </div>
           </div>
         </div>
         <AnimatePresence>

@@ -50,10 +50,6 @@ const ProjectCard = ({ project }) => {
               <span key={index} className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">{tech}</span>
             ))}
             {techStack.length > 3 && (
-              <span className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">+{techStack.length - 3} more</span>
-            )}
-
-            {techStack.length > 3 && (
               <Popover className="relative">
                 <PopoverButton className="px-1.5 py-1 bg-bgSecondary text-textSecondary rounded-md text-xs">
                   +{techStack.length - 3} more
