@@ -4,7 +4,7 @@ const ResumePreview = ({tabsData, selectedTemplate}) => {
   const { getFontFamilyClass, getPaperClass } = useResume();
 
   return (
-    <>
+    <div>
       <div
         id="resumePreview"
         className={`bg-slate-100 text-black ${getPaperClass()}`}
@@ -12,7 +12,7 @@ const ResumePreview = ({tabsData, selectedTemplate}) => {
       >
         {tabsData.find((tab) => tab.label === selectedTemplate)?.component}
       </div>
-    </>
+    </div>
   );
 };
 

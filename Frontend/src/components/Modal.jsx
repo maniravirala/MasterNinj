@@ -24,15 +24,16 @@ const Modal = ({ isOpen, onClose, children }) => {
                         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                             <motion.div
                                 ref={handleBackgroundClick}
-                                className="relative transform overflow-hidden overflow-y-auto rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+                                className="relative transform overflow-hidden overflow-y-auto rounded-lg bg-bgPrimary text-left shadow-xl transition-all sm:my-8" // sm:w-full sm:max-w-lg
                             >
                                 <div
-                                    className="absolute -right-3 -top-3 z-[100] bg-white p-4 pl-1 pb-1 cursor-pointer text-2xl rounded-full shadow-md hover:shadow-lg"
+                                    className="absolute -right-3 -top-3 z-[100] p-4 pl-1 pb-1 cursor-pointer text-2xl rounded-full hover:shadow-lg"
                                     onClick={onClose}
                                     >
                                     <IoClose />
                                 </div>
-                                <div className="bg-white px-4 pb-4 pt-5 sm:pt-8 sm:p-6 sm:pb-4">
+                                {/* <div className="bg-bgPrimary px-4 pb-4 pt-5 sm:pt-8 sm:p-6 sm:pb-4"> */}
+                                <div className="bg-bgPrimary p-4 sm:p-6">
                                     {children}
                                 </div>
                             </motion.div>

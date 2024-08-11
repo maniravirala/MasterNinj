@@ -32,7 +32,7 @@ exports.createStudent = async (req, res, next) => {
             status: 'success',
             message: 'Registered successfully',
             token,
-            student: {
+            user: {
                 name: newStudent.name,
                 email: newStudent.email,
             }
@@ -44,7 +44,7 @@ exports.createStudent = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, rememberMe } = req.body;
 
         const student = await Student.findOne({ email });
         if (!student) return next(new createError(401, 'User not found'));
@@ -56,8 +56,10 @@ exports.login = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRES_IN
         });
 
+        const COOKIE_EXPIRES = rememberMe ? process.env.COOKIE_EXPIRES_IN_REMEMBER_ME : process.env.COOKIE_EXPIRES_IN;
+
         res.cookie('token', token, {
-            expires: new Date(Date.now() + process.env.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
             secure: true,
             sameSite: 'None'
         });
@@ -66,7 +68,7 @@ exports.login = async (req, res, next) => {
             status: 'success',
             message: 'Logged in successfully',
             token,
-            student: {
+            user: {
                 name: student.name,
                 email: student.email
             }

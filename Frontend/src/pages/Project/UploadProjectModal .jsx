@@ -104,13 +104,14 @@ const UploadProjectModal = ({ isOpen, onClose }) => {
                 <Input
                     name={formData.uploadType === 'file' ? 'uploadFile' : 'githubLink'}
                     type={formData.uploadType}
+                    accept={formData.uploadType === 'file' ? 'application/zip' : ''}
                     value={formData.uploadType === 'file' ? '' : formData.githubLink}
                     onChange={formData.uploadType === 'file' ? handleFileUpload : handleInputChange}
                     labelPlaceholder={formData.uploadType === 'file' ? '' : 'GitHub Link'}
                 />
                 <Button onClick={handleAddCarouselUrl} >Add Carousel URL</Button>
                 <div className='flex gap-2 '>
-                <Button className={`flex-grow !text-textPrimary bg-transparent border border-gray-400 `} onClick={onClose}>Cancel</Button>
+                <Button className={`flex-grow`} variant='outline' onClick={onClose}>Cancel</Button>
                 <Button className={`flex-grow`} onClick={handleSubmit}>Submit</Button>
                 </div>
             </div>

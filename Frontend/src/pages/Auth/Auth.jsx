@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LineBG, bgLoginRegister } from "../../assets";
 import Login from "./Login";
 import Register from "./Register";
+// import { useAuth } from "../../contexts/AuthContext";
 
 const Auth = () => {
   const location = useLocation();
+  // const navigate = useNavigate();
   const path = location.pathname;
   const [isLogin, setIsLogin] = useState(path == "/login" ? true : false);
+
+  // const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     setIsLogin(path == "/login" ? true : false);

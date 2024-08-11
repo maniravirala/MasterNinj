@@ -7,3 +7,4 @@ export { default as arrowDarkLottie } from './bgAssets/arrowDark.json';
 
 // 404
 export { default as NotFoundSvg } from './404.svg';
+export { default as Example } from './example.png';

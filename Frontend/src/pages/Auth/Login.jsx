@@ -3,6 +3,8 @@ import { Logo } from "../../assets";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 import Google from "../../components/Buttons/Google";
+import { useAuth } from "../../contexts/AuthContext";
+import { toast } from "sonner";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,17 +13,31 @@ const Login = () => {
     rememberMe: false,
   });
 
+  const { login } = useAuth();
+
   const handleChange = (e) => {
     const { name, value, checked, type, id } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [type === "checkbox" ? id : name]: type === "checkbox" ? checked : value,
     }));
-    console.log(formData);
   };
 
-  const handleLogin = () => {
-    console.log("Login");
+  const handleLogin = async () => {
+    try {
+      toast.promise(login(formData), {
+        loading: "Loading...",
+        success: (data) => {
+          return data.message;
+        },
+        error: (data) => {
+          return data.message;
+        },
+      });
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Login failed");
+    }
   };
 
   return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AddCircle } from "iconsax-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useLocalStorage } from "../../hooks";
 import { useResume } from "../../contexts/ResumeContext";
 import { Specialized1, Specialized2, Specialized3 } from "./Templates";
@@ -11,8 +11,14 @@ import Dropdown from "../../components/Dropdown";
 import Toggle from "../../components/Toggle";
 import TemplatesSelectionModal from "./Modals/TemplatesSelectionModal";
 import SettingsModal from "./Modals/SettingsModal";
+import { toast } from 'sonner';
+import PageParent from "../../layout/PageParent";
+
 
 const ResumeBuilder = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [activeTabResume, setActiveTabResume] = useLocalStorage(
     "activeTabResume",
     "personalInfo",
@@ -367,23 +373,35 @@ const ResumeBuilder = () => {
     "Specialized1",
   );
 
-  const [modalOpen, setModalOpen] = useState(location.hash.substring(1) || '');
-  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(location.hash.substring(1) || "");
 
   useEffect(() => {
-    if (modalOpen !== '') {
-      navigate(location.pathname+'#' + modalOpen);
-    }
-    else {
-      navigate(location.pathname);
+    const pathname = location.pathname;
+    console.log("pathname", pathname);
+  }, [location]);
+
+  useEffect(() => {
+    if (modalOpen !== "") {
+      navigate(`#${modalOpen}`, { replace: true, state: { from: location } });
+    } else {
+      navigate('', { replace: true, state: { from: location } });
     }
   }, [modalOpen, navigate]);
+  
+//   navigate(location.pathname + "#" + modalOpen, { state: { from: location } });
+// } else {
+//   navigate(location.pathname, { state: { from: location } });
+// }
+// }, [modalOpen, navigate]);
 
+  const handleDownload = () => {
+    toast.success('Downloading Resume');
+  }  
 
+  
   return (
-    <div className="py pb-0">
+    <PageParent title="Resume Builder">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-semibold">Resume Builder</h1>
         <div className="relative flex items-center justify-center gap-4">
           <TemplatesSelectionModal
             tabsData={ResumeTemplatesData}
@@ -433,10 +451,19 @@ const ResumeBuilder = () => {
           </div>
         </div>
         <div className="overflow-y-auto p-2 md:col-span-2">
-          <ResumePreview selectedTemplate={selectedTemplate} tabsData={ResumeTemplatesData} />
+          <div className="flex justify-center items-center mb-2">
+            <div className="flex gap-2 rounded-xl bg-bgSecondary p-2 text-center">
+              <button className='bg-bgActive hover:bg-bgHover active:bg-bgActive text-textPrimary px-3 py-1 rounded-md' onClick={handleDownload}>Download</button>
+              <button className='bg-bgActive hover:bg-bgHover active:bg-bgActive text-textPrimary px-3 py-1 rounded-md' >Print</button>
+            </div>
+          </div>
+          <ResumePreview
+            selectedTemplate={selectedTemplate}
+            tabsData={ResumeTemplatesData}
+          />
         </div>
       </div>
-    </div>
+    </PageParent>
   );
 };
 

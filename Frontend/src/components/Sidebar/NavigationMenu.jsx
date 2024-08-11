@@ -5,6 +5,7 @@ import { ScrollShadow } from "@nextui-org/react";
 import {
   ArrowDown2,
   Book1,
+  Briefcase,
   Calculator,
   Calendar,
   Category2,
@@ -25,18 +26,31 @@ const navLinks = [
   { name: "Resume", icon: <Notepad size={24} />, path: "/resume-builder" },
   { name: "Projects", icon: <Category2 size={24} />, path: "/projects" },
   { name: "Calculator", icon: <Calculator size={24} />, path: "/calculators" },
-  { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
-  { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
-  { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
-  { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
   {
-    name: "Settings", icon: <Setting size={24} />, path: "/settings", children: [
-      { name: "Profile", path: "/profile", icon: <Profile2User size={24} /> },
-      { name: "Account", path: "/account", icon: <ProfileCircle size={24} /> },
-    ]
+    name: "Student Starter Kit",
+    icon: <Briefcase size={24} />,
+    path: "/ssk/academic-essentials",
   },
-  { name: "Test", icon: <TicketStar size={24} />, path: "/test" },
+  // { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
+  // { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },
+  // { name: "Calendar", icon: <Calendar size={24} />, path: "/calendar" },
+  // { name: "Notifications", icon: <Notification size={24} />, path: "/notifications" },
+  // {
+  //   name: "Settings", icon: <Setting size={24} />, path: "/settings", children: [
+  //     { name: "Profile", path: "/profile", icon: <Profile2User size={24} /> },
+  //     { name: "Account", path: "/account", icon: <ProfileCircle size={24} /> },
+  //   ]
+  // },
+  // { name: "Test", icon: <TicketStar size={24} />, path: "/test" },
 ];
+
+if (process.env.NODE_ENV === "development") {
+  navLinks.push({
+    name: "Test",
+    icon: <TicketStar size={24} />,
+    path: "/test",
+  });
+}
 
 const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
   const location = useLocation();
@@ -44,7 +58,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
   const [isOpened, setIsOpened] = useState("");
 
   useEffect(() => {
-    setActiveLink('/' + location.pathname.split("/")[1]);
+    setActiveLink(location.pathname.split("/")[1]);
   }, [location]);
 
   return (
@@ -55,7 +69,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
             link.children ? (
               <div key={link.name}>
                 <button
-                  className={`flex w-full items-center gap-4 rounded-lg border-0 p-2 focus:outline-none ${activeLink === link.path ? "bg-bgActive" : "hover:bg-bgHover"}`}
+                  className={`flex w-full items-center gap-4 rounded-lg border-0 p-2 focus:outline-none ${activeLink === link.path.split("/")[1] ? "bg-bgActive" : "hover:bg-bgHover"}`}
                   onClick={() => {
                     setIsOpened(isOpened === link.path ? "" : link.path);
                     setIsExpanded(true);
@@ -91,7 +105,7 @@ const NavigationMenu = ({ isExpanded, setIsExpanded }) => {
                 <Link
                   to={link.path}
                   key={link.name}
-                  className={`flex items-center gap-4 rounded-lg p-2 ${activeLink === link.path ? "bg-bgActive" : "hover:bg-bgHover"}`}
+                  className={`flex items-center gap-4 rounded-lg p-2 ${activeLink === link.path.split("/")[1] ? "bg-bgActive" : "hover:bg-bgHover"}`}
                 >
                   {link.icon}
                   {isExpanded && <span>{link.name}</span>}

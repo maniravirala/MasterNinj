@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Tabs from "../../components/Tabs";
 import ResourcePage from "./ResourcePage";
 import toast from "react-hot-toast";
+import PageParent from "../../layout/PageParent";
 
 const sampleData = [
   {
@@ -125,8 +126,8 @@ const StudyResources = () => {
   }, [selectedTab, resourceId, navigate]);
 
   return (
-    <div className="study-resources">
-      <div className="pt-10">
+    <PageParent title="Study Resources">
+      <div className="">
         <Tabs
           tabs={tabs}
           selectedTab={selectedTab}
@@ -137,7 +138,7 @@ const StudyResources = () => {
 
       {error && <p>{error}</p>}
       <ResourcePage data={data} loading={loading} />
-    </div>
+    </PageParent>
   );
 };
 

@@ -3,6 +3,8 @@ import { Logo } from "../../assets";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 import Google from "../../components/Buttons/Google";
+import { useAuth } from "../../contexts/AuthContext";
+import { toast } from "sonner";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,29 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  const isPasswordValid = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*]).{8,}$/;
+    return passwordRegex.test(password);
+  }
+
+  const passwordError = (password) => {
+    const uppercaseRegex = /^(?=.*[A-Z])/;
+    const lowercaseRegex = /^(?=.*[a-z])/;
+    const numberRegex = /^(?=.*\d)/;
+    const lengthRegex = /^.{8,}$/;
+    const specialCharRegex = /^(?=.*[!@#\$%\^&\*])/;
+    
+    const uppercase = uppercaseRegex.test(password);
+    const lowercase = lowercaseRegex.test(password);
+    const number = numberRegex.test(password);
+    const length = lengthRegex.test(password);
+    const specialChar = specialCharRegex.test(password);
+
+    return 'Password must contain at least' + (uppercase ? '' : ', 1 uppercase letter') + (lowercase ? '' : ', 1 lowercase letter') + (number ? '' : ', 1 number') + (length ? '' : ', 8 characters') + (specialChar ? '' : ', 1 special character'); 
+  }
+
+  const { register } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +45,26 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    console.log("Login");
+    try {
+      if (!formData.name || !formData.email || !formData.password) {
+        return toast.error("Please fill in all fields");
+      }
+      if (!isPasswordValid(formData.password)) {
+        return toast.error(passwordError(formData.password));
+      }
+      toast.promise(register(formData), {
+        loading: "Loading...",
+        success: (data) => {
+          return data.message;
+        },
+        error: (data) => {
+          return data.message;
+        },
+      });
+    } catch (error) {
+      console.error("Register failed:", error);
+      toast.error("Register failed");
+    }
   };
 
   return (

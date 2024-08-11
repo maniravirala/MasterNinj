@@ -1,16 +1,20 @@
 
 import { Link, useLocation } from 'react-router-dom';
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ start = 0, end = -1 }) => {
   const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
+  const pathnames = location.pathname.split('/').filter(x => x);
+  const effectiveEnd = end === -1 ? pathnames.length : end;
+
+  const breadcrumbPathnames = pathnames.slice(start, effectiveEnd);
+  const ignoredPathnamess = pathnames.slice(0, start);
 
   return (
     <nav className="mb-4">
       <ol className="flex items-center whitespace-nowrap"> 
-        {pathnames.map((value, index) => {
-          const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-          const isLast = index === pathnames.length - 1;
+        {breadcrumbPathnames.map((value, index) => {
+          const to = `/${ignoredPathnamess.join('/')}/${breadcrumbPathnames.slice(0, index + 1).join('/')}`;
+          const isLast = index === breadcrumbPathnames.length - 1;
           return (
             <li key={to} className="inline-flex items-center">
               {!isLast ? (

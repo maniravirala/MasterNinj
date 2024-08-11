@@ -7,6 +7,9 @@ import Dropdown from '../../components/Dropdown';
 import Input from '../../components/Input';
 import UploadProjectModal from './UploadProjectModal ';
 import SkeletonCard from './SkeletonCard';
+import { FaPlus } from 'react-icons/fa';
+import FloatingButton from '../../components/Buttons/FloatingButton';
+import PageParent from '../../layout/PageParent';
 
 const projectData = [
     {
@@ -213,11 +216,14 @@ const ProjectList = () => {
         setTechStackFilter("");
     };
 
+    const handleClick = () => {
+        setShowUploadModal(true);
+    };
+
     const uniqueId = useId() + filteredProjects.length || 'empty';
 
     return (
-        <div className="">
-            <h1 className="text-3xl font-semibold">Projects</h1>
+        <PageParent title="Projects">
             <div className="search-bar my-4 flex items-center justify-center gap-x-2">
                 <Input
                     type='search'
@@ -236,7 +242,8 @@ const ProjectList = () => {
                 <button onClick={handleFilterReset} className="p-2 rounded-lg bg-bgSecondary text-tPrimary">
                     <ArrowRotateRight className="text-gray-500 dark:text-gray-400" />
                 </button>
-                <button onClick={() => setShowUploadModal(true)} className="btn-primary">Upload Project</button>
+                <FloatingButton icon={<FaPlus />} onClick={handleClick} label="Add Project" />
+
             </div>
 
             <div className="flex flex-col w-full sm:px-4 gap-4">
@@ -273,7 +280,7 @@ const ProjectList = () => {
                 ))}
             </div>
             <UploadProjectModal onClose={() => setShowUploadModal(false)} isOpen={showUploadModal} />
-        </div>
+        </PageParent>
     );
 };
 
