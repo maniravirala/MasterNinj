@@ -15,6 +15,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@headlessui/react": "^2.1.0",
     "@nextui-org/react": "^2.4.1",
+    "@tanstack/react-router": "^1.47.1",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.3",
     "class-variance-authority": "^0.7.0",
@@ -41,6 +42,8 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.7",
     "@tailwindcss/typography": "^0.5.13",
+    "@tanstack/router-devtools": "^1.47.1",
+    "@tanstack/router-plugin": "^1.47.0",
     "@types/node": "^20.14.9",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
