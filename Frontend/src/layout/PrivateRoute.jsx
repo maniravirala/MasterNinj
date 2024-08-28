@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Navigate, useLocation } from "@tanstack/react-router";
+import { useAuth } from "@contexts/AuthContext";
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();

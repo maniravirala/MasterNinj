@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { ScrollShadow } from "@nextui-org/react";
 import {
@@ -29,7 +29,7 @@ const navLinks = [
   {
     name: "Student Starter Kit",
     icon: <Briefcase size={24} />,
-    path: "/ssk/academic-essentials",
+    path: "/ssk",
   },
   // { name: "Tasks", icon: <Task size={24} />, path: "/tasks" },
   // { name: "Chat", icon: <Messages3 size={24} />, path: "/chat" },

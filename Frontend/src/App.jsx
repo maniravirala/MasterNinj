@@ -1,9 +1,9 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "@/routeTree.gen";
 
 import { Toaster } from "sonner";
-import { useDarkMode } from "./contexts/DarkModeContext";
-import { useAuth } from "./contexts/AuthContext";
+import { useDarkMode } from "@/contexts/DarkModeContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const App = () => {
   const { theme } = useDarkMode();

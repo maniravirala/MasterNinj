@@ -7,8 +7,8 @@ import {
   User,
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useDarkMode } from "../../contexts/DarkModeContext";
-import { Link } from "react-router-dom";
+import { useDarkMode } from "@/contexts/DarkModeContext";
+import { Link } from "@tanstack/react-router";
 
 export default function App({ avatar }) {
   const { theme, toggleTheme } = useDarkMode();
@@ -57,7 +57,7 @@ export default function App({ avatar }) {
               Log Out
             </DropdownItem>
             <DropdownItem key="login" color="success">
-              <Link to="/login">
+              <Link to="/auth/login">
               Log In
               </Link>
             </DropdownItem>

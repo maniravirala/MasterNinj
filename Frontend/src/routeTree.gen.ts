@@ -20,7 +20,19 @@ import { Route as AuthenticatedLayoutImport } from './routes/_authenticatedLayou
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticatedLayout/index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as UnauthenticatedLayoutTestImport } from './routes/_unauthenticatedLayout/test'
 import { Route as UnauthenticatedLayoutInsideLayoutImport } from './routes/_unauthenticatedLayout/insideLayout'
+import { Route as AuthenticatedLayoutResumeBuilderImport } from './routes/_authenticatedLayout/resume-builder'
+import { Route as AuthenticatedLayoutStudyResourcesIndexImport } from './routes/_authenticatedLayout/study-resources/index'
+import { Route as AuthenticatedLayoutSskIndexImport } from './routes/_authenticatedLayout/ssk/index'
+import { Route as AuthenticatedLayoutProjectsIndexImport } from './routes/_authenticatedLayout/projects/index'
+import { Route as AuthenticatedLayoutCalculatorsIndexImport } from './routes/_authenticatedLayout/calculators/index'
+import { Route as AuthenticatedLayoutStudyResourcesResourceIdImport } from './routes/_authenticatedLayout/study-resources/$resourceId'
+import { Route as AuthenticatedLayoutProjectsProjectIdImport } from './routes/_authenticatedLayout/projects/$projectId'
+import { Route as AuthenticatedLayoutSskCategoryIndexImport } from './routes/_authenticatedLayout/ssk/$category/index'
+import { Route as AuthenticatedLayoutCalculatorsCategoryIndexImport } from './routes/_authenticatedLayout/calculators/$category/index'
+import { Route as AuthenticatedLayoutSskCategoryItemIdImport } from './routes/_authenticatedLayout/ssk/$category/$itemId'
+import { Route as AuthenticatedLayoutCalculatorsCategoryCalculatorImport } from './routes/_authenticatedLayout/calculators/$category/$calculator'
 
 // Create Virtual Routes
 
@@ -68,10 +80,81 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const UnauthenticatedLayoutTestRoute = UnauthenticatedLayoutTestImport.update({
+  path: '/test',
+  getParentRoute: () => UnauthenticatedLayoutRoute,
+} as any)
+
 const UnauthenticatedLayoutInsideLayoutRoute =
   UnauthenticatedLayoutInsideLayoutImport.update({
     path: '/insideLayout',
     getParentRoute: () => UnauthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutResumeBuilderRoute =
+  AuthenticatedLayoutResumeBuilderImport.update({
+    path: '/resume-builder',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutStudyResourcesIndexRoute =
+  AuthenticatedLayoutStudyResourcesIndexImport.update({
+    path: '/study-resources/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutSskIndexRoute =
+  AuthenticatedLayoutSskIndexImport.update({
+    path: '/ssk/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutProjectsIndexRoute =
+  AuthenticatedLayoutProjectsIndexImport.update({
+    path: '/projects/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutCalculatorsIndexRoute =
+  AuthenticatedLayoutCalculatorsIndexImport.update({
+    path: '/calculators/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutStudyResourcesResourceIdRoute =
+  AuthenticatedLayoutStudyResourcesResourceIdImport.update({
+    path: '/study-resources/$resourceId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutProjectsProjectIdRoute =
+  AuthenticatedLayoutProjectsProjectIdImport.update({
+    path: '/projects/$projectId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutSskCategoryIndexRoute =
+  AuthenticatedLayoutSskCategoryIndexImport.update({
+    path: '/ssk/$category/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutCalculatorsCategoryIndexRoute =
+  AuthenticatedLayoutCalculatorsCategoryIndexImport.update({
+    path: '/calculators/$category/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutSskCategoryItemIdRoute =
+  AuthenticatedLayoutSskCategoryItemIdImport.update({
+    path: '/ssk/$category/$itemId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutCalculatorsCategoryCalculatorRoute =
+  AuthenticatedLayoutCalculatorsCategoryCalculatorImport.update({
+    path: '/calculators/$category/$calculator',
+    getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -113,11 +196,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticatedLayout/resume-builder': {
+      id: '/_authenticatedLayout/resume-builder'
+      path: '/resume-builder'
+      fullPath: '/resume-builder'
+      preLoaderRoute: typeof AuthenticatedLayoutResumeBuilderImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
     '/_unauthenticatedLayout/insideLayout': {
       id: '/_unauthenticatedLayout/insideLayout'
       path: '/insideLayout'
       fullPath: '/insideLayout'
       preLoaderRoute: typeof UnauthenticatedLayoutInsideLayoutImport
+      parentRoute: typeof UnauthenticatedLayoutImport
+    }
+    '/_unauthenticatedLayout/test': {
+      id: '/_unauthenticatedLayout/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof UnauthenticatedLayoutTestImport
       parentRoute: typeof UnauthenticatedLayoutImport
     }
     '/auth/login': {
@@ -141,6 +238,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticatedLayout/projects/$projectId': {
+      id: '/_authenticatedLayout/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/study-resources/$resourceId': {
+      id: '/_authenticatedLayout/study-resources/$resourceId'
+      path: '/study-resources/$resourceId'
+      fullPath: '/study-resources/$resourceId'
+      preLoaderRoute: typeof AuthenticatedLayoutStudyResourcesResourceIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/calculators/': {
+      id: '/_authenticatedLayout/calculators/'
+      path: '/calculators'
+      fullPath: '/calculators'
+      preLoaderRoute: typeof AuthenticatedLayoutCalculatorsIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/projects/': {
+      id: '/_authenticatedLayout/projects/'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/ssk/': {
+      id: '/_authenticatedLayout/ssk/'
+      path: '/ssk'
+      fullPath: '/ssk'
+      preLoaderRoute: typeof AuthenticatedLayoutSskIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/study-resources/': {
+      id: '/_authenticatedLayout/study-resources/'
+      path: '/study-resources'
+      fullPath: '/study-resources'
+      preLoaderRoute: typeof AuthenticatedLayoutStudyResourcesIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/calculators/$category/$calculator': {
+      id: '/_authenticatedLayout/calculators/$category/$calculator'
+      path: '/calculators/$category/$calculator'
+      fullPath: '/calculators/$category/$calculator'
+      preLoaderRoute: typeof AuthenticatedLayoutCalculatorsCategoryCalculatorImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/ssk/$category/$itemId': {
+      id: '/_authenticatedLayout/ssk/$category/$itemId'
+      path: '/ssk/$category/$itemId'
+      fullPath: '/ssk/$category/$itemId'
+      preLoaderRoute: typeof AuthenticatedLayoutSskCategoryItemIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/calculators/$category/': {
+      id: '/_authenticatedLayout/calculators/$category/'
+      path: '/calculators/$category'
+      fullPath: '/calculators/$category'
+      preLoaderRoute: typeof AuthenticatedLayoutCalculatorsCategoryIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/ssk/$category/': {
+      id: '/_authenticatedLayout/ssk/$category/'
+      path: '/ssk/$category'
+      fullPath: '/ssk/$category'
+      preLoaderRoute: typeof AuthenticatedLayoutSskCategoryIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
   }
 }
 
@@ -148,10 +315,22 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   AuthenticatedLayoutRoute: AuthenticatedLayoutRoute.addChildren({
+    AuthenticatedLayoutResumeBuilderRoute,
     AuthenticatedLayoutIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdRoute,
+    AuthenticatedLayoutStudyResourcesResourceIdRoute,
+    AuthenticatedLayoutCalculatorsIndexRoute,
+    AuthenticatedLayoutProjectsIndexRoute,
+    AuthenticatedLayoutSskIndexRoute,
+    AuthenticatedLayoutStudyResourcesIndexRoute,
+    AuthenticatedLayoutCalculatorsCategoryCalculatorRoute,
+    AuthenticatedLayoutSskCategoryItemIdRoute,
+    AuthenticatedLayoutCalculatorsCategoryIndexRoute,
+    AuthenticatedLayoutSskCategoryIndexRoute,
   }),
   UnauthenticatedLayoutRoute: UnauthenticatedLayoutRoute.addChildren({
     UnauthenticatedLayoutInsideLayoutRoute,
+    UnauthenticatedLayoutTestRoute,
   }),
   AboutLazyRoute,
   AuthLoginRoute,
@@ -178,7 +357,18 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticatedLayout": {
       "filePath": "_authenticatedLayout.jsx",
       "children": [
-        "/_authenticatedLayout/"
+        "/_authenticatedLayout/resume-builder",
+        "/_authenticatedLayout/",
+        "/_authenticatedLayout/projects/$projectId",
+        "/_authenticatedLayout/study-resources/$resourceId",
+        "/_authenticatedLayout/calculators/",
+        "/_authenticatedLayout/projects/",
+        "/_authenticatedLayout/ssk/",
+        "/_authenticatedLayout/study-resources/",
+        "/_authenticatedLayout/calculators/$category/$calculator",
+        "/_authenticatedLayout/ssk/$category/$itemId",
+        "/_authenticatedLayout/calculators/$category/",
+        "/_authenticatedLayout/ssk/$category/"
       ]
     },
     "/_authentication": {
@@ -190,14 +380,23 @@ export const routeTree = rootRoute.addChildren({
     "/_unauthenticatedLayout": {
       "filePath": "_unauthenticatedLayout.jsx",
       "children": [
-        "/_unauthenticatedLayout/insideLayout"
+        "/_unauthenticatedLayout/insideLayout",
+        "/_unauthenticatedLayout/test"
       ]
     },
     "/about": {
       "filePath": "about.lazy.jsx"
     },
+    "/_authenticatedLayout/resume-builder": {
+      "filePath": "_authenticatedLayout/resume-builder.jsx",
+      "parent": "/_authenticatedLayout"
+    },
     "/_unauthenticatedLayout/insideLayout": {
       "filePath": "_unauthenticatedLayout/insideLayout.jsx",
+      "parent": "/_unauthenticatedLayout"
+    },
+    "/_unauthenticatedLayout/test": {
+      "filePath": "_unauthenticatedLayout/test.jsx",
       "parent": "/_unauthenticatedLayout"
     },
     "/auth/login": {
@@ -208,6 +407,46 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticatedLayout/": {
       "filePath": "_authenticatedLayout/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/projects/$projectId": {
+      "filePath": "_authenticatedLayout/projects/$projectId.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/study-resources/$resourceId": {
+      "filePath": "_authenticatedLayout/study-resources/$resourceId.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/calculators/": {
+      "filePath": "_authenticatedLayout/calculators/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/projects/": {
+      "filePath": "_authenticatedLayout/projects/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/ssk/": {
+      "filePath": "_authenticatedLayout/ssk/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/study-resources/": {
+      "filePath": "_authenticatedLayout/study-resources/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/calculators/$category/$calculator": {
+      "filePath": "_authenticatedLayout/calculators/$category/$calculator.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/ssk/$category/$itemId": {
+      "filePath": "_authenticatedLayout/ssk/$category/$itemId.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/calculators/$category/": {
+      "filePath": "_authenticatedLayout/calculators/$category/index.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/ssk/$category/": {
+      "filePath": "_authenticatedLayout/ssk/$category/index.jsx",
       "parent": "/_authenticatedLayout"
     }
   }

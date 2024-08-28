@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { config } from "dotenv";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import path from "path";
 
 config();
 
@@ -11,4 +12,9 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
+  resolve:{
+    alias:{
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
 });
