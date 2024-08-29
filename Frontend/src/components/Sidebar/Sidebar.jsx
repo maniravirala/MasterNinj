@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { ArrowRight2, ArrowLeft2, SearchNormal1 } from "iconsax-react";
 import { Logo } from "../../assets";
 import Divider from "../Divider";

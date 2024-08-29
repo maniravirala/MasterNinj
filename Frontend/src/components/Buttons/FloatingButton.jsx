@@ -40,8 +40,4 @@ FloatingButton.propTypes = {
   label: PropTypes.string,
 };
 
-FloatingButton.defaultProps = {
-  styles: "",
-};
-
 export default FloatingButton;
