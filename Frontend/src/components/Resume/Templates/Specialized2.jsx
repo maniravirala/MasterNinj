@@ -1,3 +1,15 @@
+
+const Specialized2 = () => {
+  return (
+    <div>
+      <h1>Specialized2</h1>
+    </div>
+  );
+};
+
+export default Specialized2;
+
+
 // import Markdown from 'react-markdown';
 // import { BiLogoGithub, BiLogoGmail, BiLogoLinkedinSquare, BiSolidPhone } from 'react-icons/bi';
 // import { useResume } from '../../../contexts/ResumeContext';

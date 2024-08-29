@@ -1,18 +1,18 @@
 import { useState } from "react";
 import NavigationMenu from "./Sidebar/NavigationMenu";
 import { HambergerMenu, CloseCircle, Notification } from "iconsax-react";
-import { useElementSize } from "@custom-react-hooks/all";
+import { useMeasure } from "@uidotdev/usehooks";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "../assets";
 import User from './Sidebar/User';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [setRef, size] = useElementSize();
+  const [ ref, { height } ] = useMeasure();
 
   return (
     <header className="bg-white shadow-md dark:bg-gray-800">
-      <nav ref={setRef} className="flex items-center justify-between p-4">
+      <nav ref={ref} className="flex items-center justify-between p-4">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center">
@@ -50,7 +50,7 @@ const Header = () => {
               exit={{ left: "-100%" }}
               transition={{ duration: 0.4, type: "tween" }}
               className="absolute z-20 h-full w-full bg-white px-5 dark:bg-gray-800"
-              style={{ top: size.height }}
+              style={{ top: height }}
             >
               <NavigationMenu isExpanded={isMobileMenuOpen} />
             </motion.div>

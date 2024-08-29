@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useId } from "react";
-import { useThrottle } from "@custom-react-hooks/all";
 import { SearchNormal1 } from "iconsax-react";
 import ResourceCard from "./ResourceCard";
 import { Skeleton } from "@nextui-org/skeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import Input from "../../components/Input";
 import Dropdown from "../../components/Dropdown";
+import { useThrottle } from '@uidotdev/usehooks';
 
 const ResourcePage = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +14,7 @@ const ResourcePage = ({ data }) => {
   
   const [sortFilter, setSortFilter] = useState("time");
 
-  const throttledSearchTerm = useThrottle(searchTerm, 1000)
+  const throttledSearchTerm = useThrottle(searchTerm, 300);
 
   const sortOptions = [
     { key: "time", name: "Latest" },
