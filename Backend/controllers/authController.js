@@ -60,7 +60,7 @@ exports.login = async (req, res, next) => {
 
         res.cookie('token', token, {
             expires: new Date(Date.now() + COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-            secure: true,
+            // secure: true,
             // sameSite: 'None'
         });
 
