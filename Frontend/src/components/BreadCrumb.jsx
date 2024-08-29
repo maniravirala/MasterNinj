@@ -1,5 +1,5 @@
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from '@tanstack/react-router';
 
 const Breadcrumb = ({ start = 0, end = -1 }) => {
   const location = useLocation();
