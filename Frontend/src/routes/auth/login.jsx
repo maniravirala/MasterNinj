@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useLocation } from "@tanstack/react-router";
 import { LineBG, Logo } from "../../assets";
 import { bgLoginRegister } from "../../assets";
 import { motion } from "framer-motion";
@@ -16,6 +16,9 @@ const login = () => {
   });
 
   const { login } = useAuth();
+  const location = useLocation();
+  const from = location.state?.from || "/";
+
 
   const handleChange = (e) => {
     const { name, value, checked, type, id } = e.target;
@@ -30,11 +33,11 @@ const login = () => {
       toast.promise(login(formData), {
         loading: "Loading...",
         success: (data) => {
-          redirect({ to: "/dashboard" });
-          return data.message;
+          redirect({ to: from });
+          return data?.message;
         },
         error: (data) => {
-          return data.message;
+          return data?.message;
         },
       });
     } catch (error) {
@@ -150,7 +153,7 @@ export const Route = createFileRoute("/auth/login")({
     if (isAuthenticated) {
       // throw redirect({ to: "/dashboard" });
       // redirect to previous page 
-      throw redirect({ to: location.state?.from || '/dashboard' });
+      throw redirect({ to: location.state?.from || '/' });
     }
   },
   component: login,

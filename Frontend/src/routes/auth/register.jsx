@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useLocation } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { LineBG, bgLoginRegister, Logo } from "../../assets";
 import { useAuth } from "../../contexts/AuthContext";
@@ -9,6 +9,8 @@ import { toast } from "sonner";
 
 const register = () => {
   const { register } = useAuth();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -64,10 +66,11 @@ const register = () => {
       toast.promise(register(formData), {
         loading: "Loading...",
         success: (data) => {
-          return data.message;
+          redirect({ to: from });
+          return data?.message;
         },
         error: (data) => {
-          return data.message;
+          return data?.message;
         },
       });
     } catch (error) {
@@ -164,10 +167,10 @@ const register = () => {
 };
 
 export const Route = createFileRoute("/auth/register")({
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async ({ context, location }) => {
     const { isAuthenticated } = context.authentication;
     if (isAuthenticated) {
-      throw redirect({ to: "/dashboard" });
+      throw redirect({ to: location.state?.from || "/" });
     }
   },
   component: register,
