@@ -34,6 +34,7 @@ const login = () => {
         loading: "Loading...",
         success: (data) => {
           redirect({ to: from });
+          localStorage.setItem("token", data?.token);
           return data?.message;
         },
         error: (data) => {

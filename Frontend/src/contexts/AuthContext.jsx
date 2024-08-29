@@ -46,7 +46,10 @@ export const AuthProvider = ({ children }) => {
       return null;
     };
 
-    const token = getCookie("token");
+    const tokenFromCookie = getCookie('token');
+    const tokenFromLocalStorage = localStorage.getItem('token');
+
+    const token = tokenFromCookie || tokenFromLocalStorage;
 
     if (token) {
       setIsAuthenticated(true); // Only set this if token exists

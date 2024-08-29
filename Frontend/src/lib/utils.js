@@ -7,6 +7,7 @@ export function cn(...inputs) {
 }
 
 const API_URL = import.meta.env.VITE_API_URL + "/api/v1";
+const token = localStorage.getItem("token");
 
 export const apiRequest = async (method, url, data = null) => {
   try {
@@ -15,10 +16,13 @@ export const apiRequest = async (method, url, data = null) => {
       url: `${API_URL}${url}`,
       data,
       withCredentials: true,
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
-  } catch (error) {
+  }
+  catch (error) {
     const response = error.response?.data || error || { message: "An error occurred" };
     throw response;
   }
