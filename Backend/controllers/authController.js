@@ -68,7 +68,7 @@ exports.login = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "none",
-      path : '/'
+      crossDomain: true,
     });  
 
     res.status(200).json({
