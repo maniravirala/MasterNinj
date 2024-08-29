@@ -17,6 +17,7 @@ import { Route as UnauthenticatedLayoutImport } from './routes/_unauthenticatedL
 import { Route as UnauthenticatedImport } from './routes/_unauthenticated'
 import { Route as AuthenticationImport } from './routes/_authentication'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticatedLayout'
+import { Route as UnauthenticatedLayoutIndexImport } from './routes/_unauthenticatedLayout/index'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticatedLayout/index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -64,6 +65,13 @@ const AuthenticatedLayoutRoute = AuthenticatedLayoutImport.update({
   id: '/_authenticatedLayout',
   getParentRoute: () => rootRoute,
 } as any)
+
+const UnauthenticatedLayoutIndexRoute = UnauthenticatedLayoutIndexImport.update(
+  {
+    path: '/',
+    getParentRoute: () => UnauthenticatedLayoutRoute,
+  } as any,
+)
 
 const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   path: '/',
@@ -238,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_unauthenticatedLayout/': {
+      id: '/_unauthenticatedLayout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof UnauthenticatedLayoutIndexImport
+      parentRoute: typeof UnauthenticatedLayoutImport
+    }
     '/_authenticatedLayout/projects/$projectId': {
       id: '/_authenticatedLayout/projects/$projectId'
       path: '/projects/$projectId'
@@ -331,6 +346,7 @@ export const routeTree = rootRoute.addChildren({
   UnauthenticatedLayoutRoute: UnauthenticatedLayoutRoute.addChildren({
     UnauthenticatedLayoutInsideLayoutRoute,
     UnauthenticatedLayoutTestRoute,
+    UnauthenticatedLayoutIndexRoute,
   }),
   AboutLazyRoute,
   AuthLoginRoute,
@@ -381,7 +397,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_unauthenticatedLayout.jsx",
       "children": [
         "/_unauthenticatedLayout/insideLayout",
-        "/_unauthenticatedLayout/test"
+        "/_unauthenticatedLayout/test",
+        "/_unauthenticatedLayout/"
       ]
     },
     "/about": {
@@ -408,6 +425,10 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticatedLayout/": {
       "filePath": "_authenticatedLayout/index.jsx",
       "parent": "/_authenticatedLayout"
+    },
+    "/_unauthenticatedLayout/": {
+      "filePath": "_unauthenticatedLayout/index.jsx",
+      "parent": "/_unauthenticatedLayout"
     },
     "/_authenticatedLayout/projects/$projectId": {
       "filePath": "_authenticatedLayout/projects/$projectId.jsx",
