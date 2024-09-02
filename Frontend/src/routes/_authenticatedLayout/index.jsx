@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar } from "iconsax-react";
 import { RiProgress1Line } from "react-icons/ri";
+import { apiRequest } from "@/lib/utils";
+import { toast } from 'sonner';
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([
@@ -13,6 +15,21 @@ const Dashboard = () => {
     { id: 1, name: "Mathematics", progress: 70 },
     { id: 2, name: "History", progress: 45 },
   ];
+
+
+  const fetchStudentData = async () => {
+    try {
+      const response = await apiRequest('GET', '/admin');
+      console.log('Student data:', response)
+    }
+    catch (error) {
+      toast.error(error.message || 'An error occurred');
+    }
+  }
+
+  useEffect(() => {
+    fetchStudentData();
+  }, []);
   
   return (
     <div className="p-4">

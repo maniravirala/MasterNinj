@@ -1,11 +1,10 @@
 import { createFileRoute, Link, redirect, useLocation } from "@tanstack/react-router";
-import { LineBG, Logo } from "../../assets";
-import { bgLoginRegister } from "../../assets";
+import { LineBG, Logo, bgLoginRegister } from "@/assets";
 import { motion } from "framer-motion";
-import Input from "../../components/Input";
-import Google from "../../components/Buttons/Google";
+import Input from "@/components/Input";
+import Google from "@/components/Buttons/Google";
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const login = () => {
@@ -149,11 +148,10 @@ const login = () => {
 };
 
 export const Route = createFileRoute("/auth/login")({
-  beforeLoad: async ({ context, location }) => {
+  beforeLoad: async({ context, location }) => {
     const { isAuthenticated } = context.authentication;
-    if (isAuthenticated) {
-      // throw redirect({ to: "/dashboard" });
-      // redirect to previous page 
+    const isUserAuthenticated = await isAuthenticated();
+    if (isUserAuthenticated) {
       throw redirect({ to: location.state?.from || '/' });
     }
   },

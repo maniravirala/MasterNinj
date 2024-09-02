@@ -7,7 +7,8 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Initialize state to false
+  // const [isAuthenticated, setIsAuthenticated] = useState(false); // Initialize state to false
+  const [isStudent, setIsStudent] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useLocalStorage("user", null);
 
@@ -15,6 +16,8 @@ export const AuthProvider = ({ children }) => {
     const response = await authService.login(data);
     if (response.status === "success") {
       setUser(response.user);
+      localStorage.setItem("token", response.token);
+      setIsStudent(response.user.role === "student");
       setIsAuthenticated(true);
     }
     return response;
@@ -24,6 +27,8 @@ export const AuthProvider = ({ children }) => {
     const response = await authService.register(data);
     if (response.status === "success") {
       setUser(response.user);
+      localStorage.setItem("token", response.token);
+      setIsStudent(response.user.role === "student");
       setIsAuthenticated(true);
     }
     return response;
@@ -33,12 +38,25 @@ export const AuthProvider = ({ children }) => {
     const response = await authService.logout();
     if (response.status === "success") {
       setUser(null);
+      localStorage.removeItem("token");
+      setIsStudent(false);
       setIsAuthenticated(false);
     }
     return response;
   };
 
-  const fetchToken = () => {
+  const fetchAuthenticated = () => {
+    setLoading(true);
+    setIsStudent(user?.role === "student");
+    setLoading(false);
+  };
+
+  // Fetch token only after the component mounts
+  useEffect(() => {
+    fetchAuthenticated();
+  }, []);
+
+  const isAuthenticated = () => {
     const getCookie = (name) => {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -46,27 +64,15 @@ export const AuthProvider = ({ children }) => {
       return null;
     };
 
-    const tokenFromCookie = getCookie('token');
-    const tokenFromLocalStorage = localStorage.getItem('token');
+    const token = getCookie('token') || localStorage.getItem('token');
+    
+    return !!token;
+  }
 
-    const token = tokenFromCookie || tokenFromLocalStorage;
-
-    if (token) {
-      setIsAuthenticated(true); // Only set this if token exists
-    } else {
-      setIsAuthenticated(false);
-    }
-    setLoading(false);
-  };
-
-  // Fetch token only after the component mounts
-  useEffect(() => {
-    fetchToken();
-  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, login, register, logout, loading }}
+      value={{ isAuthenticated, isStudent, user, login, register, logout, loading }}
     >
       {children}
     </AuthContext.Provider>

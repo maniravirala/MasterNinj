@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect, useId, useState } from 'react';
 import PageParent from '@/layout/PageParent';
 import Input from '@/components/Input';
@@ -145,6 +145,8 @@ const projectData = [
 ];
 
 const ProjectList = () => {
+  const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
@@ -268,6 +270,7 @@ const ProjectList = () => {
               ))}
           </div>
           <UploadProjectModal onClose={() => setShowUploadModal(false)} isOpen={showUploadModal} />
+          <FloatingButton icon='Dashboard' onClick={() => navigate({to: '/projects/dashboard'})} direction='top-right' />
       </PageParent>
   );
 };

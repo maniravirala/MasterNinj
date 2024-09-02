@@ -36,7 +36,8 @@ const Dropdown = ({ tabsData, activeTabResume, setActiveTabResume}) => {
         <ArrowDown2
           className={`ml-2 h-5 w-5 transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}
         />
-        {tabsData.find((tab) => tab.key === activeTabResume)?.name || "Please Set Default Tab Name"}
+        {/* {tabsData.find((tab) => tab.key === activeTabResume)?.name || "Please Set Default Tab Name"} */}
+        {tabsData.find((tab) => tab.key === activeTabResume)?.name || "Select an option"}
       </button>
 
       {isOpen && (

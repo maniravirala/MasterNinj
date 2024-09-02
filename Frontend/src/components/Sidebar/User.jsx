@@ -9,6 +9,9 @@ import {
 import PropTypes from "prop-types";
 import { useDarkMode } from "@/contexts/DarkModeContext";
 import { Link } from "@tanstack/react-router";
+import Button from "@/components/Buttons/Button";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export default function App({ avatar }) {
   const { theme, toggleTheme } = useDarkMode();
@@ -34,10 +37,24 @@ export default function App({ avatar }) {
     );
   };
 
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    const response = await logout();
+    if (response.status === "success") {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   const DropdownCode = () => {
     return (
       <div className="flex w-full flex-1 items-center gap-4">
-        <Dropdown placement="bottom-start" className="bg-bgSecondary text-textPrimary">
+        <Dropdown
+          placement="bottom-start"
+          className="bg-bgSecondary text-textPrimary"
+        >
           <DropdownTrigger>{profile()}</DropdownTrigger>
           <DropdownMenu aria-label="User Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2" color="primary">
@@ -54,20 +71,16 @@ export default function App({ avatar }) {
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
             <DropdownItem key="logout" color="danger">
-              Log Out
+              <Button onClick={handleLogout}>Log Out</Button>
             </DropdownItem>
             <DropdownItem key="login" color="success">
-              <Link to="/auth/login">
-              Log In
-              </Link>
+              <Link to="/auth/login">Log In</Link>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>
     );
   };
-
-  if (avatar) return <DropdownCode />;
 
   return <DropdownCode />;
 }

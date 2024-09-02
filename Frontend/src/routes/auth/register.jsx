@@ -168,10 +168,11 @@ const register = () => {
 };
 
 export const Route = createFileRoute("/auth/register")({
-  beforeLoad: async ({ context, location }) => {
+  beforeLoad: async({ context, location }) => {
     const { isAuthenticated } = context.authentication;
-    if (isAuthenticated) {
-      throw redirect({ to: location.state?.from || "/" });
+    const isUserAuthenticated = await isAuthenticated();
+    if (isUserAuthenticated) {
+      throw redirect({ to: location.state?.from || '/' });
     }
   },
   component: register,

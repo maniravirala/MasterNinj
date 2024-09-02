@@ -6,9 +6,13 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-const API_URL = import.meta.env.VITE_API_URL + "/api/v1";
-const token = localStorage.getItem("token");
 
+export const gettoken = () => {
+  const token = localStorage.getItem("token");
+  return token
+};
+
+const API_URL = import.meta.env.VITE_API_URL + "/api/v1";
 export const apiRequest = async (method, url, data = null) => {
   try {
     const response = await axios({
@@ -17,7 +21,7 @@ export const apiRequest = async (method, url, data = null) => {
       data,
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${gettoken()}`,
       },
     });
     return response.data;

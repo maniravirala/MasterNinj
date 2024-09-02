@@ -8,6 +8,9 @@ import Tabs from "@/components/Tabs";
 import ResourcePage from "@/components/Study Resources/ResourcePage";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import FloatingButton from "@/components/Buttons/FloatingButton";
+
 
 const sampleData = [
   {
@@ -103,6 +106,7 @@ const ResourceId = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const { isStudent } = useAuth();
 
   const tabs = [
     "all",
@@ -149,7 +153,6 @@ const ResourceId = () => {
 
   useEffect(() => {
     if (activeTab !== resourceId) {
-      console.log(activeTab, resourceId);
       navigate({ to: `/study-resources/${activeTab}` });
     }
   }, [activeTab, resourceId, navigate]);
@@ -164,6 +167,13 @@ const ResourceId = () => {
         />
       </div>
       {error && <p>{error}</p>}
+      {!isStudent && (
+        <FloatingButton
+        icon='Dashboard'
+        onClick={() =>  navigate({ to: '/study-resources/dashboard' })}
+        direction="top-right"
+      />
+      )}
       <ResourcePage data={data}  />
     </PageParent>
   );

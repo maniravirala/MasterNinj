@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 router.post('/login', authController.login);
 router.post('/register', authController.createStudent);
 router.get('/logout', authController.logout);
+router.get('/validateToken', authController.validateToken);
 router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password/:token', authController.resetPassword);
 

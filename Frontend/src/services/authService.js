@@ -10,7 +10,11 @@ const authService = {
   },
 
   logout: async () => {
-    return apiRequest("POST", "/auth/logout");
+    return apiRequest("GET", "/auth/logout");
+  },
+
+  validateToken: async () => {
+    return apiRequest("GET", "/auth/validateToken");
   }
 };
 

@@ -20,15 +20,16 @@ exports.createStudent = async (req, res, next) => {
     });
 
     const token = jwt.sign({ _id: newStudent._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: `${process.env.COOKIE_EXPIRES_IN}d`,
     });
 
     res.cookie("token", token, {
       expires: new Date(
         Date.now() + process.env.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
       ),
-      secure: true,
-      sameSite: "None",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     });
 
     res.status(201).json({
@@ -38,6 +39,7 @@ exports.createStudent = async (req, res, next) => {
       user: {
         name: newStudent.name,
         email: newStudent.email,
+        role: newStudent.role,
       },
     });
   } catch (err) {
@@ -54,22 +56,22 @@ exports.login = async (req, res, next) => {
 
     const isPasswordValid = await bcrypt.compare(password, student.password);
     if (!isPasswordValid) return next(new createError(401, "Invalid password"));
-
-    const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
-
+    
     const COOKIE_EXPIRES = rememberMe
       ? process.env.COOKIE_EXPIRES_IN_REMEMBER_ME
       : process.env.COOKIE_EXPIRES_IN;
+
+    const token = jwt.sign({ _id: student._id }, process.env.JWT_SECRET, {
+      expiresIn: `${COOKIE_EXPIRES}d`,
+    });
+
 
     res.cookie("token", token, {
       expires: new Date(Date.now() + COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      crossDomain: true,
-    });  
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    });
 
     res.status(200).json({
       status: "success",
@@ -78,6 +80,7 @@ exports.login = async (req, res, next) => {
       user: {
         name: student.name,
         email: student.email,
+        role: student.role,
       },
     });
   } catch (err) {
@@ -91,6 +94,29 @@ exports.logout = async (req, res, next) => {
     status: "success",
     message: "Logged out successfully",
   });
+};
+
+exports.validateToken = async (req, res, next) => {
+  try {
+    // Get token from cookie or header if cookies is valid and not expired then user is authenticated else throw error
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+    if (!token) return next(new createError(401, "Unauthorized"));
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const student = await Student.findById(decoded._id);
+    if (!student) return next(new createError(404, "User not found"));
+
+    res.status(200).json({
+      status: "success",
+      message: "User authenticated",
+      user: {
+        name: student.name,
+        email: student.email,
+      },
+    });
+  } catch (err) {
+    return next(new createError(401, err.message));
+  }
 };
 
 exports.forgotPassword = async (req, res, next) => {

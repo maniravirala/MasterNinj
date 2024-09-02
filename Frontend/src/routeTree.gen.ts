@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AccessDeniedImport } from './routes/access-denied'
 import { Route as UnauthenticatedLayoutImport } from './routes/_unauthenticatedLayout'
 import { Route as UnauthenticatedImport } from './routes/_unauthenticated'
 import { Route as AuthenticationImport } from './routes/_authentication'
@@ -27,7 +28,11 @@ import { Route as AuthenticatedLayoutStudyResourcesIndexImport } from './routes/
 import { Route as AuthenticatedLayoutSskIndexImport } from './routes/_authenticatedLayout/ssk/index'
 import { Route as AuthenticatedLayoutProjectsIndexImport } from './routes/_authenticatedLayout/projects/index'
 import { Route as AuthenticatedLayoutCalculatorsIndexImport } from './routes/_authenticatedLayout/calculators/index'
+import { Route as AuthenticatedLayoutStudyResourcesUploadImport } from './routes/_authenticatedLayout/study-resources/upload'
+import { Route as AuthenticatedLayoutStudyResourcesDashboardImport } from './routes/_authenticatedLayout/study-resources/dashboard'
 import { Route as AuthenticatedLayoutStudyResourcesResourceIdImport } from './routes/_authenticatedLayout/study-resources/$resourceId'
+import { Route as AuthenticatedLayoutProjectsUploadImport } from './routes/_authenticatedLayout/projects/upload'
+import { Route as AuthenticatedLayoutProjectsDashboardImport } from './routes/_authenticatedLayout/projects/dashboard'
 import { Route as AuthenticatedLayoutProjectsProjectIdImport } from './routes/_authenticatedLayout/projects/$projectId'
 import { Route as AuthenticatedLayoutSskCategoryIndexImport } from './routes/_authenticatedLayout/ssk/$category/index'
 import { Route as AuthenticatedLayoutCalculatorsCategoryIndexImport } from './routes/_authenticatedLayout/calculators/$category/index'
@@ -44,6 +49,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const AccessDeniedRoute = AccessDeniedImport.update({
+  path: '/access-denied',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const UnauthenticatedLayoutRoute = UnauthenticatedLayoutImport.update({
   id: '/_unauthenticatedLayout',
@@ -121,9 +131,33 @@ const AuthenticatedLayoutCalculatorsIndexRoute =
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
+const AuthenticatedLayoutStudyResourcesUploadRoute =
+  AuthenticatedLayoutStudyResourcesUploadImport.update({
+    path: '/study-resources/upload',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutStudyResourcesDashboardRoute =
+  AuthenticatedLayoutStudyResourcesDashboardImport.update({
+    path: '/study-resources/dashboard',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
 const AuthenticatedLayoutStudyResourcesResourceIdRoute =
   AuthenticatedLayoutStudyResourcesResourceIdImport.update({
     path: '/study-resources/$resourceId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutProjectsUploadRoute =
+  AuthenticatedLayoutProjectsUploadImport.update({
+    path: '/projects/upload',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutProjectsDashboardRoute =
+  AuthenticatedLayoutProjectsDashboardImport.update({
+    path: '/projects/dashboard',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
@@ -189,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthenticatedLayoutImport
       parentRoute: typeof rootRoute
     }
+    '/access-denied': {
+      id: '/access-denied'
+      path: '/access-denied'
+      fullPath: '/access-denied'
+      preLoaderRoute: typeof AccessDeniedImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -245,11 +286,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticatedLayout/projects/dashboard': {
+      id: '/_authenticatedLayout/projects/dashboard'
+      path: '/projects/dashboard'
+      fullPath: '/projects/dashboard'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsDashboardImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/projects/upload': {
+      id: '/_authenticatedLayout/projects/upload'
+      path: '/projects/upload'
+      fullPath: '/projects/upload'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsUploadImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
     '/_authenticatedLayout/study-resources/$resourceId': {
       id: '/_authenticatedLayout/study-resources/$resourceId'
       path: '/study-resources/$resourceId'
       fullPath: '/study-resources/$resourceId'
       preLoaderRoute: typeof AuthenticatedLayoutStudyResourcesResourceIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/study-resources/dashboard': {
+      id: '/_authenticatedLayout/study-resources/dashboard'
+      path: '/study-resources/dashboard'
+      fullPath: '/study-resources/dashboard'
+      preLoaderRoute: typeof AuthenticatedLayoutStudyResourcesDashboardImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticatedLayout/study-resources/upload': {
+      id: '/_authenticatedLayout/study-resources/upload'
+      path: '/study-resources/upload'
+      fullPath: '/study-resources/upload'
+      preLoaderRoute: typeof AuthenticatedLayoutStudyResourcesUploadImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
     '/_authenticatedLayout/calculators/': {
@@ -318,7 +387,11 @@ export const routeTree = rootRoute.addChildren({
     AuthenticatedLayoutResumeBuilderRoute,
     AuthenticatedLayoutIndexRoute,
     AuthenticatedLayoutProjectsProjectIdRoute,
+    AuthenticatedLayoutProjectsDashboardRoute,
+    AuthenticatedLayoutProjectsUploadRoute,
     AuthenticatedLayoutStudyResourcesResourceIdRoute,
+    AuthenticatedLayoutStudyResourcesDashboardRoute,
+    AuthenticatedLayoutStudyResourcesUploadRoute,
     AuthenticatedLayoutCalculatorsIndexRoute,
     AuthenticatedLayoutProjectsIndexRoute,
     AuthenticatedLayoutSskIndexRoute,
@@ -332,6 +405,7 @@ export const routeTree = rootRoute.addChildren({
     UnauthenticatedLayoutInsideLayoutRoute,
     UnauthenticatedLayoutTestRoute,
   }),
+  AccessDeniedRoute,
   AboutLazyRoute,
   AuthLoginRoute,
   AuthRegisterRoute,
@@ -349,6 +423,7 @@ export const routeTree = rootRoute.addChildren({
         "/_authentication",
         "/_unauthenticated",
         "/_unauthenticatedLayout",
+        "/access-denied",
         "/about",
         "/auth/login",
         "/auth/register"
@@ -360,7 +435,11 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticatedLayout/resume-builder",
         "/_authenticatedLayout/",
         "/_authenticatedLayout/projects/$projectId",
+        "/_authenticatedLayout/projects/dashboard",
+        "/_authenticatedLayout/projects/upload",
         "/_authenticatedLayout/study-resources/$resourceId",
+        "/_authenticatedLayout/study-resources/dashboard",
+        "/_authenticatedLayout/study-resources/upload",
         "/_authenticatedLayout/calculators/",
         "/_authenticatedLayout/projects/",
         "/_authenticatedLayout/ssk/",
@@ -383,6 +462,9 @@ export const routeTree = rootRoute.addChildren({
         "/_unauthenticatedLayout/insideLayout",
         "/_unauthenticatedLayout/test"
       ]
+    },
+    "/access-denied": {
+      "filePath": "access-denied.jsx"
     },
     "/about": {
       "filePath": "about.lazy.jsx"
@@ -413,8 +495,24 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticatedLayout/projects/$projectId.jsx",
       "parent": "/_authenticatedLayout"
     },
+    "/_authenticatedLayout/projects/dashboard": {
+      "filePath": "_authenticatedLayout/projects/dashboard.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/projects/upload": {
+      "filePath": "_authenticatedLayout/projects/upload.jsx",
+      "parent": "/_authenticatedLayout"
+    },
     "/_authenticatedLayout/study-resources/$resourceId": {
       "filePath": "_authenticatedLayout/study-resources/$resourceId.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/study-resources/dashboard": {
+      "filePath": "_authenticatedLayout/study-resources/dashboard.jsx",
+      "parent": "/_authenticatedLayout"
+    },
+    "/_authenticatedLayout/study-resources/upload": {
+      "filePath": "_authenticatedLayout/study-resources/upload.jsx",
       "parent": "/_authenticatedLayout"
     },
     "/_authenticatedLayout/calculators/": {

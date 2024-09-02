@@ -10,9 +10,10 @@ const Student = require('./models/studentModel');
 // Route files
 const authRoutes = require('./routes/authRoute');
 const studentRoutes = require('./routes/studentRoute');
+const adminRoutes = require('./routes/adminRoute');
 
 // Middleware
-const verify = require('./middleware/authMiddleware');
+const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 
 // Load env 
@@ -31,13 +32,14 @@ app.use(cors({
 
 // Mount routers
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/students', verify, studentRoutes);
+app.use('/api/v1/student', authMiddleware.verify, authMiddleware.restrictTo('admin','student'), studentRoutes);
+app.use('/api/v1/admin', authMiddleware.verify, authMiddleware.restrictTo('admin'), adminRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Student Dashboard API');
 });
 
-app.get('/protected', verify, (req, res) => {
+app.get('/protected', authMiddleware.verify, (req, res) => {
     res.status(200).json({
         status: 'success',
         message: 'Protected route',

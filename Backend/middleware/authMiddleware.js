@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const createError = require('../utils/appError');
 const Student = require('../models/studentModel');
 
-const verify = async(req, res, next) => {
+exports.verify = async(req, res, next) => {
     try {
         let token;
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -17,15 +17,21 @@ const verify = async(req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const student = await Student.findById(decoded._id)
-        if (!student) return next(new createError(401, 'Student not found'));
+        if (!student) return next(new createError(401, 'User not found'));
 
-        req.student = student;
-
+        req.user = student;
         next();
 
     } catch (err) {
-        return next(new createError(401, err.message));
+        return next(new createError(401, 'Token expired or invalid, Please login again'));
     }
 };
 
-module.exports = verify;
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(new createError(403, 'You do not have permission to perform this action'));
+        }
+        next();
+    };
+};

@@ -5,16 +5,17 @@ const studentSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        required: true
+        required: [true, 'Name is required']
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Email is required'],
+        unique: [true, 'Email already exists'],
+        lowercase: true,
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Password is required'],
     },
     age: {
         type: Number,
@@ -24,6 +25,7 @@ const studentSchema = new mongoose.Schema({
     }],
     role: {
         type: String,
+        enum: ['student', 'admin'],
         default: 'student'
     },
     resetPasswordToken: {

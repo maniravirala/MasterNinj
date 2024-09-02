@@ -5,8 +5,8 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 export const Route = createFileRoute("/_authenticatedLayout")({
   beforeLoad: async ({ context, location }) => {
     const { isAuthenticated } = context.authentication;
-    console.log("isAuthenticated", isAuthenticated);
-    if (!isAuthenticated) {
+    const isUserAuthenticated = await isAuthenticated();
+    if (!isUserAuthenticated) {
       throw redirect({ to: "/auth/login", state: { from: location.pathname } });
     }
   },
